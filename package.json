@@ -10,7 +10,8 @@
     "lint:fix": "eslint --fix .",
     "production": "bun installer && bun start",
     "installer": "bun install && bun puppeteer && cd src/backup && bun install && cd ..",
-    "puppeteer": "bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer"
+    "puppeteer": "bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer",
+    "pm2hooks": "pm2 install pm2-hooks"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.440.0",
