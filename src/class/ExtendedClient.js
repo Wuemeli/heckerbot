@@ -10,7 +10,7 @@ const log = require('../functions/index');
 module.exports = class extends Client {
   constructor() {
     super({
-      intents: [Object.keys(GatewayIntentBits)],
+      intents: Object.values(GatewayIntentBits).filter(intent => intent !== GatewayIntentBits.Presences),
       partials: [Object.keys(Partials)],
     });
 
