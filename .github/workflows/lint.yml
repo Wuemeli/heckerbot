@@ -1,0 +1,26 @@
+name: Lint Check with Bun
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Bun Runtime
+      uses: antongolub/action-setup-bun@v1
+      with:
+        bun-version: 0.1.0
+
+    - name: Install Dependencies
+      run: |
+        bun install
+
+    - name: Run Bun Lint
+      run: bun lint
+
+    - name: Complete
+      run: echo "Lint check completed"

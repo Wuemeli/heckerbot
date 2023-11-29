@@ -1,0 +1,41 @@
+{
+  "name": "heckerbot",
+  "author": "Wuemeli",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "bun --watch .",
+    "start": "bun run .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "production": "bun installer && bun start",
+    "installer": "bun install && bun puppeteer && cd src/backup && bun install && cd ..",
+    "puppeteer": "bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.440.0",
+    "@babel/eslint-parser": "^7.23.3",
+    "axios": "^1.5.0",
+    "chalk": "^2.4.2",
+    "discord-gamecord": "^4.4.1",
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.3.1",
+    "node-fetch": "^3.3.2",
+    "pagination.djs": "^4.0.12",
+    "puppeteer": "^21.4.1",
+    "random-sentence": "^1.0.4",
+    "stream-to-string": "^1.2.1"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "eslint": "^8.50.0",
+    "prettier": "^2.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-config-prettier": "^9.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
