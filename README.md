@@ -17,7 +17,7 @@ Bun.sh is installed on your system.  <br>
 The Installation steps are listed in the [Installation.md](docs/installation.md) File.
 
 ## 📰 License
-This Project is under the Mozilla Public License 2.0. See the [LICENSE](LICENSE) file for more info.
+This Project is under the GNU GENERAL PUBLIC LICENSE. See the [LICENSE](LICENSE) file for more info.
 Dont remove any Credits from the Footer.
 
 ## 📜 Contributing
