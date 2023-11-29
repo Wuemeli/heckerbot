@@ -10,7 +10,16 @@ const log = require('../functions/index');
 module.exports = class extends Client {
   constructor() {
     super({
-      intents: Object.values(GatewayIntentBits).filter(intent => intent !== GatewayIntentBits.Presences),
+      intents: Object.values(GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.DirectMessageTyping,
+      ),
       partials: [Object.keys(Partials)],
     });
 
