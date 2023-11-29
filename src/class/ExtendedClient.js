@@ -27,7 +27,7 @@ module.exports = class extends Client {
     this.applicationcommandsArray = [];
   }
 
-  start = async () => {
+  async start() {
     commands(this);
     events(this);
     components(this);
