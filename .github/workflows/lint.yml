@@ -1,4 +1,4 @@
-name: Lint Check with Bun
+name: Lint Check
 
 on: [push, pull_request]
 

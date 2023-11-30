@@ -1,6 +1,6 @@
 # Heckerbot Features
 
-## Server Backup System (BUGGY AS HELL)
+## Server Backup System
 - Server icon
 - Server banner
 - Server region
