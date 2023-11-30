@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const {log} = require('../functions/index.js');
 const bodyParser = require('body-parser');
-const execa = require('execa');
 
 const port = process.env.PORT || 3000;
 
@@ -21,9 +20,9 @@ module.exports = {
 
       if (body && body.ref === 'refs/heads/main' && secretkey === process.env.GIT_KEY) {
         try {
-          await execa('git', ['pull']);
-          await execa('bun', ['installer']);
-          await execa('pm2', ['restart', '0']);
+          await require('child_process').exec('git pull');
+          await require('child_process').exec('bun installer');
+          await require('child_process').exec('pm2 restart all');
 
           console.log('Commands executed successfully');
           res.status(200).send('Webhook received and commands executed');
