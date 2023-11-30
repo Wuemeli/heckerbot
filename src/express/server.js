@@ -11,6 +11,14 @@ module.exports = {
       res.send('slay queen uwu owo rawr');
     });
 
+    app.get('/push', (req, res) => {
+      if (req.query.key !== process.env.GIT_KEY) return res.status(401).send('Unauthorized');
+      require('child_process').exec('git pull && bun installer && pm2 restart 0', (err, stdout) => {
+        if (err) return res.status(500).send(err);
+        res.status(200).send(stdout);
+      });
+    });
+
     app.get('/stats', (req, res) => {
       const userCount = client.users.cache.size;
       const guildCount = client.guilds.cache.size;
