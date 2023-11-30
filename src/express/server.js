@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const {log} = require('../functions/index.js');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+
+app.use(cors());
 
 module.exports = {
   start: (client) => {

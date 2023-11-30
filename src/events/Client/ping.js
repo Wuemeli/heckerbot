@@ -18,7 +18,7 @@ module.exports = {
 
       await page.click('#getTrackButton');
 
-      await page.waitForSelector('.track > a');
+      await page.waitForSelector('.track > a'); 
 
       const songLink = await page.evaluate(() => {
         // eslint-disable-next-line no-undef
