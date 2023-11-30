@@ -8,9 +8,17 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('backup-create')
     .setDescription('📊 Create a backup of the server'),
+  /**
+ * @param {ExtendedClient} client
+ * @param {ChatInputCommandInteraction} interaction
+ */
   run: async (client, interaction) => {
     try {
-      await interaction.deferReply();
+      await interaction.deferReply(
+        {
+          ephemeral: true,
+        },
+      );
 
 
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
@@ -24,7 +32,7 @@ module.exports = {
           .setDescription('**Backup ID:** ' + backupData.id + '\n**We strongly recommend to dont share this ID with anyone!**')
           .setColor('Green');
 
-        interaction.editReply({ embeds: [embed], ephemeral: true });
+        interaction.editReply({ embeds: [embed] });
         const backup = new backupSchema({
           userId: interaction.user.id,
           backupId: backupData.id,
@@ -34,7 +42,7 @@ module.exports = {
       },
       );
     } catch (error) {
-      console.error(error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }
   },
 };

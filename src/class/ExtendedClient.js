@@ -1,4 +1,4 @@
-const {Client, Partials, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Partials, Collection, GatewayIntentBits } = require('discord.js');
 const config = require('../config');
 const commands = require('../handlers/commands');
 const events = require('../handlers/events');
@@ -10,15 +10,10 @@ const log = require('../functions/index');
 module.exports = class extends Client {
   constructor() {
     super({
-      intents: Object.values(GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.MessageContent,
-        GatewayIntentBits.DirectMessageReactions,
-        GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildMessageTyping,
-        GatewayIntentBits.DirectMessageTyping,
+      intents: Object.values(
+        {
+          intents: 3276543,
+        },
       ),
       partials: [Object.keys(Partials)],
     });

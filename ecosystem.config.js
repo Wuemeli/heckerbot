@@ -1,11 +1,12 @@
 module.exports = {
-  apps: [{
-    name: 'Heckerbot',
-    script: 'bun production',
-    env: {
-      githook: {
-        command: 'git pull && bun installer && pm2 restart Heckerbot',
+  apps: [
+    {
+      name: 'heckerbot',
+      script: 'bun production',
+      env_hook: {
+        command: 'git pull && bun production && pm2 restart heckerbot',
+        cwd: process.env.PWD,
       },
     },
-  }],
+  ],
 };

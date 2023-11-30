@@ -10,7 +10,11 @@ module.exports = {
     .setDescription('📊 List all Backups of the user'),
   run: async (client, interaction) => {
     try {
-      await interaction.deferReply();
+      await interaction.deferReply(
+        {
+          ephemeral: true,
+        },
+      );
 
       const userId = interaction.user.id;
 
@@ -38,9 +42,9 @@ module.exports = {
         },
         ).join('\n'));
 
-      interaction.editReply({ embeds: [embed], ephemeral: true });
+      interaction.editReply({ embeds: [embed] });
     } catch (error) {
-      console.error(error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }
   },
 };
