@@ -16,6 +16,12 @@ module.exports = {
 
   run: async (client, interaction) => {
 
+    await interaction.deferReply(
+      {
+        ephemeral: true,
+      },
+    );
+
     if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
       return interaction.reply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`, ephemeral: true });
     }
@@ -23,12 +29,11 @@ module.exports = {
     const backupId = interaction.options.getString('backup-id');
 
     try {
-      await interaction.deferReply();
 
       backup.load(backupId, interaction.guild);
 
     } catch (error) {
-      console.error(error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }
   },
 };

@@ -84,7 +84,7 @@ export async function getRoles(guild: Guild) {
         permissions: role.permissions.bitfield.toString(),
         mentionable: role.mentionable,
         position: role.position,
-        isEveryone: guild.id === role.id
+        isEveryone: role.name === '@everyone'
       };
       roles.push(roleData);
     });
