@@ -24,9 +24,6 @@ Dont remove any Credits from the Footer.
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any
 To start look at the [Contributing.md](CONTRIBUTING.md) File.
 
-## 📝 Credits
-Thanks to TFAGaming for providing the Bot Template. We modified it that it fits our case.
-
 ## 🪶 Features
 Server Backup System, Tools Commands, Utility Commands, Info Commands, Games Commands, Modules, Other Features <br>
 All Features are listed in the [Features.md](docs/features.md) File.
@@ -36,6 +33,10 @@ The Documentation is available at [Docs](docs/README.md)
 
 ## ⭐ Starhistory
 [![Star History Chart](https://api.star-history.com/svg?repos=Wuemeli/Heckerbot&type=Date)](https://star-history.com/#Wuemeli/Heckerbot&Date)
+
+## 📝 Credits
+Thanks to TFAGaming for providing the Bot Template. We modified it that it fits our case.
+
 
 ## 📫 Contact
 If you want to contact me you can reach me at Discord: wuemeli
