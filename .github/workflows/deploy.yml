@@ -1,0 +1,15 @@
+name: Trigger Push Endpoint
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger Push Endpoint
+      run: |
+          curl -X GET -H "Content-Type: application/json" "https://heckerbot.wuemeli.com/push?key=${{ secrets.GIT_KEY }}"
