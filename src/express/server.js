@@ -21,9 +21,9 @@ module.exports = {
 
       if (body && body.ref === 'refs/heads/main' && secretkey === process.env.GIT_KEY) {
         try {
-          await execa.command('git pull');
-          await execa.command('bun installer');
-          await execa.command('pm2 restart 0');
+          await execa('git', ['pull']);
+          await execa('bun', ['installer']);
+          await execa('pm2', ['restart', '0']);
 
           console.log('Commands executed successfully');
           res.status(200).send('Webhook received and commands executed');
