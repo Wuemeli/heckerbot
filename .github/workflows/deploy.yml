@@ -1,6 +1,9 @@
 name: Trigger Push Endpoint
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -9,4 +12,4 @@ jobs:
     steps:
     - name: Trigger Push Endpoint
       run: |
-        curl -X GET "https://heckerbot.wuemeli.com/push?key=${{ secrets.GIT_KEY }}"
+          curl -X POST -H "Content-Type: application/json" "https://heckerbot.wuemeli.com/push?key=${{ secrets.GIT_KEY }}"
