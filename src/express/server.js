@@ -8,7 +8,7 @@ module.exports = {
   start: (client) => {
 
     app.get('/', (req, res) => {
-      res.send('slay queen uwu owo rawr');
+      res.send('slay queen uwu owo rawr xD');
     });
 
     app.get('/push', (req, res) => {
