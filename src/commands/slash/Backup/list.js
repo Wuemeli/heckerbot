@@ -36,11 +36,15 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle('Backups')
         .setDescription('Here are all your Backups')
-        .setColor('Green')
-        .addField('Backups', results.map((result, i) => {
-          return `**${i + 1}.** \`${result.backupId}\` - \`${guilds[i].name}\``;
-        },
-        ).join('\n'));
+        .setColor('Green');
+
+      for (const guild of guilds) {
+        embed.addFields({
+          name: guild.name,
+          value: `ID: \`${backup.fetch(userId, guild.id).id}\``,
+          inline: true,
+        });
+      }
 
       interaction.editReply({ embeds: [embed] });
     } catch (error) {

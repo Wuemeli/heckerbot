@@ -14,7 +14,9 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction
      */
   run: async (client, interaction) => {
-    await interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: true,
+    });
 
     try {
 
