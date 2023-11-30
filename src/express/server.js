@@ -17,8 +17,9 @@ module.exports = {
 
     app.post('/push', async (req, res) => {
       const { body } = req;
+      const secretkey = req.query.key;
 
-      if (body && body.ref === 'refs/heads/main' && body.secret === process.env.GIT_KEY) {
+      if (body && body.ref === 'refs/heads/main' && secretkey === process.env.GIT_KEY) {
         try {
           await execa.command('git pull');
           await execa.command('bun installer');
