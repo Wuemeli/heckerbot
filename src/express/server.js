@@ -1,8 +1,12 @@
 const express = require('express');
 const app = express();
 const {log} = require('../functions/index.js');
+const bodyParser = require('body-parser');
+const execa = require('execa');
 
 const port = process.env.PORT || 3000;
+
+app.use(bodyParser.json());
 
 module.exports = {
   start: (client) => {
@@ -11,12 +15,25 @@ module.exports = {
       res.send('slay queen uwu owo rawr xD');
     });
 
-    app.post('/push', (req, res) => {
-      if (req.query.key !== process.env.GIT_KEY) return res.status(401).send('Unauthorized');
-      require('child_process').exec('git pull && bun installer && pm2 restart 0', (err, stdout) => {
-        if (err) return res.status(500).send(err);
-        res.status(200).send(stdout);
-      });
+    app.post('/push', async (req, res) => {
+      const { body } = req;
+
+      if (body && body.ref === 'refs/heads/main' && body.secret === process.env.GIT_KEY) {
+        try {
+          await execa.command('git pull');
+          await execa.command('bun installer');
+          await execa.command('pm2 restart 0');
+
+          console.log('Commands executed successfully');
+          res.status(200).send('Webhook received and commands executed');
+        } catch (error) {
+          console.error('Error executing commands:', error.message);
+          res.status(500).send('Internal Server Error');
+        }
+      } else {
+        console.log('Webhook received but conditions not met');
+        res.status(200).send('Webhook received, but conditions not met');
+      }
     });
 
     app.get('/stats', (req, res) => {
