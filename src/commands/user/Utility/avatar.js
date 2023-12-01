@@ -1,27 +1,22 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, MessageEmbed } = require('discord.js');
+const ExtendedClient = require('../../../class/ExtendedClient');
 
 module.exports = {
-  structure: new SlashCommandBuilder()
-    .setName('avatar')
-    .setDescription('Get the avatar of a user.')
-    .addUserOption((opt) =>
-      opt.setName('user')
-        .setDescription('👤 The user whose avatar you want to retrieve.')
-        .setRequired(false),
-    ),
+  structure: new ContextMenuCommandBuilder()
+    .setName('Avatar')
+    .setType(2),
   /**
-     * @param {ExtendedClient} client
-     * @param {ChatInputCommandInteraction} interaction
-     */
+   * @param {ExtendedClient} client
+   * @param {UserContextMenuCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
-
     await interaction.deferReply();
 
     const user = interaction.options.getUser('user') || interaction.user;
 
     const avatarURL = user.displayAvatarURL({ dynamic: true, size: 4096 });
     try {
-      const embed = new EmbedBuilder()
+      const embed = new MessageEmbed()
         .setTitle(`${user.username}'s Avatar`)
         .setImage(avatarURL)
         .setColor('Green');

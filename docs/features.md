@@ -1,5 +1,6 @@
 # Heckerbot Features
 
+
 ## Server Backup System
 - Server icon
 - Server banner
@@ -23,9 +24,9 @@
 - whois
 
 ## Utility Commands
-- avatar
+- avatar (Also as Context Menu)
 - ping
-- userinfo
+- userinfo (Also as Context Menu)
 
 ## Info Commands
 - botstats
@@ -39,9 +40,9 @@
 - findeemoji
 - flood
 - matchpairs
-- rps
+- rps (Also as Context Menu)
 - snake
-- tictactoe
+- tictactoe (Also as Context Menu)
 - trivia
 
 ## Modules
