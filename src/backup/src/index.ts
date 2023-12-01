@@ -39,8 +39,14 @@ const getBackupData = async (backupID: string) => {
 
 export const fetch = (backupID: string) => {
   return new Promise<BackupInfos>(async (resolve, reject) => {
+    if (!backupID) {
+      return reject('Backup ID is required');
+    }
     getBackupData(backupID)
       .then((backupData) => {
+        if (!backupData) {
+          return reject('No backup found');
+        }
         const backupInfos: BackupInfos = {
           data: backupData,
           id: backupID,
@@ -165,7 +171,7 @@ export const load = async (
           loadMaster.loadChannels(guild, backupData, options),
           loadMaster.loadAFK(guild, backupData),
           loadMaster.loadEmojis(guild, backupData),
-          loadMaster.loadBans(guild, backupData), 
+          loadMaster.loadBans(guild, backupData),
           loadMaster.loadEmbedChannel(guild, backupData)
         ]);
       } catch (e) {
