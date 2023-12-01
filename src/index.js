@@ -2,11 +2,17 @@ require('dotenv').config();
 const ExtendedClient = require('./class/ExtendedClient');
 const Errorhandler = require('./functions/errorHandler');
 const server = require('./express/server.js');
+const {log} = require('./functions/index');
 
 const client = new ExtendedClient();
 
 client.start();
+
+log('Client Started.', 'done');
+
 server.start(client);
+
+log('Server Started.', 'done');
 
 module.exports = { client };
 
