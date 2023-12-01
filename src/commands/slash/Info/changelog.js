@@ -11,17 +11,18 @@ module.exports = {
     try {
       const commits = await axios.get('https://api.github.com/repos/Wuemeli/heckerbot/commits');
 
+      const description = commits.data
+        .map((commit) => {
+          const author = commit.commit.author;
+          const commitMessage = commit.commit.message;
+          return `[${author.name}](https://github.com/${author.name}) - ${commitMessage}`;
+        })
+        .join('\n');
+
       const embed = new EmbedBuilder()
         .setTitle('Changelog')
-        .setDescription('Here are the last 10 Commits of the bot')
+        .setDescription(description)
         .setColor('Green');
-
-      for (let i = 0; i < 10; i++) {
-        const commit = commits.data[i];
-        const author = commit.commit.author;
-        const commitMessage = commit.commit.message;
-        embed.addFields({ name: `[${author.name}](https://github.com/${author.name}):`, value: `${commitMessage}`, inline: false });
-      }
 
       interaction.editReply({ embeds: [embed] });
 
