@@ -11,7 +11,7 @@ module.exports = {
    * @param {UserContextMenuCommandInteraction} interaction
    */
   run: async (client, interaction) => {
-    const opponent = interaction.options.getUser('user');
+    const opponent = interaction.options.getUser('opponent');
     try {
       const Game = new RockPaperScissors({
         message: interaction,
