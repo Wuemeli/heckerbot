@@ -1,5 +1,6 @@
-## THIS BOT IS STILL IN BETA BUGS AND ERRORS CAN OCCUR
-
+![](https://dcbadge.vercel.app/api/shield/1092475154791145542?bot=true)
+[![wakatime](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/018b4766-f1d1-40b6-8862-b327fa076d2a.svg)](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/018b4766-f1d1-40b6-8862-b327fa076d2a)
+[![wakatime](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/16cfbc8a-c211-4a5d-8bcd-dbc93dabb83d.svg)](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/16cfbc8a-c211-4a5d-8bcd-dbc93dabb83d)
 # 🔥 Heckerbot
 > An advanced Discord Bot for your Server <br>
 > Official Bot at https://wuemeli.com/invite (SOON)
