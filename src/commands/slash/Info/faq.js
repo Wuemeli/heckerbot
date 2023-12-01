@@ -11,6 +11,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setName('FAQ')
+        .setColor('Green')
         .addFields(
           {
             name: 'How long are Backups Stored?',
