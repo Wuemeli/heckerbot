@@ -18,9 +18,10 @@ module.exports = {
 
       for (let i = 0; i < 10; i++) {
         const commit = commits.data[i];
-        const author = commit.author;
+        const author = commit.commit.author;
         const commitMessage = commit.commit.message;
-        embed.addFields({ name: `${author.name}`, value: `${commitMessage}` });      }
+        embed.addFields({ name: `[${author.name}](https://github.com/${author.name}):`, value: `${commitMessage}`, inline: false });
+      }
 
       interaction.editReply({ embeds: [embed] });
 

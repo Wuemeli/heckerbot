@@ -32,6 +32,7 @@
 - contributors
 - help
 - invite
+- changelog
 
 ## Games Commands
 - fasttype
