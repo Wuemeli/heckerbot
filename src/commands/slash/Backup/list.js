@@ -27,7 +27,8 @@ module.exports = {
       for (const result of results) {
         try {
           const guild = await client.guilds.fetch(result.guildId);
-          guilds.push(guild);
+          const guildBackup = backup.fetch(userId, guild.id);
+          guilds.push({ name: guild.name, backup: guildBackup });
         } catch (error) {
           guilds.push({ name: 'Get the name with /backup-info' });
         }
@@ -39,11 +40,7 @@ module.exports = {
         .setColor('Green');
 
       for (const guild of guilds) {
-        embed.addFields({
-          name: guild.name,
-          value: `ID: \`${backup.fetch(userId, guild.id).id}\``,
-          inline: true,
-        });
+        embed.addField(guild.name, `${emojis.backup} ${guild.backup}`);
       }
 
       interaction.editReply({ embeds: [embed] });

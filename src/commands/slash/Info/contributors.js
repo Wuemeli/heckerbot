@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('contributors')
-    .setDescription('Displays the contributors of the bot.'),
+    .setDescription('🫅 Displays the contributors of the bot.'),
   run: async (client, interaction) => {
     await interaction.deferReply();
 
