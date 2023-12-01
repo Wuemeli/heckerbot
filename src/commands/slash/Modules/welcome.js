@@ -18,12 +18,13 @@ module.exports = {
             .setRequired(true),
         )
         .addStringOption((opt) =>
-          opt.setName('message')
+          opt
+            .setName('message')
             .setDescription('Placeholders: .user .guild .membercount')
             .setRequired(true),
         )
-        .addChannelOption(option =>
-          option
+        .addStringOption((opt) =>
+          opt
             .setName('picture')
             .setDescription('The picture to set')
             .setRequired(false),
