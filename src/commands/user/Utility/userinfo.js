@@ -1,27 +1,20 @@
-const {ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder} = require('discord.js');
+const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, MessageEmbed } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
-const {time} = require('../../../functions');
+const { time } = require('../../../functions');
 
 module.exports = {
-  structure: new SlashCommandBuilder()
-    .setName('userinfo')
-    .setDescription('Get a user\'s information.')
-    .addUserOption((opt) =>
-      opt.setName('user')
-        .setDescription('The user.')
-        .setRequired(false),
-    ),
+  structure: new ContextMenuCommandBuilder()
+    .setName('Userinfo')
+    .setType(2),
   /**
-     * @param {ExtendedClient} client
-     * @param {ChatInputCommandInteraction} interaction
-     */
+   * @param {ExtendedClient} client
+   * @param {UserContextMenuCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
     await interaction.deferReply();
 
     try {
-
       const user = interaction.options.getUser('user') || interaction.user;
-
       const member = interaction.guild.members.cache.get(user.id);
 
       if (!member) {
@@ -41,7 +34,7 @@ module.exports = {
 
       await interaction.editReply({
         embeds: [
-          new EmbedBuilder()
+          new MessageEmbed()
             .setTitle('User info - ' + user.username)
             .setThumbnail(member.displayAvatarURL())
             .setDescription(`${arr.join('\n')}`)
