@@ -1,4 +1,4 @@
-const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, MessageEmbed } = require('discord.js');
+const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 
     const avatarURL = user.displayAvatarURL({ dynamic: true, size: 4096 });
     try {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(`${user.username}'s Avatar`)
         .setImage(avatarURL)
         .setColor('Green');

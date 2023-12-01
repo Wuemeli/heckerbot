@@ -1,4 +1,4 @@
-const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, MessageEmbed } = require('discord.js');
+const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
 const { time } = require('../../../functions');
 
@@ -34,7 +34,7 @@ module.exports = {
 
       await interaction.editReply({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setTitle('User info - ' + user.username)
             .setThumbnail(member.displayAvatarURL())
             .setDescription(`${arr.join('\n')}`)
