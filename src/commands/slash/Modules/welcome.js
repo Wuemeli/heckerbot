@@ -17,9 +17,8 @@ module.exports = {
             .setDescription('The channel to set')
             .setRequired(true),
         )
-        .addChannelOption(option =>
-          option
-            .setName('message')
+        .addStringOption((opt) =>
+          opt.setName('message')
             .setDescription('Placeholders: .user .guild .membercount')
             .setRequired(true),
         )
@@ -49,7 +48,7 @@ module.exports = {
 
     try {
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`});
+        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
       }
 
       const subcommand = interaction.options.getSubcommand();
@@ -61,7 +60,7 @@ module.exports = {
 
       if (subcommand === 'channel') {
         if (!channelId) {
-          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a channel!`});
+          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a channel!` });
         }
 
         await welcomeSchema.findOneAndUpdate({
@@ -91,7 +90,7 @@ module.exports = {
       });
 
       if (!welcomeData) {
-        return interaction.editReply({ content: `${emojis.erroricon} There is no welcome channel set!`});
+        return interaction.editReply({ content: `${emojis.erroricon} There is no welcome channel set!` });
       }
 
 
