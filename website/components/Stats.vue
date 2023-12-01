@@ -1,12 +1,12 @@
 <template>
-  <section id="Statics" class="py-5 bg-dark text-light">
+  <section id="Stats" class="py-5 bg-dark text-light">
     <div class="container">
       <div class="py-2 text-center">
         <h2>Statics:</h2>
       </div>
       <div class="row align-items-center justify-content-center text-center -5">
         <div class="col">
-          <img src="./img/statics.svg" alt="" class="img-fluid d-none d-md-block">
+          <img src="~/assets/img/statics.svg" alt="" class="img-fluid d-none d-md-block">
         </div>
         <div class="col-sm p-5 h1">
           <i class="bi bi-hdd-stack text-primary"></i>
@@ -50,7 +50,7 @@ export default {
         this.serverCount = data.guildCount;
         this.userCount = data.userCount;
         this.channelCount = data.channelCount;
-      } catch (error) { 
+      } catch (error) {
         console.error('Error fetching data:', error);
       }
     },

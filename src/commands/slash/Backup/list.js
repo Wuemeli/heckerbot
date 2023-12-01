@@ -1,8 +1,7 @@
 const backup = require('../../../backup/src/index.ts');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const backupSchema = require('../../../schemas/backupSchema');
-const emojis = require('../../../functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -22,29 +21,34 @@ module.exports = {
         userId,
       });
 
-      const guilds = [];
+      if (!results.length) {
+        return interaction.editReply('You do not have any backups.');
+      }
+
+      const backups = [];
 
       for (const result of results) {
         try {
-          const guild = await client.guilds.fetch(result.guildId);
-          guilds.push(guild);
-        } catch (error) {
-          guilds.push({ name: 'Get the name with /backup-info' });
+          await backup.fetch(result.backupId);
+          const guild = client.guilds.cache.get(result.guildId);
+          const data = `**${result.backupId}** | ${guild.name} (${result.guildId})`;
+          backups.push(data);
+        } catch {
+          await backupSchema.deleteOne({
+            backupId: result.backupId,
+          });
         }
       }
 
       const embed = new EmbedBuilder()
-        .setTitle('Backups')
-        .setDescription('Here are all your Backups')
-        .setColor('Green')
-        .addField('Backups', results.map((result, i) => {
-          return `**${i + 1}.** \`${result.backupId}\` - \`${guilds[i].name}\``;
-        },
-        ).join('\n'));
+        .setTitle('Your Backups')
+        .setDescription(backups.join('\n'))
+        .setColor('Green');
 
       interaction.editReply({ embeds: [embed] });
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
+      console.error(error);
+      interaction.editReply('An error occurred while trying to list the backups.');
     }
   },
 };
