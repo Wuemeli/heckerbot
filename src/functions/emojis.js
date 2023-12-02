@@ -16,6 +16,7 @@ const emojis = {
   blackdot: '<:blackdot:1155082059296030800>',
   orangedot: '<:orangedot:1155082061774868550>',
   reddot: '<:reddot:1155082063154794506>',
+  pepeheart: '<:pepeheart:1180191206723047536>',
 };
 
 module.exports = emojis;
