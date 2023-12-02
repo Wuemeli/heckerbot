@@ -60,4 +60,3 @@
 
 ## Server
 - Stats Enpoint
-- Auto Deploy Endpoint

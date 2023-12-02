@@ -3,7 +3,6 @@ const app = express();
 const { log } = require('../functions/index.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { exec } = require('child_process');
 const emojis = require('../functions/emojis');
 
 const port = process.env.PORT || 3000;
@@ -32,28 +31,6 @@ module.exports = {
         res.status(200).send('Webhook received');
       } else {
         res.status(401).send('Unauthorized');
-      }
-    });
-
-    app.post('/push', async (req, res) => {
-      const { body } = req;
-      const secretkey = req.query.key;
-
-      if (body && body.ref === 'refs/heads/main' && secretkey === process.env.GIT_KEY) {
-        try {
-          await exec('git pull');
-          await exec('bun installer');
-          await exec('pm2 restart all');
-
-          console.log('Commands executed successfully');
-          res.status(200).send('Webhook received and commands executed');
-        } catch (error) {
-          console.error('Error executing commands:', error.message);
-          res.status(500).send('Internal Server Error');
-        }
-      } else {
-        console.log('Webhook received but conditions not met');
-        res.status(200).send('Webhook received, but conditions not met');
       }
     });
 
