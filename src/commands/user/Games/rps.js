@@ -11,12 +11,13 @@ module.exports = {
    * @param {UserContextMenuCommandInteraction} interaction
    */
   run: async (client, interaction) => {
-    const opponent = interaction.options.getUser('opponent');
     try {
+      const { username } = interaction.targetUser;
+
       const Game = new RockPaperScissors({
         message: interaction,
         isSlashGame: true,
-        opponent: opponent,
+        opponent: username,
         embed: {
           title: 'Rock Paper Scissors',
           color: '#5865F2',

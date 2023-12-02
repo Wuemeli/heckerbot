@@ -18,7 +18,7 @@ module.exports = {
 
     if (!data) return;
 
-    const { channelId, message, picture } = data;
+    const { channelId, message, picture, role } = data;
     if (!channelId) return;
 
     const channel = member.guild.channels.cache.get(channelId);
@@ -36,7 +36,14 @@ module.exports = {
       .setThumbnail(picture)
       .setTimestamp();
 
-    return channel.send({ embeds: [embed] });
+    if (role) {
+      const roleToAdd = member.guild.roles.cache.get(role);
+      if (!roleToAdd) return;
+
+      member.roles.add(roleToAdd);
+    }
+
+    channel.send({ embeds: [embed] });
   },
 };
 

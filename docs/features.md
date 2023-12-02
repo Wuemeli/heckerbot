@@ -50,7 +50,7 @@
 - Welcome
 
 ## Other Features
-- If you ping the bot you get a random Spotify Song
+- If you ping the bot you get a random useless Fact
 - Error Handler
 - Emojis
 

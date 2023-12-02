@@ -22,11 +22,12 @@ module.exports = {
       subcommand
         .setName('remove')
         .setDescription('🔄 Remove the Counting Channel'),
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('info')
+        .setDescription('🔄 Display the Counting Settings'),
     ),
-  /**
-   * @param {ExtendedClient} client
-   * @param {ChatInputCommandInteraction} interaction
-   */
   run: async (client, interaction) => {
     await interaction.deferReply(
       {
@@ -36,7 +37,7 @@ module.exports = {
 
     try {
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`});
+        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
       }
 
       const subcommand = interaction.options.getSubcommand();
@@ -46,7 +47,7 @@ module.exports = {
 
       if (subcommand === 'channel') {
         if (!channelId) {
-          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a channel!`});
+          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a channel!` });
         }
 
         await CountingSchema.findOneAndUpdate({
@@ -72,44 +73,47 @@ module.exports = {
         return interaction.editReply({ content: `${emojis.checkicon} Successfully removed the counting channel!` });
       }
 
-      const countingData = await CountingSchema.findOne({
-        guildId,
-      });
+      if (subcommand === 'info') {
+        const countingData = await CountingSchema.findOne({
+          guildId,
+        });
 
-      if (!countingData) {
-        return interaction.editReply({ content: `${emojis.erroricon} There is no counting channel set!`});
-      }
-
-      const channelData = interaction.guild.channels.cache.get(countingData.channelId);
-
-      const embed = new EmbedBuilder()
-        .setTitle('Counting Settings')
-        .setColor('Green')
-        .setTimestamp();
-
-      if (channelData) {
-        embed.addField('Channel', channelData, true);
-      }
-
-      embed.addField('Last Number', countingData.lastNumber, true);
-
-      if (countingData.lastUser) {
-        const userData = interaction.guild.members.cache.get(countingData.lastUser);
-
-        if (userData) {
-          embed.addField('Last User', userData, true);
+        if (!countingData) {
+          return interaction.editReply({
+            content: `${emojis.checkicon} There is no counting channel set! Counting is a fun game where members try to count as high as they can without making a mistake.` });
         }
-      }
 
-      if (countingData.lastMessageId) {
-        const messageData = await channelData.messages.fetch(countingData.lastMessageId);
+        const channelData = interaction.guild.channels.cache.get(countingData.channelId);
 
-        if (messageData) {
-          embed.addField('Last Message', messageData, true);
+        const embed = new EmbedBuilder()
+          .setTitle('Counting Settings')
+          .setColor('Green')
+          .setTimestamp();
+
+        if (channelData) {
+          embed.addFields({ name: 'Channel', value: channelData.toString(), inline: true });
         }
-      }
 
-      return interaction.editReply({ embeds: [embed] });
+        embed.addFields({ name: 'Last Number', value: countingData.lastNumber.toString(), inline: true });
+
+        if (countingData.lastUser) {
+          const userData = interaction.guild.members.cache.get(countingData.lastUser);
+
+          if (userData) {
+            embed.addFields({ name: 'Last User', value: userData.toString(), inline: true });
+          }
+        }
+
+        if (countingData.lastMessageId) {
+          const messageData = await channelData.messages.fetch(countingData.lastMessageId);
+
+          if (messageData) {
+            embed.addFields({ name: 'Last Message', value: messageData.toString(), inline: true });
+          }
+        }
+
+        return interaction.editReply({ embeds: [embed] });
+      }
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }
