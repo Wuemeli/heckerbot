@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const {log} = require('../functions/index.js');
+const { log } = require('../functions/index.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const execFile = require('child_process').execFile;
+const emojis = require('../functions/emojis');
 
 const port = process.env.PORT || 3000;
 
@@ -16,6 +17,22 @@ module.exports = {
 
     app.get('/', (req, res) => {
       res.send('slay queen uwu owo rawr xD');
+    });
+
+    app.post('/topgg', (req, res) => {
+      if (!process.env.TOPGG_SECRET) return res.status(500).send('Internal Server Error');
+      const auth = req.headers.authorization;
+      const providedAuth = process.env.TOPGG_SECRET;
+
+      if (auth === providedAuth) {
+        const { user } = req.body;
+        const user1 = client.users.cache.get(user);
+        const channel = client.channels.cache.get(process.env.TOPGG_CHANNEL);
+        channel.send(`**${user1}** just voted for me on top.gg! Thank you so much! ${emojis.pepeheart}`);
+        res.status(200).send('Webhook received');
+      } else {
+        res.status(401).send('Unauthorized');
+      }
     });
 
     app.post('/push', async (req, res) => {
