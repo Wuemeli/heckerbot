@@ -1,24 +1,20 @@
 # use the official Bun image
-FROM oven/bun:latest as base
+FROM oven/bun:latest
+
+# Set the working directory in the container to /app
 WORKDIR /app
 
-# install dependencies into temp directory
-FROM base AS install
-COPY package.json ./
-RUN bun install --frozen-lockfile
+# Copy package.json and package-lock.json into the directory
+COPY package*.json ./
 
-# copy node_modules from temp directory
-# then copy all (non-ignored) project files into the image
-FROM install AS prerelease
-COPY --from=install /app/node_modules ./node_modules
+# Install any needed packages specified in package.json
+RUN bun installer
+
+# Bundle the app source inside the Docker image
 COPY . .
 
-# copy production dependencies and source code into final image
-FROM base AS release
-COPY --from=install /app/node_modules ./node_modules
-COPY --from=prerelease /app .
+# Make port 3000 available to the world outside the Docker container
+EXPOSE 3000
 
-# run the app
-USER bun
-EXPOSE 3000/tcp
+# Define the command to run the app
 CMD [ "bun", "start" ]
