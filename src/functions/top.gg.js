@@ -12,7 +12,7 @@ module.exports = async (client) => {
           'Authorization': process.env.TOPGG_TOKEN,
         },
       });
-      console.log(response.data);
+      console.log(`Posted stats to top.gg! ${response.status}`);
     } catch (e) {
       console.log(`Oops! ${e}`);
     }

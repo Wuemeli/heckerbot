@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "production": "bun installer && bun start",
-    "installer": "bun install && bun puppeteer && cd src/backup && bun install && cd ..",
-    "puppeteer": "bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer"
+    "installer": "bun install && cd src/backup && bun install && cd .."
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.440.0",
@@ -26,7 +25,6 @@
     "mongoose": "^7.3.1",
     "node-fetch": "^3.3.2",
     "pagination.djs": "^4.0.12",
-    "puppeteer": "^21.4.1",
     "random-sentence": "^1.0.4",
     "stream-to-string": "^1.2.1"
   },

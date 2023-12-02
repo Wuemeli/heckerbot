@@ -13,6 +13,10 @@ const welcomeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  welcomeRole: {
+    type: String,
+    required: true,
+  },
   welcomePicture: {
     type: String,
     required: true,
