@@ -57,3 +57,7 @@
 ## TOP.GG
 - Stats Posting
 - Vote Endpoint
+
+## Server
+- Stats Enpoint
+- Auto Deploy Endpoint
