@@ -28,8 +28,7 @@
     "pagination.djs": "^4.0.12",
     "puppeteer": "^21.4.1",
     "random-sentence": "^1.0.4",
-    "stream-to-string": "^1.2.1",
-    "top.gg": "^2.3.2"
+    "stream-to-string": "^1.2.1"
   },
   "devDependencies": {
     "bun-types": "latest",
