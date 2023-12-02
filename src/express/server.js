@@ -3,7 +3,7 @@ const app = express();
 const { log } = require('../functions/index.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const execFile = require('child_process').execFile;
+const { exec } = require('child_process');
 const emojis = require('../functions/emojis');
 
 const port = process.env.PORT || 3000;
@@ -28,7 +28,7 @@ module.exports = {
         const { user } = req.body;
         const user1 = client.users.cache.get(user);
         const channel = client.channels.cache.get(process.env.TOPGG_CHANNEL);
-        channel.send(`**${user1}** just voted for me on [top.gg](https://top.gg/bot/${client.user.id})! Thank you so much! ${emojis.pepeheart}`);
+        channel.send(`**${user1}** just voted for me on [top.gg](https://top.gg/bot/${client.user.id}/vote)! Thank you so much! ${emojis.pepeheart}`);
         res.status(200).send('Webhook received');
       } else {
         res.status(401).send('Unauthorized');
@@ -41,9 +41,9 @@ module.exports = {
 
       if (body && body.ref === 'refs/heads/main' && secretkey === process.env.GIT_KEY) {
         try {
-          await execFile('git', ['pull']);
-          await execFile('bun', ['installer']);
-          await execFile('pm2', ['restart', 'all']);
+          await exec('git pull');
+          await exec('bun installer');
+          await exec('pm2 restart all');
 
           console.log('Commands executed successfully');
           res.status(200).send('Webhook received and commands executed');
