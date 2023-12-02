@@ -8,10 +8,19 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install any needed packages specified in package.json
-RUN bun installer
+RUN bun install
 
-# Bundle the app source inside the Docker image
-COPY . .
+# Change working directory to src/backup
+WORKDIR /app/src/backup
+
+# Copy package.json and package-lock.json into the directory
+COPY package*.json ./
+
+# Install any needed packages specified in package.json
+RUN bun install
+
+# Change working directory back to /app
+WORKDIR /app
 
 # Make port 3000 available to the world outside the Docker container
 EXPOSE 3000
