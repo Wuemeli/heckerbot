@@ -13,16 +13,6 @@ RUN bun install
 # Bundle app source
 COPY . .
 
-# Install dependencies for the main application
-RUN bun install
-
-# Set the working directory to src/backup and install dependencies
-WORKDIR /usr/src/app/src/backup
-RUN bun install
-
-# Go back to the root of the project
-WORKDIR /usr/src/app
-
 # Expose port 3000
 EXPOSE 3000
 
