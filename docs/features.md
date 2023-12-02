@@ -53,3 +53,7 @@
 - If you ping the bot you get a random Spotify Song
 - Error Handler
 - Emojis
+
+## TOP.GG
+- Stats Posting
+- Vote Endpoint
