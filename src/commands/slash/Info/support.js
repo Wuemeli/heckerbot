@@ -2,8 +2,8 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   structure: new SlashCommandBuilder()
-    .setName('vote')
-    .setDescription('🗳 Gets the Vote Link for the Bot'),
+    .setName('support')
+    .setDescription('🕹️ Get the Invite Link to the Discord Support Server'),
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction
@@ -12,7 +12,7 @@ module.exports = {
     await interaction.deferReply();
 
     try {
-      await interaction.editReply(`[Click Here to Vote for ${client.user.username}!](https://top.gg/bot/${client.user.id}/vote)`);
+      await interaction.editReply(`[Click here to join the Support Server!](${process.env.SUPP_INVITE_URL})`);
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }

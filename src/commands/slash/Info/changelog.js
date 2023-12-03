@@ -5,6 +5,10 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('changelog')
     .setDescription('🟰 Displays the last 10 Commits of the bot.'),
+  /**
+ * @param {ExtendedClient} client
+ * @param {ChatInputCommandInteraction} interaction
+ */
   run: async (client, interaction) => {
     await interaction.deferReply();
 
