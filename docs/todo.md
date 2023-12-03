@@ -1,4 +1,4 @@
 - Finish Features
 - Fortnite Bot
-- Selfhsoting Guide
+- Selfhosting Guide
 - Contributing Guide

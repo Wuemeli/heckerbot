@@ -1,5 +1,6 @@
 # Heckerbot Features
 
+WILL BE UPDATED SOON
 
 ## Server Backup System
 - Server icon
