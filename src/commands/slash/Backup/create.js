@@ -22,7 +22,7 @@ module.exports = {
 
 
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.reply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`, ephemeral: true });
+        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`, ephemeral: true });
       }
 
       backup.create(interaction.guild, {
