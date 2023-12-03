@@ -25,10 +25,13 @@ module.exports = {
 
       if (auth === providedAuth) {
         const { user } = req.body;
-        const user1 = client.users.cache.get(user);
-        const channel = client.channels.cache.get(process.env.TOPGG_CHANNEL);
-        channel.send(`**${user1}** just voted for me on [top.gg](https://top.gg/bot/${client.user.id}/vote)! Thank you so much! ${emojis.pepeheart}`);
-        res.status(200).send('Webhook received');
+        client.users.fetch(user)
+          .then(user1 => {
+            const channel = client.channels.cache.get(process.env.TOPGG_CHANNEL);
+            channel.send(`**${user1}** just voted for me on [top.gg](https://top.gg/bot/${client.user.id}/vote)! Thank you so much! ${emojis.pepeheart}`);
+            res.status(200).send('Webhook received');
+          })
+          .catch(console.error);
       } else {
         res.status(401).send('Unauthorized');
       }
