@@ -1,15 +1,16 @@
 const ExtendedClient = require('../../class/ExtendedClient');
 const countingschema = require('../../schemas/countingSchema');
+const math = require('mathjs');
 
 module.exports = {
   event: 'messageCreate',
   once: false,
   /**
- *
- * @param {ExtendedClient} client
- * @param {Message<true>} message
- * @returns
- */
+  *
+  * @param {ExtendedClient} client
+  * @param {Message<true>} message
+  * @returns
+  */
   run: async (client, message) => {
     if (message.author.bot) return;
 
@@ -21,18 +22,28 @@ module.exports = {
 
     const { channelId, lastNumber, lastUser } = data;
     if (message.channel.id !== channelId) return;
-    if (isNaN(message.content)) return;
-    // if (message.content === '0') return;
-    if (parseInt(message.content) === lastNumber) return;
-    if (parseInt(message.content) === lastNumber + 1) {
+
+    let content = message.content;
+
+    try {
+      content = math.evaluate(content);
+    } catch (error) {
+      message.delete();
+      return;
+    }
+
+    if (parseInt(content) === lastNumber) return;
+    if (parseInt(content) === lastNumber + 1) {
       await countingschema.findOneAndUpdate({
         guildId: message.guild.id,
       }, {
         channelId,
-        lastNumber: message.content,
+        lastNumber: content,
         lastUser: message.author.id,
       });
-      return message.react('✅');
+
+      await message.react('✅');
+      return;
     } else {
       await countingschema.findOneAndUpdate({
         guildId: message.guild.id,
@@ -41,7 +52,11 @@ module.exports = {
         lastNumber: 0,
         lastUser: null,
       });
-      return message.channel.send(`You broke the chain! ${message.author} has reset the counting to 0!`);
+
+      await message.channel.send({
+        content: `**${message.author.username}**, cant count! The counting has been reset.`,
+      });
+      return;
     }
   },
 };

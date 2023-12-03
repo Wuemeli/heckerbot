@@ -41,7 +41,6 @@ const handleCommand = async (m) => {
       m.client.party.me.setEmoji(emoji.id);
       m.reply(`Set the emoji to ${emoji.name}!`);
     } else m.reply(`The emoji ${args.join(' ')} wasn't found!`);
-    //Banner
   } else if (command === 'banner') {
     const banner = await fetchCosmetic(args.join(' '), 'banner');
     if (banner) {
@@ -86,7 +85,7 @@ const handleCommand = async (m) => {
         !pickaxe <pickaxe> - Sets your pickaxe
         !purpleskull - Sets your skin to Purple Skull Trooper
         !pinkghoul - Sets your skin to Pink Ghoul Trooper
-        !chunlimode - Activates the SUS Mode
+        !chunlimode - Activates the Mode
         !default - Sets the default settings
         Fun & Util:
         !ready - Sets you to ready
@@ -95,7 +94,8 @@ const handleCommand = async (m) => {
         !hide - Hides Members
         !unhide - Unhides Members
         !level <level> - Sets your level
-        !showpickaxe - Shows your pickaxe`);
+        !showpickaxe - Shows your pickaxe
+        `);
   } else if (command === 'ready') {
     m.client.party.me.setReadiness(true);
     m.reply(`Ready!`);

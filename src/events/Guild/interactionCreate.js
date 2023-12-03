@@ -2,6 +2,7 @@ const config = require('../../config');
 const {log} = require('../../functions');
 const ExtendedClient = require('../../class/ExtendedClient');
 const emojis = require('../../functions/emojis');
+const {PermissionFlagsBits} = require('discord.js');
 
 const cooldown = new Map();
 
@@ -42,6 +43,7 @@ module.exports = {
     if (!command) return;
 
     try {
+
       if (command.options?.developers) {
         if (config.users?.developers?.length > 0 && !config.users?.developers?.includes(interaction.user.id)) {
           await interaction.reply({
