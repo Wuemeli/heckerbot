@@ -7,6 +7,10 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('backup-list')
     .setDescription('📊 List all Backups of the user'),
+  /**
+* @param {ExtendedClient} client
+* @param {ChatInputCommandInteraction} interaction
+*/
   run: async (client, interaction) => {
     try {
       await interaction.deferReply(

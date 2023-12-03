@@ -11,6 +11,10 @@ module.exports = {
       option.setName('backup-id')
         .setDescription('The ID of the backup to remove')
         .setRequired(true)),
+  /**
+* @param {ExtendedClient} client
+* @param {ChatInputCommandInteraction} interaction
+*/
   run: async (client, interaction) => {
     try {
       await interaction.deferReply({ ephemeral: true });
