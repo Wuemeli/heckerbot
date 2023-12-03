@@ -34,6 +34,9 @@
 - help
 - invite
 - changelog
+- vote
+- support
+
 
 ## Games Commands
 - fasttype
