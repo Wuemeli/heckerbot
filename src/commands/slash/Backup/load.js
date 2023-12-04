@@ -12,8 +12,10 @@ module.exports = {
       .setName('backup-id')
       .setDescription('The ID of the backup')
       .setRequired(true)),
-
-
+  /**
+ * @param {ExtendedClient} client
+ * @param {ChatInputCommandInteraction} interaction
+ */
   run: async (client, interaction) => {
 
     await interaction.deferReply(
