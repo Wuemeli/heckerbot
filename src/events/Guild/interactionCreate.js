@@ -44,24 +44,6 @@ module.exports = {
 
     try {
 
-      if (command.options?.developers) {
-        if (config.users?.developers?.length > 0 && !config.users?.developers?.includes(interaction.user.id)) {
-          await interaction.reply({
-            content: `${emojis.erroricon} This is a developer only command.`,
-            ephemeral: true,
-          });
-
-          return;
-        } else if (config.users?.developers?.length <= 0) {
-          await interaction.reply({
-            content: `${emojis.erroricon} This is a developer only command.`,
-            ephemeral: true,
-          });
-
-          return;
-        }
-      }
-
       if (command.options?.nsfw && !interaction.channel.nsfw) {
         await interaction.reply({
           content: `${emojis.erroricon} This command can only be used in a NSFW channel.`,
