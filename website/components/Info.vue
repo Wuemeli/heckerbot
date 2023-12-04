@@ -1,7 +1,7 @@
 <template>
   <section class="bg-dark text-light text-center py-5">
     <div class="container">
-      <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex justify-center align-items-center">
         <div>
           <h1><span class="text-info">Hecker</span> Bot</h1>
           <p>A Opensource Discord Bot that brings Fun and Security to your Server</p>
