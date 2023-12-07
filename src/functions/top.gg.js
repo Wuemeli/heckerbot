@@ -5,14 +5,8 @@ module.exports = async (client) => {
 
   async function postStats() {
     try {
-
-      let totalUsers = 0;
-      client.guilds.cache.forEach(guild => {
-        totalUsers += guild.memberCount;
-      });
-
       const response = await axios.post(`https://top.gg/api/bots/${client.user.id}/stats`, {
-        server_count: totalUsers,
+        server_count: client.guilds.cache.size,
       }, {
         headers: {
           'Authorization': process.env.TOPGG_TOKEN,
