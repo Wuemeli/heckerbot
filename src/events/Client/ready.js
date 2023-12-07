@@ -29,6 +29,7 @@ module.exports = {
       });
 
       const guildcount = client.guilds.cache.size;
+      
       client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
     }, 600000);
 
