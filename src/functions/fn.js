@@ -108,6 +108,48 @@ async function createBot(ownerId, authcode, status, platform, cid, bid, pid, lvl
   startBot(botId);
 }
 
+async function check(value, type) {
+  switch (type) {
+  case 'authcode':
+    try {
+      const fnbot = createClient(value, 'Fortnite Bot', 'WIN', 'CID_028_Athena_Commando_M_ChunLi', 'BID_001_ChunLi', 'Pickaxe_Lockjaw', 999, 'otherbanner28', 'defaultcolor28');
+      await fnbot.login();
+      await fnbot.logout();
+      return true;
+    } catch (err) {
+      return false;
+    }
+  case 'status':
+    if (value.length > 100) return false;
+    return true;
+  case 'platform':
+    if (value === 'WIN' || value === 'MAC' || value === 'PSN' || value === 'XBL' || value === 'SWT') return true;
+    return false;
+  case 'cid':
+  case 'bid':
+  case 'pid':
+    try {
+      const cosmetic = await fetchCosmetic(value, type);
+      if (cosmetic) return true;
+      return false;
+    } catch (err) {
+      return false;
+    }
+  case 'lvl':
+    if (value > 999) return false;
+    return true;
+  case 'banner':
+    if (value.length > 100) return false;
+    return true;
+  case 'bannercolor':
+    if (value.length > 100) return false;
+    return true;
+  default:
+    return false;
+  }
+}
+
+
 function createClient(auth, status, platform, cid, bid, pid, lvl, banner, bannercolor) {
   const fnbot = new Client({
     'defaultStatus': status,
@@ -140,4 +182,5 @@ function createClient(auth, status, platform, cid, bid, pid, lvl, banner, banner
 module.exports = {
   createBot,
   startBot,
+  check,
 };
