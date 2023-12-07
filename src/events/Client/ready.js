@@ -10,18 +10,28 @@ module.exports = {
      * @param {import('discord.js').Client<true>} client
      * @returns
      */
-  run: (_, client) => {
-    const usercount = client.users.cache.size;
+  run: async (_, client) => {
+
+    let totalUsers = 0;
+    client.guilds.cache.forEach(guild => {
+      totalUsers += guild.memberCount;
+    });
+
     const guildcount = client.guilds.cache.size;
 
-    client.user.setActivity(`${guildcount} servers | ${usercount} users | Made with ❤️ by Wuemeli`, {type: 4});
+    client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
 
-    setInterval(() => {
-      const usercount = client.users.cache.size;
+    setInterval(async () => {
+      
+      let totalUsers = 0;
+      client.guilds.cache.forEach(guild => {
+        totalUsers += guild.memberCount;
+      });
+
       const guildcount = client.guilds.cache.size;
-      client.user.setActivity(`${guildcount} servers | ${usercount} users | Made with ❤️ by Wuemeli`, { type: 4 });
-    }, 300000);
-
+      
+      client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
+    }, 600000);
 
     log('Logged in as: ' + client.user.tag, 'done');
   },
