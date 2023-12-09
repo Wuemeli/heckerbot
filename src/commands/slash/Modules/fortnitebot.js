@@ -69,9 +69,14 @@ module.exports = {
         const data = await fnbotSchema.findOne({ ownerId: userId });
         if (!data) return interaction.editReply(`${emojis.error} You don't have a Fortnite Bot!`);
 
-        startBot(data.botId);
+        const username = await startBot(data.botId);
 
-        return interaction.editReply(`${emojis.success} Started Fortnite Bot!`);
+        const embed = new EmbedBuilder()
+          .setTitle('Fortnite Bot')
+          .setDescription(`Successfully started Fortnite Bot ${username}!`)
+          .setColor('Green');
+
+        return interaction.editReply({ embeds: [embed], ephemeral: true });
       }
       }
     } catch (err) {

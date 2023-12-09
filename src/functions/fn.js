@@ -30,17 +30,9 @@ const handleCommand = async (m) => {
       m.reply(`Set the ${command} to ${cosmetic.name}!`);
     } else m.reply(`The ${command} ${args.join(' ')} wasn't found!`);
     break;
-  case 'purpleskull':
-    m.client.party.me.setOutfit('CID_030_Athena_Commando_M_Halloween', [{ channel: 'ClothingColor', variant: 'Mat1' }]);
-    m.reply('Set the skin to Purple Skull Trooper!');
-    break;
-  case 'pinkghoul':
-    m.client.party.me.setOutfit('CID_029_Athena_Commando_F_Halloween', [{ channel: 'Material', variant: 'Mat3' }]);
-    m.reply('Set the skin to Pink Ghoul Trooper!');
-    break;
   case 'chunlimode':
     m.client.party.hideMembers(true);
-    m.client.party.me.setOutfit('CID_028_Athena_Commando_M_ChunLi', [{ channel: 'Material', variant: 'Mat1' }]);
+    m.client.party.me.setOutfit('CID_028_Athena_Commando_M_ChunLi');
     m.client.party.me.setEmote('EID_PartyHips');
     m.reply('Have Fun (;!. If you want to stop then type the Command !default');
     break;
@@ -78,58 +70,96 @@ const handleCommand = async (m) => {
   }
 };
 
+
+async function refreshToken(refreshToken) {
+  try {
+    const response = await axios.post('https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token', {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    });
+
+    return response.data.access_token;
+  } catch (error) {
+    console.error('Failed to refresh token: ', error);
+  }
+}
+
 async function startBot(botId) {
   console.log(`Starting Fortnite Bot ${botId}...`);
   const data = await fnbot.findOne({ botId: botId });
   if (!data) return;
 
-  const fnbotdada = createClient(data.authcode, data.status, data.platform, 'CID_028_Athena_Commando_M_ChunLi', 'BID_001_ChunLi', 'Pickaxe_Lockjaw', 999, 'otherbanner28', 'defaultcolor28');
+  createClient(data.deviceAuth, data.status, data.platform);
   console.log(`Started Fortnite Bot ${botId}!`);
-  fnbotdada.on('party:member:message', handleCommand);
-  fnbotdada.on('friend:message', handleCommand);
 }
 
 async function createBot(ownerId, authcode, status, platform) {
   const botId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-  const newfnbot = new fnbot({
-    ownerId: ownerId,
-    botId: botId,
-    authcode: authcode,
-    status: status,
-    platform: platform,
+  const client = new Client({
+    auth: { authorizationCode: authcode },
   });
-  await newfnbot.save();
-  startBot(botId);
+
+  client.on('deviceauth:created', async (deviceAuth) => {
+    const newfnbot = new fnbot({
+      ownerId: ownerId,
+      botId: botId,
+      deviceAuth: deviceAuth,
+      status: status,
+      platform: platform,
+    });
+    await newfnbot.save();
+    startBot(botId);
+  });
+
+  await client.login();
 }
 
-function createClient(auth, status, platform, cid, bid, pid, lvl, banner, bannercolor) {
-  console.log('1');
-  const fnbot = new Client({
-    'defaultStatus': status,
-    'platform': platform,
-    'cachePresences': false,
-    'auth': auth,
-    'partyConfig': {
-      'joinConfirmation': false,
-      'joinability': 'OPEN',
-      'maxSize': 16,
-      'chatEnabled': true,
-    },
-    'debug': false,
-  });
+async function createClient(deviceAuth, status, platform) {
+  try {
+    console.log('Creating Fortnite Bot...');
+    const fnbot = new Client({
+      'defaultStatus': status,
+      'platform': platform,
+      'auth': { deviceAuth: deviceAuth },
+      'partyConfig': {
+        'joinConfirmation': false,
+        'joinability': 'OPEN',
+        'maxSize': 16,
+        'chatEnabled': true,
+      },
+    });
 
-  fnbot.setLoadout = () => {
-    fnbot.party.hideMembers(false);
-    fnbot.party.me.setReadiness(false);
-    fnbot.party.me.setOutfit(cid);
-    fnbot.party.me.setBackpack(bid);
-    fnbot.party.me.setPickaxe(pid);
-    fnbot.party.me.setLevel(lvl);
-    fnbot.party.me.setBanner(banner, bannercolor);
-    fnbot.party.me.clearEmote();
-  };
+    fnbot.login().catch(async (err) => {
+      console.error(`Failed to login: ${err}`);
+      if (err.code === 'errors.com.epicgames.account.auth_token.invalid_refresh_token') {
+        const newAccessToken = await refreshToken(deviceAuth.refreshToken);
+        deviceAuth.accessToken = newAccessToken;
+        await fnbot.login();
+      }
+    });
+    fnbot.on('ready', () => {
+      console.log(`Created Fortnite Bot ${fnbot.user.displayName}!`);
+    });
 
+    fnbot.on('friend:request', async (friendRequest) => {
+      await friendRequest.accept();
+    });
+
+    fnbot.on('party:member:joined', async (member) => {
+      fnbot.party.sendMessage(`Welcome ${member.displayName}!`);
+      const outfit = await fetchCosmetic(member.outfit, 'outfit');
+      if (outfit) {
+        fnbot.party.me.setOutfit(outfit.id, outfit.variants, outfit.enlightenment, outfit.path);
+      }
+    });
+
+    fnbot.on('party:member:message', handleCommand);
+    fnbot.on('friend:message', handleCommand);
+
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = {
