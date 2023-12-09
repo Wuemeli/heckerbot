@@ -79,17 +79,18 @@ const handleCommand = async (m) => {
 };
 
 async function startBot(botId) {
+  console.log(`Starting Fortnite Bot ${botId}...`);
   const data = await fnbot.findOne({ botId: botId });
   if (!data) return;
 
-  const fnbot = createClient(data.authcode, data.status, data.platform, data.cid, data.bid, data.pid, data.lvl, data.banner, data.bannercolor);
-
-  fnbot.on('party:member:message', handleCommand);
-  fnbot.on('friend:message', handleCommand);
+  const fnbotdada = createClient(data.authcode, data.status, data.platform, 'CID_028_Athena_Commando_M_ChunLi', 'BID_001_ChunLi', 'Pickaxe_Lockjaw', 999, 'otherbanner28', 'defaultcolor28');
+  console.log(`Started Fortnite Bot ${botId}!`);
+  fnbotdada.on('party:member:message', handleCommand);
+  fnbotdada.on('friend:message', handleCommand);
 }
 
-async function createBot(ownerId, authcode, status, platform, cid, bid, pid, lvl, banner, bannercolor) {
-  const botId = Math.random * 100000000000000000n;
+async function createBot(ownerId, authcode, status, platform) {
+  const botId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
   const newfnbot = new fnbot({
     ownerId: ownerId,
@@ -97,60 +98,13 @@ async function createBot(ownerId, authcode, status, platform, cid, bid, pid, lvl
     authcode: authcode,
     status: status,
     platform: platform,
-    cid: cid,
-    bid: bid,
-    pid: pid,
-    lvl: lvl,
-    banner: banner,
-    bannercolor: bannercolor,
   });
   await newfnbot.save();
   startBot(botId);
 }
 
-async function check(value, type) {
-  switch (type) {
-  case 'authcode':
-    try {
-      const fnbot = createClient(value, 'Fortnite Bot', 'WIN', 'CID_028_Athena_Commando_M_ChunLi', 'BID_001_ChunLi', 'Pickaxe_Lockjaw', 999, 'otherbanner28', 'defaultcolor28');
-      await fnbot.login();
-      await fnbot.logout();
-      return true;
-    } catch (err) {
-      return false;
-    }
-  case 'status':
-    if (value.length > 100) return false;
-    return true;
-  case 'platform':
-    if (value === 'WIN' || value === 'MAC' || value === 'PSN' || value === 'XBL' || value === 'SWT') return true;
-    return false;
-  case 'cid':
-  case 'bid':
-  case 'pid':
-    try {
-      const cosmetic = await fetchCosmetic(value, type);
-      if (cosmetic) return true;
-      return false;
-    } catch (err) {
-      return false;
-    }
-  case 'lvl':
-    if (value > 999) return false;
-    return true;
-  case 'banner':
-    if (value.length > 100) return false;
-    return true;
-  case 'bannercolor':
-    if (value.length > 100) return false;
-    return true;
-  default:
-    return false;
-  }
-}
-
-
 function createClient(auth, status, platform, cid, bid, pid, lvl, banner, bannercolor) {
+  console.log('1');
   const fnbot = new Client({
     'defaultStatus': status,
     'platform': platform,
@@ -176,11 +130,9 @@ function createClient(auth, status, platform, cid, bid, pid, lvl, banner, banner
     fnbot.party.me.clearEmote();
   };
 
-  return fnbot;
 };
 
 module.exports = {
   createBot,
   startBot,
-  check,
 };

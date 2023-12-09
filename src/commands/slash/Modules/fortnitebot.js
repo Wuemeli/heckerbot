@@ -1,7 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
-const { CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fnbotSchema = require('../../../schemas/fnbotSchema');
-const { createBot, startBot, check } = require('../../../functions/fn');
+const { createBot, startBot } = require('../../../functions/fn');
 const emojis = require('../../../functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
 
@@ -12,18 +11,36 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('create')
-        .setDescription('🚧 Create a Fortnite Bot'),
+        .setDescription('🚧 Create a Fortnite Bot')
+        .addStringOption(option =>
+          option
+            .setName('authcode')
+            .setDescription('🔑 Auth Code')
+            .setRequired(true),
+        )
+        .addStringOption(option =>
+          option
+            .setName('status')
+            .setDescription('📝 Status')
+            .setRequired(true),
+        )
+        .addStringOption(option =>
+          option
+            .setName('platform')
+            .setDescription('📱 Platform')
+            .setRequired(true),
+        ),
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('start')
-        .setDescription('🟢 Start your Fortnite Bot'),
-    )
-    .addSubcommand(subcommand =>
-      subcommand
-        .setName('info')
-        .setDescription('🔄 Get info about your Fortnite Bot'),
+        .setDescription('🚀 Start a Fortnite Bot'),
+
     ),
+  /**
+* @param {ExtendedClient} client
+* @param {ChatInputCommandInteraction} interaction
+*/
   run: async (client, interaction) => {
     await interaction.deferReply(
       {
@@ -37,106 +54,29 @@ module.exports = {
 
       switch (subcommand) {
       case 'create': {
-        const data = await fnbotSchema.findOne({
-          ownerId: userId,
-        });
 
-        if (data) {
-          return interaction.editReply({
-            embeds: [
-              new EmbedBuilder()
-                .setTitle('Fortnite Bot')
-                .setDescription('You already have a Fortnite Bot!')
-                .setColor('Red')
-                .setTimestamp(),
-            ],
-          });
-        }
+        //if (await fnbotSchema.findOne({ ownerId: userId })) return interaction.editReply(`${emojis.error} You already have a Fortnite Bot!`);
 
         const authcode = interaction.options.getString('authcode');
         const status = interaction.options.getString('status');
         const platform = interaction.options.getString('platform');
-        const cid = interaction.options.getString('cid');
-        const bid = interaction.options.getString('bid');
-        const pid = interaction.options.getString('pid');
-        const lvl = interaction.options.getInteger('lvl');
-        const banner = interaction.options.getString('banner');
-        const bannercolor = interaction.options.getString('bannercolor');
 
-        await createBot(userId, authcode, status, platform, cid, bid, pid, lvl, banner, bannercolor);
+        await createBot(userId, authcode, status, platform);
 
-        return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setTitle('Fortnite Bot')
-              .setDescription('Successfully created your Fortnite Bot and it is now online!')
-              .setColor('Green')
-              .setTimestamp(),
-          ],
-        });
+        return interaction.editReply(`${emojis.success} Created Fortnite Bot!`);
       }
       case 'start': {
-        const data = await fnbotSchema.findOne({
-          ownerId: userId,
-        });
+        const data = await fnbotSchema.findOne({ ownerId: userId });
+        if (!data) return interaction.editReply(`${emojis.error} You don't have a Fortnite Bot!`);
 
-        if (!data) {
-          return interaction.editReply({
-            embeds: [
-              new EmbedBuilder()
-                .setTitle('Fortnite Bot')
-                .setDescription('You don\'t have a Fortnite Bot!')
-                .setColor('Red')
-                .setTimestamp(),
-            ],
-          });
-        }
+        startBot(data.botId);
 
-        await startBot(data.botId);
-
-        return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setTitle('Fortnite Bot')
-              .setDescription('Successfully started your Fortnite Bot!')
-              .setColor('Green')
-              .setTimestamp(),
-          ],
-        });
-      }
-
-      case 'info': {
-        const data = await fnbotSchema.findOne({
-          ownerId: userId,
-        });
-
-        if (!data) {
-          return interaction.editReply({
-            embeds: [
-              new EmbedBuilder()
-                .setTitle('Fortnite Bot')
-                .setDescription('You don\'t have a Fortnite Bot!')
-                .setColor('Red')
-                .setTimestamp(),
-            ],
-          });
-        }
-
-        const client = await ExtendedClient.get(data.botId);
-
-        return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setTitle('Fortnite Bot')
-              .setDescription(`**Status:** ${client.status}\n**Platform:** ${client.platform}\n**CID:** ${client.cid}\n**BID:** ${client.bid}\n**PID:** ${client.pid}\n**Level:** ${client.lvl}\n**Banner:** ${client.banner}\n**Banner Color:** ${client.bannercolor}`)
-              .setColor('Green')
-              .setTimestamp(),
-          ],
-        });
+        return interaction.editReply(`${emojis.success} Started Fortnite Bot!`);
       }
       }
     } catch (err) {
-      global.handle.error(client, interaction, err);
+      console.log(err);
+      return interaction.editReply(`${emojis.error} An error occurred!`);
     }
   },
 };
