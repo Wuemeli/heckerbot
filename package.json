@@ -23,7 +23,8 @@
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "fnbr": "^3.1.6",
+    "_comment": "We need to use the Github because the 'stable' version on NPM is broken",
+    "fnbr": "github:fnbrjs/fnbr.js",
     "mathjs": "^12.1.0",
     "mongoose": "^7.3.1",
     "node-fetch": "^3.3.2",
@@ -32,12 +33,12 @@
     "stream-to-string": "^1.2.1"
   },
   "devDependencies": {
+    "@types/ws": "^8.5.3",
     "bun-types": "latest",
     "eslint": "^8.50.0",
-    "prettier": "^2.4.1",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-config-prettier": "^9.0.0",
-    "@types/ws": "^8.5.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.8.4"
