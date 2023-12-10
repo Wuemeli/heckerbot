@@ -31,7 +31,7 @@ class handling {
       .setDescription(`**Guild:** ${guild.name} \n **User:** ${user.tag} \n **Error:** ${errors.stack} \n **Error ID:** ${errorid}`)
       .setColor('Red');
 
-    this.webhook.send({ embeds: [embed] });
+    axios.post(`${process.env.ERROR_WEBHOOK_URL}`, { embeds: [embed] });
 
     const userembed = new EmbedBuilder()
       .setTitle('🔴 Error')
