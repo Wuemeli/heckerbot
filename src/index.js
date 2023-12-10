@@ -8,16 +8,9 @@ const topgg = require('./functions/top.gg');
 const client = new ExtendedClient();
 
 client.start();
-
 log('Client Started.', 'done');
-
 server.start(client);
-
-log('Server Started.', 'done');
-
 topgg(client);
-
-log('Top.gg Started.', 'done');
 
 module.exports = { client };
 

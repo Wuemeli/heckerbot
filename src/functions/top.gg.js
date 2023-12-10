@@ -1,7 +1,11 @@
 const axios = require('axios');
+const { log } = require('../functions/index');
 
 module.exports = async (client) => {
   if (!process.env.TOPGG_TOKEN) return;
+
+  log('Top.gg Started.', 'done');
+
 
   async function postStats() {
     try {

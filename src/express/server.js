@@ -11,6 +11,9 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+log('Server Started.', 'done');
+
+
 module.exports = {
   start: (client) => {
 
