@@ -90,7 +90,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('Backups')
-          .setDescription(backups.join('\n'))
+          .setDescription(backups.length > 0 ? backups.join('\n') : 'No backups available')
           .setColor('Green');
 
         interaction.editReply({ embeds: [embed] });
