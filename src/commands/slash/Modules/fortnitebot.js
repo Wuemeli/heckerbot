@@ -114,30 +114,28 @@ module.exports = {
 
           if (status.length > 20) return interaction.editReply({ content: `${emojis.erroricon} Status must be less than 20 characters!`, ephemeral: true });
 
-          await createBot(userId, authcode, status, platform);
-
-        } catch (err) {
-          if (err.message === 'Invalid authcode') {
+          const result = await createBot(userId, authcode, status, platform);
+          if (result.error) {
             const embed = new EmbedBuilder()
               .setTitle('Error')
-              .setDescription(`${emojis.erroricon} Invalid Auth Code! Please double check your Auth Code and try again!`)
+              .setDescription(`${emojis.erroricon} ${result.error}! Please double check your Auth Code and try again!`)
               .setColor('Red');
-
             return interaction.editReply({ embeds: [embed], ephemeral: true });
           } else {
             const embed = new EmbedBuilder()
-              .setTitle('Error')
-              .setDescription(`${emojis.erroricon} Oh No! An unexpected error occurred. Please try again later.`)
-              .setColor('Red');
+              .setTitle('Fortnite Bot')
+              .setDescription(`${emojis.greendot} Successfully created Fortnite Bot! \nTo start your Fortnite Bot, use \`/fortnite-bot start\`!`)
+              .setColor('Green');
+
             return interaction.editReply({ embeds: [embed], ephemeral: true });
           }
+        } catch (err) {
+          const embed = new EmbedBuilder()
+            .setTitle('Error')
+            .setDescription(`${emojis.erroricon} ${err.message}! Please double check your Auth Code and try again!`)
+            .setColor('Red');
+          return interaction.editReply({ embeds: [embed], ephemeral: true });
         }
-        const embed = new EmbedBuilder()
-          .setTitle('Fortnite Bot')
-          .setDescription(`${emojis.greendot} Successfully created Fortnite Bot! \nTo start your Fortnite Bot, use \`/fortnite-bot start\`!`)
-          .setColor('Green');
-
-        return interaction.editReply({ embeds: [embed], ephemeral: true });
       }
       case 'start': {
         const data = await fnbotSchema.findOne({ ownerId: userId });

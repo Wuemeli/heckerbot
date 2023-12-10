@@ -37,9 +37,11 @@ async function createBot(ownerId, authcode, status, platform) {
   try {
     const botId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
+
     if (!authcode || typeof authcode !== 'string') {
-      throw new Error('Invalid authcode');
+      return { error: 'Invalid auth code' };
     }
+
     if (!status || typeof status !== 'string') {
       throw new Error('Invalid status');
     }
