@@ -34,13 +34,21 @@ async function startBot(botId) {
 }
 
 async function checkAuthCode(authcode) {
+  let authCode = authcode;
   try {
     const client = new Client({
       auth: { authorizationCode: authcode },
     });
 
-    await client.login();
+    client.on('deviceauth:created', async (deviceAuth) => {
+      authCode = deviceAuth;
+    },
+    );
+
+    createBot(authCode, 'testing', 'WIN');
+
     await client.logout();
+
     return true;
   } catch (err) {
     return false;
