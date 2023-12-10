@@ -56,8 +56,38 @@ module.exports = {
       subcommand
         .setName('commands')
         .setDescription('📖 Get a list of commands'),
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('edit')
+        .setDescription('✏️ Edit your Fortnite Bot')
+        .addStringOption(option =>
+          option
+            .setName('status')
+            .setDescription('📝 New Status')
+            .setRequired(true),
+        )
+        .addStringOption(option =>
+          option
+            .setName('platform')
+            .setDescription('📱 New Platform')
+            .setRequired(true)
+            .addChoices(
+              { name: 'Windows', value: 'WIN' },
+              { name: 'Mac', value: 'MAC' },
+              { name: 'iOS', value: 'IOS' },
+              { name: 'Android', value: 'AND' },
+              { name: 'PlayStation', value: 'PSN' },
+              { name: 'Xbox', value: 'XBL' },
+              { name: 'Switch', value: 'SWT' },
+            ),
+        ),
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('remove')
+        .setDescription('🗑️ Remove your Fortnite Bot'),
     ),
-
   /**
     * @param {ExtendedClient} client
     * @param {ChatInputCommandInteraction} interaction
@@ -76,39 +106,47 @@ module.exports = {
       switch (subcommand) {
       case 'create': {
         const data = await fnbotSchema.findOne({ ownerId: userId });
-        if (data) return interaction.editReply({ content: `${emojis.error} You already have a Fortnite Bot!`, ephemeral: true });
+        if (data) return interaction.editReply({ content: `${emojis.erroricon} You already have a Fortnite Bot!`, ephemeral: true });
         try {
           const authcode = interaction.options.getString('authcode');
           const status = interaction.options.getString('status');
           const platform = interaction.options.getString('platform');
 
-          if (status.length > 20) return interaction.editReply({ content: `${emojis.error} Status must be less than 20 characters!`, ephemeral: true });
+          if (status.length > 20) return interaction.editReply({ content: `${emojis.erroricon} Status must be less than 20 characters!`, ephemeral: true });
 
           await createBot(userId, authcode, status, platform);
 
-          const embed = new EmbedBuilder()
-            .setTitle('Fortnite Bot')
-            .setDescription(`${emojis.greendot} Successfully created Fortnite Bot! \nTo start your Fortnite Bot, use \`/fortnite-bot start\`!`)
-            .setColor('Green');
-
-          return interaction.editReply({ embeds: [embed], ephemeral: true });
         } catch (err) {
-          const embed = new EmbedBuilder()
-            .setTitle('Error')
-            .setDescription(`${emojis.error} Oh No! Double check your Auth Code and try again!`)
-            .setColor('Red');
+          if (err.message === 'Invalid authcode') {
+            const embed = new EmbedBuilder()
+              .setTitle('Error')
+              .setDescription(`${emojis.erroricon} Invalid Auth Code! Please double check your Auth Code and try again!`)
+              .setColor('Red');
 
-          return interaction.editReply({ embeds: [embed], ephemeral: true });
+            return interaction.editReply({ embeds: [embed], ephemeral: true });
+          } else {
+            const embed = new EmbedBuilder()
+              .setTitle('Error')
+              .setDescription(`${emojis.erroricon} Oh No! An unexpected error occurred. Please try again later.`)
+              .setColor('Red');
+            return interaction.editReply({ embeds: [embed], ephemeral: true });
+          }
         }
+        const embed = new EmbedBuilder()
+          .setTitle('Fortnite Bot')
+          .setDescription(`${emojis.greendot} Successfully created Fortnite Bot! \nTo start your Fortnite Bot, use \`/fortnite-bot start\`!`)
+          .setColor('Green');
+
+        return interaction.editReply({ embeds: [embed], ephemeral: true });
       }
       case 'start': {
         const data = await fnbotSchema.findOne({ ownerId: userId });
-        if (!data) return interaction.editReply(`${emojis.error} You don't have a Fortnite Bot!`);
+        if (!data) return interaction.editReply(`${emojis.erroricon} You don't have a Fortnite Bot!`);
 
         const botData = await startBot(data.botId);
 
         if (!botData.name) {
-          return interaction.editReply(`${emojis.error} Failed to start the bot!`);
+          return interaction.editReply(`${emojis.erroricon} Failed to start the bot!`);
         }
 
         if (botData.started) {
@@ -156,6 +194,37 @@ module.exports = {
             { name: 'level', value: '`!level <level>`', inline: true },
             { name: 'default', value: '`!default`', inline: true },
           )
+          .setColor('Green');
+
+        return interaction.editReply({ embeds: [embed], ephemeral: true });
+      }
+      case 'edit': {
+        const data = await fnbotSchema.findOne({ ownerId: userId });
+        if (!data) return interaction.editReply(`${emojis.erroricon} You don't have a Fortnite Bot!`);
+
+        const status = interaction.options.getString('status');
+        const platform = interaction.options.getString('platform');
+
+        if (status.length > 20) return interaction.editReply({ content: `${emojis.erroricon} Status must be less than 20 characters!`, ephemeral: true });
+
+        await fnbotSchema.findOneAndUpdate({ ownerId: userId }, { status, platform });
+
+        const embed = new EmbedBuilder()
+          .setTitle('Fortnite Bot')
+          .setDescription(`${emojis.greendot} Successfully edited Fortnite Bot!`)
+          .setColor('Green');
+
+        return interaction.editReply({ embeds: [embed], ephemeral: true });
+      }
+      case 'remove': {
+        const data = await fnbotSchema.findOne({ ownerId: userId });
+        if (!data) return interaction.editReply(`${emojis.erroricon} You don't have a Fortnite Bot!`);
+
+        await fnbotSchema.findOneAndDelete({ ownerId: userId });
+
+        const embed = new EmbedBuilder()
+          .setTitle('Fortnite Bot')
+          .setDescription(`${emojis.greendot} Successfully removed Fortnite Bot!`)
           .setColor('Green');
 
         return interaction.editReply({ embeds: [embed], ephemeral: true });
