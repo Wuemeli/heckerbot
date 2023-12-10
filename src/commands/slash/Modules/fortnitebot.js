@@ -51,6 +51,11 @@ module.exports = {
         .setName('help')
         .setDescription('📖 Help'),
 
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('commands')
+        .setDescription('📖 Get a list of commands'),
     ),
 
   /**
@@ -100,11 +105,19 @@ module.exports = {
         const data = await fnbotSchema.findOne({ ownerId: userId });
         if (!data) return interaction.editReply(`${emojis.error} You don't have a Fortnite Bot!`);
 
-        await startBot(data.botId);
+        const botData = await startBot(data.botId);
+
+        if (!botData.name) {
+          return interaction.editReply(`${emojis.error} Failed to start the bot!`);
+        }
+
+        if (botData.started) {
+          return interaction.editReply(`${emojis.greendot} Bot \`${botData.name}\` is already running!`);
+        }
 
         const embed = new EmbedBuilder()
           .setTitle('Fortnite Bot')
-          .setDescription(`${emojis.greendot} Successfully started Fortnite Bot, \n To get a list of commands, use \`/fortnite-bot help\`!`)
+          .setDescription(`${emojis.greendot} Successfully started Fortnite Bot \`${botData.name}\`, \n To get a list of commands, use \`/fortnite-bot commands\`!`)
           .setColor('Green');
 
         return interaction.editReply({ embeds: [embed], ephemeral: true });
@@ -126,10 +139,30 @@ module.exports = {
     `);
         return interaction.editReply({ embeds: [embed], ephemeral: true });
       }
+      case 'commands': {
+        const embed = new EmbedBuilder()
+          .setTitle('Fortnite Bot Commands')
+          .setDescription('Here is a list of commands. Execute them in the Party Chat.')
+          .addFields(
+            { name: 'skin', value: '`!skin <skin name>`', inline: true },
+            { name: 'emote', value: '`!emote <emote name>`', inline: true },
+            { name: 'backpack', value: '`!backpack <backpack name>`', inline: true },
+            { name: 'pickaxe', value: '`!pickaxe <pickaxe name>`', inline: true },
+            { name: 'ready', value: '`!ready`', inline: true },
+            { name: 'unready', value: '`!unready`', inline: true },
+            { name: 'gift', value: '`!gift`', inline: true },
+            { name: 'hide', value: '`!hide`', inline: true },
+            { name: 'unhide', value: '`!unhide`', inline: true },
+            { name: 'level', value: '`!level <level>`', inline: true },
+            { name: 'default', value: '`!default`', inline: true },
+          )
+          .setColor('Green');
+
+        return interaction.editReply({ embeds: [embed], ephemeral: true });
       }
-    } catch (err) {
-      console.log(err);
-      return interaction.editReply(`${emojis.error} An error occurred!`);
+      }
+    } catch (error) {
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }
   },
 };

@@ -4,7 +4,7 @@ const fnbot = require('../schemas/fnbotSchema');
 const { codeError } = require('../functions/errorHandler');
 const { handleCommand } = require('./commands');
 
-
+const bots = [];
 
 async function refreshToken(refreshToken) {
   try {
@@ -23,10 +23,13 @@ async function startBot(botId) {
   try {
     console.log(`Starting Fortnite Bot ${botId}...`);
     const data = await fnbot.findOne({ botId: botId });
-    if (!data) return;
+    if (!data) return { name: null, started: false };
+    if (bots.includes(botId)) return { name: botId, started: true };
 
     createClient(data.deviceAuth, data.status, data.platform);
+    bots.push(botId);
     console.log(`Started Fortnite Bot ${botId}!`);
+    return { name: botId, started: false };
   } catch (err) {
     codeError(err, 'src/fn-bot/main.js');
   }
