@@ -105,7 +105,7 @@ module.exports = {
             .setTitle('Backup Loaded')
             .setDescription('Successfully loaded backup!')
             .setColor('Green');
-
+          
           interaction.editReply({ embeds: [embed] });
         });
         break;
