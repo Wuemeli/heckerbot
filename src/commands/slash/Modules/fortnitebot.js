@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fnbotSchema = require('../../../schemas/fnbotSchema');
-const { createBot, startBot } = require('../../../fn-bot/main');
+const { createBot, startBot, checkAuthCode } = require('../../../fn-bot/main');
 const emojis = require('../../../functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
 
@@ -114,11 +114,20 @@ module.exports = {
 
           if (status.length > 20) return interaction.editReply({ content: `${emojis.erroricon} Status must be less than 20 characters!`, ephemeral: true });
 
+          const isValidAuthCode = await checkAuthCode(authcode);
+          if (!isValidAuthCode) {
+            const embed = new EmbedBuilder()
+              .setTitle('Error')
+              .setDescription(`${emojis.erroricon} ! Please double check your Auth Code and try again! \nIf you need help, use \`/fortnite-bot help\`!`)
+              .setColor('Red');
+            return interaction.editReply({ embeds: [embed], ephemeral: true });
+          }
+
           const result = await createBot(userId, authcode, status, platform);
           if (result.error) {
             const embed = new EmbedBuilder()
               .setTitle('Error')
-              .setDescription(`${emojis.erroricon} ${result.error}! Please double check your Auth Code and try again!`)
+              .setDescription(`${emojis.erroricon}! Please double check your Auth Code and try again! \nIf you need help, use \`/fortnite-bot help\`!`)
               .setColor('Red');
             return interaction.editReply({ embeds: [embed], ephemeral: true });
           } else {
@@ -130,9 +139,10 @@ module.exports = {
             return interaction.editReply({ embeds: [embed], ephemeral: true });
           }
         } catch (err) {
+          global.handle.error(client, interaction.guild.id, interaction.user.id, err);
           const embed = new EmbedBuilder()
             .setTitle('Error')
-            .setDescription(`${emojis.erroricon} ${err.message}! Please double check your Auth Code and try again!`)
+            .setDescription(`${emojis.erroricon}! Please double check your Auth Code and try again! \nIf you need help, use \`/fortnite-bot help\`!`)
             .setColor('Red');
           return interaction.editReply({ embeds: [embed], ephemeral: true });
         }

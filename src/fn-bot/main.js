@@ -33,14 +33,23 @@ async function startBot(botId) {
   }
 }
 
+async function checkAuthCode(authcode) {
+  try {
+    const client = new Client({
+      auth: { authorizationCode: authcode },
+    });
+
+    await client.login();
+    await client.logout();
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 async function createBot(ownerId, authcode, status, platform) {
   try {
     const botId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
-
-    if (!authcode || typeof authcode !== 'string') {
-      return { error: 'Invalid auth code' };
-    }
 
     if (!status || typeof status !== 'string') {
       throw new Error('Invalid status');
@@ -113,4 +122,5 @@ async function createClient(deviceAuth, status, platform) {
 module.exports = {
   createBot,
   startBot,
+  checkAuthCode,
 };
