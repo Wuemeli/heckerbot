@@ -127,22 +127,20 @@ module.exports = {
           if (result.error) {
             const embed = new EmbedBuilder()
               .setTitle('Error')
-              .setDescription(`${emojis.erroricon}! Please double check your Auth Code and try again! \nIf you need help, use \`/fortnite-bot help\`!`)
+              .setDescription(`${emojis.erroricon} ! An error occurred while creating the bot. Please try again later.`)
               .setColor('Red');
             return interaction.editReply({ embeds: [embed], ephemeral: true });
-          } else {
-            const embed = new EmbedBuilder()
-              .setTitle('Fortnite Bot')
-              .setDescription(`${emojis.greendot} Successfully created Fortnite Bot! \nTo start your Fortnite Bot, use \`/fortnite-bot start\`!`)
-              .setColor('Green');
-
-            return interaction.editReply({ embeds: [embed], ephemeral: true });
           }
-        } catch (err) {
-          global.handle.error(client, interaction.guild.id, interaction.user.id, err);
+
+          const embed = new EmbedBuilder()
+            .setTitle('Success')
+            .setDescription(`${emojis.greendot} Successfully created your Fortnite Bot! \n To get a list of commands, use \`/fortnite-bot commands\`!`)
+            .setColor('Green');
+          return interaction.editReply({ embeds: [embed], ephemeral: true });
+        } catch (error) {
           const embed = new EmbedBuilder()
             .setTitle('Error')
-            .setDescription(`${emojis.erroricon}! Please double check your Auth Code and try again! \nIf you need help, use \`/fortnite-bot help\`!`)
+            .setDescription(`${emojis.erroricon} ! An error occurred. Please try again later.`)
             .setColor('Red');
           return interaction.editReply({ embeds: [embed], ephemeral: true });
         }

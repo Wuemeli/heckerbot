@@ -33,9 +33,8 @@ const commandActions = {
     m.reply('Unready!');
   },
   'gift': (m) => {
-    m.client.party.me.clearEmote();
-    m.client.party.me.setEmote('EID_NeverGonna');
     m.reply('Uhh, did you really think i was going to gift you?');
+    m.client.party.me.setEmote('EID_NeverGonna');
   },
   'hide': (m) => {
     m.client.party.hideMembers(true);
@@ -61,7 +60,7 @@ const commandActions = {
 
 const handleCommand = async (m) => {
   try {
-    if (!m.content.startsWith('!')) return;
+    if (!m || !m.content || !m.content.startsWith('!')) return;
     const args = m.content.slice(1).split(' ');
     const command = args.shift().toLowerCase();
     const action = commandActions[command];

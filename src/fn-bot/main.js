@@ -34,18 +34,13 @@ async function startBot(botId) {
 }
 
 async function checkAuthCode(authcode) {
-  let authCode = authcode;
   try {
     const client = new Client({
       auth: { authorizationCode: authcode },
     });
 
     client.on('deviceauth:created', async (deviceAuth) => {
-      authCode = deviceAuth;
-    },
-    );
-
-    createBot(authCode, 'testing', 'WIN');
+    });
 
     await client.logout();
 
@@ -83,8 +78,10 @@ async function createBot(ownerId, authcode, status, platform) {
     });
 
     await client.login();
+
+    return { error: false };
   } catch (err) {
-    codeError(err, 'src/fn-bot/main.js');
+    return { error: true };
   }
 }
 
@@ -121,8 +118,10 @@ async function createClient(deviceAuth, status, platform) {
     });
 
     fnbot.on('party:member:message', handleCommand);
+    fnbot.on('friend:message', handleCommand);
 
   } catch (err) {
+    console.log(err);
     codeError(err, 'src/fn-bot/main.js');
   }
 };
