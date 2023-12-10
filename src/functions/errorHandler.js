@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 
 const webhookid = process.env.ERROR_WEBHOOK_ID;
 const webhooktoken = process.env.ERROR_WEBHOOK_TOKEN;
@@ -41,4 +42,15 @@ class handling {
   }
 }
 
-module.exports = handling;
+
+async function codeError(error, filename) {
+  const errorid = Math.floor(Math.random() * 1000000000000000000);
+  const embed = new EmbedBuilder()
+    .setTitle('🔴 Error')
+    .setDescription(`**Error:** ${error.stack} \n **Error ID:** ${errorid} \n **File:** ${filename}`)
+    .setColor('Red');
+
+  axios.post(`${process.env.ERROR_WEBHOOK_URL}`, { embeds: [embed] });
+}
+
+module.exports = { handling, codeError };

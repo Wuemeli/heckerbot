@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fnbotSchema = require('../../../schemas/fnbotSchema');
-const { createBot, startBot, logout } = require('../../../functions/fn');
+const { createBot, startBot } = require('../../../fn-bot/main');
 const emojis = require('../../../functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
 
@@ -112,17 +112,18 @@ module.exports = {
       case 'help': {
         const embed = new EmbedBuilder()
           .setTitle('Fortnite Bot Help')
+          .setColor('Green')
+          .setImage('https://camo.githubusercontent.com/0aa2a0e00234bfbafa0c4059ac4f33e66df2d4959c2fcfdb1328f53587ca540c/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f73654f3963725f4e526c61524b5758646d32534968772e706e67')
           .setDescription(`
-      **/fortnite-bot create**
-      This command is used to create a new Fortnite Bot. You will need to provide an auth code, status, and platform. The auth code is obtained from Epic Games, the status is a short message that your bot will display, and the platform is the platform your bot will appear to be playing from.
+    **Q: How do I create a new Fortnite Bot?**
+    A: Use the command \`/fortnite-bot create\`. To get a Auth Code: Create or Login in a **NEW** Epic Games Account and go to this [Link](https://www.epicgames.com/id/api/redirect?clientId=3446cd72694c4a4485d81b77adbb2141&responseType=code). And Copy the code (See Image Below)
 
-      **/fortnite-bot start**
-      This command starts your Fortnite Bot. You must have already created a bot using the create command.
+    **Q: How do I start my Fortnite Bot?**
+    A: Use the command \`/fortnite-bot start\`. You must have already created a bot using the create command.
 
-      **/fortnite-bot help**
-      This command displays this help message, providing information about the available commands and their usage.
-    `)
-          .setColor('Green');
+    **Q: Where can I get help for the Fortnite Bot commands?**
+    A: Use the command \`/fortnite-bot commands\` to get a list of commands.
+    `);
         return interaction.editReply({ embeds: [embed], ephemeral: true });
       }
       }
