@@ -42,7 +42,27 @@ module.exports = {
         lastUser: message.author.id,
       });
 
-      await message.react('✅');
+      await message.delete();
+
+      let webhooks = await message.channel.fetchWebhooks();
+      let webhook = webhooks.find((wh) => wh.name === 'Counting Webhook');
+
+      if (!webhook) {
+        webhook = await message.channel.createWebhook({
+          name: 'Counting Webhook',
+        });
+      }
+
+      try {
+        await webhook.send({
+          content: String(content),
+          username: message.author.username,
+          avatarURL: message.author.displayAvatarURL({ dynamic: true }),
+        });
+      } catch (error) {
+        console.error(`Failed to send webhook: ${error}`);
+      }
+
       return;
     } else {
       await countingschema.findOneAndUpdate({
