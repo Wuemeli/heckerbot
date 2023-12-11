@@ -14,50 +14,41 @@ module.exports = {
   run: async (client, message) => {
     if (message.author.bot) return;
 
-    const data = await countingschema.findOne({
-      guildId: message.guild.id,
-    });
+    const { guild, channel, author, content } = message;
+    const data = await countingschema.findOne({ guildId: guild.id });
 
-    if (!data) return;
+    if (!data || channel.id !== data.channelId) return;
 
-    const { channelId, lastNumber, lastUser } = data;
-    if (message.channel.id !== channelId) return;
-
-    let content = message.content;
-
+    let evaluatedContent;
     try {
-      content = math.evaluate(content);
+      evaluatedContent = math.evaluate(content);
     } catch (error) {
-      message.delete();
+      await message.delete();
       return;
     }
 
-    if (parseInt(content) === lastNumber) return;
-    if (parseInt(content) === lastNumber + 1) {
-      await countingschema.findOneAndUpdate({
-        guildId: message.guild.id,
-      }, {
-        channelId,
-        lastNumber: content,
-        lastUser: message.author.id,
+    const { lastNumber, lastUser } = data;
+    if (parseInt(evaluatedContent) === lastNumber + 1) {
+      await countingschema.findOneAndUpdate({ guildId: guild.id }, {
+        channelId: channel.id,
+        lastNumber: evaluatedContent,
+        lastUser: author.id,
       });
 
       await message.delete();
 
-      let webhooks = await message.channel.fetchWebhooks();
+      let webhooks = await channel.fetchWebhooks();
       let webhook = webhooks.find((wh) => wh.name === 'Counting Webhook');
 
       if (!webhook) {
-        webhook = await message.channel.createWebhook({
-          name: 'Counting Webhook',
-        });
+        webhook = await channel.createWebhook({ name: 'Counting Webhook' });
       }
 
       try {
         await webhook.send({
-          content: String(content),
-          username: message.author.username,
-          avatarURL: message.author.displayAvatarURL({ dynamic: true }),
+          content: String(evaluatedContent),
+          username: author.username,
+          avatarURL: author.displayAvatarURL({ dynamic: true }),
         });
       } catch (error) {
         console.error(`Failed to send webhook: ${error}`);
@@ -65,16 +56,14 @@ module.exports = {
 
       return;
     } else {
-      await countingschema.findOneAndUpdate({
-        guildId: message.guild.id,
-      }, {
-        channelId,
+      await countingschema.findOneAndUpdate({ guildId: guild.id }, {
+        channelId: channel.id,
         lastNumber: 0,
         lastUser: null,
       });
 
-      await message.channel.send({
-        content: `**${message.author.username}**, cant count! The counting has been reset.`,
+      await channel.send({
+        content: `**${author.username}**, cant count! The counting has been reset.`,
       });
       return;
     }
