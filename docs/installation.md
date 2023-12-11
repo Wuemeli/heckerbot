@@ -1,5 +1,6 @@
 ## 🚀 Quick start
 
+ONLY FOR DEVS
 
 1.  **Clone this repository.**
 2.  **Install the dependencies.**

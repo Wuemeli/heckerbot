@@ -58,6 +58,7 @@ WILL BE UPDATED SOON
 - If you ping the bot you get a random useless Fact
 - Error Handler
 - Emojis
+- Redis Database
 
 ## TOP.GG
 - Stats Posting
