@@ -51,7 +51,6 @@ const commandActions = {
   'default': (m) => {
     m.client.party.me.setOutfit('CID_001_Athena_Commando_F_Default');
     m.client.party.me.setBackpack('BID_001_BlackKnight');
-    m.client.party.me.setEmote('EID_Floss');
     m.client.party.me.setPickaxe('Pickaxe_Lockjaw');
     m.client.party.me.setLevel(100);
     m.reply('Default Loadout!');

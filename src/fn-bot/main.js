@@ -61,6 +61,11 @@ async function createBot(ownerId, authcode, status, platform) {
       throw new Error('Invalid platform');
     }
 
+    const isValidAuthCode = await checkAuthCode(authcode);
+    if (isValidAuthCode === false) {
+      throw new Error('Invalid Auth Code');
+    }
+
     const client = new Client({
       auth: { authorizationCode: authcode },
     });
@@ -81,7 +86,8 @@ async function createBot(ownerId, authcode, status, platform) {
 
     return { error: false };
   } catch (err) {
-    return { error: true };
+    console.log(err);
+    return { error: true, message: err.message };
   }
 }
 
@@ -129,5 +135,4 @@ async function createClient(deviceAuth, status, platform) {
 module.exports = {
   createBot,
   startBot,
-  checkAuthCode,
 };

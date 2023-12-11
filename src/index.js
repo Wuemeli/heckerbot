@@ -5,6 +5,7 @@ const server = require('./express/server.js');
 const {log} = require('./functions/index');
 const topgg = require('./functions/top.gg');
 
+
 const client = new ExtendedClient();
 
 client.start();

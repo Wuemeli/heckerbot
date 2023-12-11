@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const backupSchema = require('../../../schemas/backupSchema');
-const backup = require('../../../backup/src/index.ts');
+const backup = require('../../../typescript/backup/index.ts');
 const emojis = require('../../../functions/emojis');
 
 module.exports = {
@@ -71,7 +71,7 @@ module.exports = {
       }
       case 'list': {
         const data = await backupSchema.find({ userId: interaction.user.id });
-        if (!data) return interaction.editReply({ content: `${emojis.error} You don't have any backups!`, ephemeral: true });
+        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups!`, ephemeral: true });
 
         const backups = [];
 
@@ -99,13 +99,13 @@ module.exports = {
       case 'load': {
         const backupId = interaction.options.getString('backup-id');
         const data = await backupSchema.findOne({ userId: interaction.user.id, backupId: backupId });
-        if (!data) return interaction.editReply({ content: `${emojis.error} You don't have any backups with that ID!`, ephemeral: true });
+        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups with that ID!`, ephemeral: true });
         backup.load(backupId, interaction.guild).then(() => {
           const embed = new EmbedBuilder()
             .setTitle('Backup Loaded')
             .setDescription('Successfully loaded backup!')
             .setColor('Green');
-          
+
           interaction.editReply({ embeds: [embed] });
         });
         break;
@@ -113,7 +113,7 @@ module.exports = {
       case 'remove': {
         const backupId = interaction.options.getString('backup-id');
         const data = await backupSchema.findOne({ userId: interaction.user.id, backupId: backupId });
-        if (!data) return interaction.editReply({ content: `${emojis.error} You don't have any backups with that ID!`, ephemeral: true });
+        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups with that ID!`, ephemeral: true });
         backup.remove(backupId).then(() => {
           const embed = new EmbedBuilder()
             .setTitle('Backup Removed')
