@@ -21,18 +21,12 @@ module.exports = {
 
     client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
 
-    setInterval(async () => {
-      
-      let totalUsers = 0;
-      client.guilds.cache.forEach(guild => {
-        totalUsers += guild.memberCount;
-      });
-
+    setInterval(() => {
+      const usercount = client.users.cache.size;
       const guildcount = client.guilds.cache.size;
-      
-      client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
-    }, 600000);
-
+      client.user.setActivity(`${guildcount} servers | ${usercount} users | Made with ❤️ by Wuemeli`, { type: 4 });
+    }, 60000);
+    
     log('Logged in as: ' + client.user.tag, 'done');
   },
 };

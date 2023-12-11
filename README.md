@@ -15,6 +15,7 @@ Before you begin, ensure you have met the following requirements: <br>
 Bun.sh is installed on your system.  <br>
 
 ## 🚀 Installation
+(The Bot is currently in pre-beta so it is not recommended to use it in production) <br>
 The Installation steps are listed in the [Installation.md](docs/installation.md) File.
 
 ## 📰 License

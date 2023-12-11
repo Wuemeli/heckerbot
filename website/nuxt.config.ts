@@ -9,10 +9,16 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en'
       },
-      script: [
-        { src: '~/assets/js/bootstrap.min.js' }
-      ]
     },
   },
-  css: ['~/assets/css/style.css', '~/assets/css/bootstrap.min.css'],
+  css: ['~/assets/css/style.css', '~/assets/css/bootstrap.min.css', '~/assets/css/main.css'],
+
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
 })

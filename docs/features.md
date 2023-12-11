@@ -52,11 +52,13 @@ WILL BE UPDATED SOON
 ## Modules
 - Counting
 - Welcome
+- Fortnite Bot
 
 ## Other Features
 - If you ping the bot you get a random useless Fact
 - Error Handler
 - Emojis
+- Redis Database
 
 ## TOP.GG
 - Stats Posting

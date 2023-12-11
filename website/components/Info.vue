@@ -1,10 +1,10 @@
 <template>
   <section class="bg-dark text-light text-center py-5">
     <div class="container">
-      <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex justify-center align-items-center">
         <div>
           <h1><span class="text-info">Hecker</span> Bot</h1>
-          <p>Heckerbot is a multipurpose discord bot with a lot of features.</p>
+          <p>A Opensource Discord Bot that brings Fun and Security to your Server</p>
           <a class="btn btn-info" href="">Invite Bot</a>
           <a class="m-2 btn btn-light" href="">Support Server</a>
         </div>
