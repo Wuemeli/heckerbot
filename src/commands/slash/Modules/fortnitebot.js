@@ -118,7 +118,7 @@ module.exports = {
           if (results.error) {
             const embed = new EmbedBuilder()
               .setTitle('Error')
-              .setDescription(`${emojis.erroricon} ! An error occurred. ${results.message}. If you need help, do \`/fortnite-bot help\``)
+              .setDescription(`${emojis.erroricon} ! An error occurred. Please try again later. Double check your Auth Code. If you need help, do \`/fortnite-bot help\``)
               .setColor('Red');
             return interaction.editReply({ embeds: [embed], ephemeral: true });
           } else {
