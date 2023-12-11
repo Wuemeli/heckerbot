@@ -8,8 +8,7 @@
     "start": "bun run .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "production": "bun installer && bun start",
-    "installer": "bun install && cd src/backup && bun install && cd .."
+    "production": "bun install && bun start"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.465.0",
