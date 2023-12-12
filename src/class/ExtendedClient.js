@@ -5,7 +5,6 @@ const events = require('../handlers/events');
 const deploy = require('../handlers/deploy');
 const mongoose = require('../handlers/mongoose');
 const components = require('../handlers/components');
-const log = require('../functions/index');
 
 module.exports = class extends Client {
   constructor() {

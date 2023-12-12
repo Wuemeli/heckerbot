@@ -29,6 +29,7 @@ module.exports = {
       let ipData = await getData(ip);
 
       if (ipData) {
+        ipData = JSON.parse(ipData);
 
         const ipembedcached = new EmbedBuilder()
           .setTitle(`🔍 Here is some information for you on **${ip}**!`)

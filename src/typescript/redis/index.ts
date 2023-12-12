@@ -1,15 +1,20 @@
-import { Redis } from '@upstash/redis'
+import { createClient } from "redis";
 
-const redis = new Redis({
+const client = createClient({
   url: process.env.REDIS_URL,
-  token: process.env.REDIS_TOKEN,
-})
+});
+
+client.on("error", function (err) {
+  throw err;
+});
+
+client.connect()
 
 export async function getData(key: string) {
-  const data = await redis.get(key)
+  const data = await client.get(key)
   return data
 }
 
 export async function setData(key: string, value: any) {
-  await redis.set(key, value, { ex: Number(process.env.REDIS_EXPIRE) });
+  await client.setEx(key, Number(process.env.REDIS_EXPIRE), value);
 }
