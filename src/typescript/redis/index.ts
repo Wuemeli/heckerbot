@@ -10,5 +10,5 @@ export async function getData(key: string) {
 }
 
 export async function setData(key: string, value: any) {
-  await client.set(key, value, { ex: Number(process.env.REDIS_EXPIRE) });
+  await client.setEx(key, Number(process.env.REDIS_EXPIRE), value);
 }
