@@ -25,6 +25,7 @@ module.exports = {
       let dnsData = await getData(domain);
 
       if (dnsData) {
+        dnsData = JSON.parse(dnsData);
 
         const dnslookupembedcached = new EmbedBuilder()
           .setTitle(`🔍 DNS lookup for **${domain}**`)

@@ -25,6 +25,7 @@ module.exports = {
       let whoisData = await getData(domain);
 
       if (whoisData) {
+        whoisData = JSON.parse(whoisData);
 
         const whoisembedcached = new EmbedBuilder()
           .setTitle(`🔍 WHOIS information for **${domain}**`)
