@@ -13,7 +13,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.465.0",
     "@babel/eslint-parser": "^7.23.3",
-    "@upstash/redis": "^1.25.1",
     "aws-sdk": "^2.1485.0",
     "axios": "^1.5.0",
     "body-parser": "^1.20.2",
@@ -29,6 +28,7 @@
     "node-fetch": "^3.3.2",
     "pagination.djs": "^4.0.12",
     "random-sentence": "^1.0.4",
+    "redis": "^4.6.11",
     "stream-to-string": "^1.2.1"
   },
   "devDependencies": {
