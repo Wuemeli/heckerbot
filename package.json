@@ -25,7 +25,7 @@
     "express": "^4.18.2",
     "fnbr": "fnbrjs/fnbr.js",
     "mathjs": "^12.1.0",
-    "mongoose": "^7.3.1",
+    "mongoose": "^8.0.0",
     "node-fetch": "^3.3.2",
     "pagination.djs": "^4.0.12",
     "random-sentence": "^1.0.4",
