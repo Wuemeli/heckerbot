@@ -21,8 +21,9 @@ module.exports = {
 
     const domain = interaction.options.getString('domain');
 
+
     try {
-      let dnsData = await getData(domain);
+      let dnsData = await getData(`dnslookup:${domain}`);
 
       if (dnsData) {
         dnsData = JSON.parse(dnsData);
@@ -34,32 +35,32 @@ module.exports = {
           .addFields(
             {
               name: 'A records:',
-              value: dnsData.filter((record) => record.record_type === 'A').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No A records found',
+              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'A').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No A records found',
               inline: true,
             },
             {
               name: 'AAAA records:',
-              value: dnsData.filter((record) => record.record_type === 'AAAA').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No AAAA records found',
+              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'AAAA').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No AAAA records found',
               inline: true,
             },
             {
               name: 'MX records:',
-              value: dnsData.filter((record) => record.record_type === 'MX').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No MX records found',
+              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'MX').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No MX records found',
               inline: true,
             },
             {
               name: 'NS records:',
-              value: dnsData.filter((record) => record.record_type === 'NS').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No NS records found',
+              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'NS').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No NS records found',
               inline: true,
             },
             {
               name: 'SOA record:',
-              value: dnsData.filter((record) => record.record_type === 'SOA').map((record) => `**MName:** ${record.mname}\n**RName:** ${record.rname}\n**Serial:** ${record.serial}\n**Refresh:** ${record.refresh}\n**Retry:** ${record.retry}\n**Expire:** ${record.expire}\n**TTL:** ${record.ttl}`).join('\n') || 'No SOA record found',
+              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'SOA').map((record) => `**MName:** ${record.mname}\n**RName:** ${record.rname}\n**Serial:** ${record.serial}\n**Refresh:** ${record.refresh}\n**Retry:** ${record.retry}\n**Expire:** ${record.expire}\n**TTL:** ${record.ttl}`).join('\n') : 'No SOA record found',
               inline: true,
             },
             {
               name: 'TXT records:',
-              value: dnsData.filter((record) => record.record_type === 'TXT').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No TXT records found',
+              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'TXT').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No TXT records found',
               inline: true,
             },
           );
@@ -78,7 +79,7 @@ module.exports = {
           },
         });
 
-        await setData(domain, JSON.stringify(response.data));
+        await setData(`dnslookup:${domain}`, JSON.stringify(response.data));
 
         const data = response.data;
 
