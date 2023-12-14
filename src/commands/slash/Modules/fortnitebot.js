@@ -49,7 +49,7 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('help')
-        .setDescription('📖 Help'),
+        .setDescription('📖Fortnite Bot Help'),
 
     )
     .addSubcommand(subcommand =>
@@ -60,7 +60,7 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('edit')
-        .setDescription('✏️ Edit your Fortnite Bot')
+        .setDescription('📝 Edit your Fortnite Bot')
         .addStringOption(option =>
           option
             .setName('status')
