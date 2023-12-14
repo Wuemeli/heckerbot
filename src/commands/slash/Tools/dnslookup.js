@@ -1,5 +1,3 @@
-import { dns } from "bun";
-
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const { getData, setData } = require('../../../typescript/redis/index');
