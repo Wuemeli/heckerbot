@@ -12,7 +12,7 @@ client.connect()
 
 export async function getData(key: string) {
   const data = await client.get(key)
-  return data
+  return data;
 }
 
 export async function setData(key: string, value: string) {
