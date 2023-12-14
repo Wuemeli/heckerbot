@@ -1,5 +1,6 @@
-## THIS BOT IS STILL IN BETA BUGS AND ERRORS CAN OCCUR
-
+![](https://dcbadge.vercel.app/api/shield/1092475154791145542?bot=true)
+[![wakatime](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/018b4766-f1d1-40b6-8862-b327fa076d2a.svg)](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/018b4766-f1d1-40b6-8862-b327fa076d2a)
+[![wakatime](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/16cfbc8a-c211-4a5d-8bcd-dbc93dabb83d.svg)](https://wakatime.com/badge/user/1b863d20-30af-46ca-add5-692804513d23/project/16cfbc8a-c211-4a5d-8bcd-dbc93dabb83d)
 # 🔥 Heckerbot
 > An advanced Discord Bot for your Server <br>
 > Official Bot at https://wuemeli.com/invite (SOON)
@@ -24,9 +25,6 @@ Dont remove any Credits from the Footer.
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any
 To start look at the [Contributing.md](CONTRIBUTING.md) File.
 
-## 📝 Credits
-Thanks to TFAGaming for providing the Bot Template. We modified it that it fits our case.
-
 ## 🪶 Features
 Server Backup System, Tools Commands, Utility Commands, Info Commands, Games Commands, Modules, Other Features <br>
 All Features are listed in the [Features.md](docs/features.md) File.
@@ -36,6 +34,9 @@ The Documentation is available at [Docs](docs/README.md)
 
 ## ⭐ Starhistory
 [![Star History Chart](https://api.star-history.com/svg?repos=Wuemeli/Heckerbot&type=Date)](https://star-history.com/#Wuemeli/Heckerbot&Date)
+
+## 📝 Credits
+Thanks to TFAGaming for providing the Bot Template. We modified it that it fits our case.
 
 ## 📫 Contact
 If you want to contact me you can reach me at Discord: wuemeli

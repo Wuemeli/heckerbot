@@ -1,8 +1,15 @@
 const express = require('express');
 const app = express();
-const {log} = require('../functions/index.js');
+const { log } = require('../functions/index.js');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const emojis = require('../functions/emojis');
 
 const port = process.env.PORT || 3000;
+
+app.use(bodyParser.json());
+
+app.use(cors());
 
 module.exports = {
   start: (client) => {
@@ -11,12 +18,20 @@ module.exports = {
       res.send('slay queen uwu owo rawr xD');
     });
 
-    app.get('/push', (req, res) => {
-      if (req.query.key !== process.env.GIT_KEY) return res.status(401).send('Unauthorized');
-      require('child_process').exec('git pull && bun installer && pm2 restart 0', (err, stdout) => {
-        if (err) return res.status(500).send(err);
-        res.status(200).send(stdout);
-      });
+    app.post('/topgg', (req, res) => {
+      if (!process.env.TOPGG_SECRET) return res.status(500).send('Internal Server Error');
+      const auth = req.headers.authorization;
+      const providedAuth = process.env.TOPGG_SECRET;
+
+      if (auth === providedAuth) {
+        const { user } = req.body;
+        const user1 = client.users.cache.get(user);
+        const channel = client.channels.cache.get(process.env.TOPGG_CHANNEL);
+        channel.send(`**${user1}** just voted for me on [top.gg](https://top.gg/bot/${client.user.id}/vote)! Thank you so much! ${emojis.pepeheart}`);
+        res.status(200).send('Webhook received');
+      } else {
+        res.status(401).send('Unauthorized');
+      }
     });
 
     app.get('/stats', (req, res) => {

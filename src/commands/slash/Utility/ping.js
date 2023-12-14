@@ -5,7 +5,7 @@ const emojis = require('../../../functions/emojis');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('ping')
-    .setDescription('Replies with pong!'),
+    .setDescription('🐕‍🦺 Returns the Ping to the Discord Servers'),
   options: {
     cooldown: 5000,
   },
@@ -14,7 +14,9 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction
      */
   run: async (client, interaction) => {
-    await interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: true,
+    });
 
     try {
 

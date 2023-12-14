@@ -13,6 +13,7 @@ module.exports = {
   run: (_, client) => {
     const usercount = client.users.cache.size;
     const guildcount = client.guilds.cache.size;
+    
     client.user.setActivity(`${guildcount} servers | ${usercount} users | Made with ❤️ by Wuemeli`, {type: 4});
 
     log('Logged in as: ' + client.user.tag, 'done');

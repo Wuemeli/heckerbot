@@ -1,6 +1,7 @@
 # Heckerbot Features
 
-## Server Backup System (BUGGY AS HELL)
+
+## Server Backup System
 - Server icon
 - Server banner
 - Server region
@@ -23,24 +24,25 @@
 - whois
 
 ## Utility Commands
-- avatar
+- avatar (Also as Context Menu)
 - ping
-- userinfo
+- userinfo (Also as Context Menu)
 
 ## Info Commands
 - botstats
 - contributors
 - help
 - invite
+- changelog
 
 ## Games Commands
 - fasttype
 - findeemoji
 - flood
 - matchpairs
-- rps
+- rps (Also as Context Menu)
 - snake
-- tictactoe
+- tictactoe (Also as Context Menu)
 - trivia
 
 ## Modules
@@ -48,6 +50,13 @@
 - Welcome
 
 ## Other Features
-- If you ping the bot you get a random Spotify Song
+- If you ping the bot you get a random useless Fact
 - Error Handler
 - Emojis
+
+## TOP.GG
+- Stats Posting
+- Vote Endpoint
+
+## Server
+- Stats Enpoint

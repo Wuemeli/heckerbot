@@ -15,16 +15,22 @@ module.exports = {
           option
             .setName('channel')
             .setDescription('The channel to set')
-            .setRequired(true),
+            .setRequired(false),
         )
-        .addChannelOption(option =>
-          option
+        .addStringOption((opt) =>
+          opt
             .setName('message')
             .setDescription('Placeholders: .user .guild .membercount')
-            .setRequired(true),
+            .setRequired(false),
         )
-        .addChannelOption(option =>
-          option
+        .addRoleOption((opt) =>
+          opt
+            .setName('role')
+            .setDescription('The role that gets added to the user')
+            .setRequired(false),
+        )
+        .addStringOption((opt) =>
+          opt
             .setName('picture')
             .setDescription('The picture to set')
             .setRequired(false),
@@ -49,19 +55,22 @@ module.exports = {
 
     try {
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`});
+        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
       }
 
       const subcommand = interaction.options.getSubcommand();
       const channel = interaction.options.getChannel('channel');
       const message = interaction.options.getString('message');
       const picture = interaction.options.getString('picture');
+      const role = interaction.options.getRole('role');
       const guildId = interaction.guild.id;
       const channelId = channel?.id;
 
       if (subcommand === 'channel') {
         if (!channelId) {
-          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a channel!`});
+          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a channel!` });
+        } else if (!message) {
+          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a message!` });
         }
 
         await welcomeSchema.findOneAndUpdate({
@@ -71,6 +80,7 @@ module.exports = {
           channelId,
           welcomeMessage: message,
           welcomePicture: picture,
+          welcomeRole: role?.id,
         }, {
           upsert: true,
         });
@@ -91,7 +101,7 @@ module.exports = {
       });
 
       if (!welcomeData) {
-        return interaction.editReply({ content: `${emojis.erroricon} There is no welcome channel set!`});
+        return interaction.editReply({ content: `${emojis.erroricon} There is no welcome channel set!` });
       }
 
 
@@ -106,6 +116,7 @@ module.exports = {
         embed.addField('Channel', channelData, true);
         embed.addField('Message', welcomeData.welcomeMessage, true);
         embed.addField('Picture', welcomeData.welcomePicture, true);
+        embed.addField('Role', welcomeData.welcomeRole ? `<@&${welcomeData.welcomeRole}>` : 'None', true);
       }
 
       return interaction.editReply({ embeds: [embed] });
