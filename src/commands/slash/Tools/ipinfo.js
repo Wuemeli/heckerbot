@@ -26,7 +26,7 @@ module.exports = {
     const ip = interaction.options.getString('ip');
 
     try {
-      let ipData = await getData(ip);
+      let ipData = await getData(`ipinfo:${ip}`);
 
       if (ipData) {
         ipData = JSON.parse(ipData);
@@ -86,7 +86,7 @@ module.exports = {
 
         const country = data.country_code;
 
-        await setData(ip, data);
+        await setData(`ipinfo:${ip}`, JSON.stringify(data));
 
         const ipembed = new EmbedBuilder()
           .setTitle(`🔍 Here is some information for you on **${ip}**!`)

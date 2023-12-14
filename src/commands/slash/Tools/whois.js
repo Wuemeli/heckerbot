@@ -22,7 +22,7 @@ module.exports = {
     const domain = interaction.options.getString('domain');
 
     try {
-      let whoisData = await getData(domain);
+      let whoisData = await getData(`whois:${domain}`);
 
       if (whoisData) {
         whoisData = JSON.parse(whoisData);
@@ -75,7 +75,7 @@ module.exports = {
 
         const data = response.data;
 
-        await setData(domain, data);
+        await setData(`whois:${domain}`, JSON.stringify(response.data));
 
         const whoisembed = new EmbedBuilder()
           .setTitle(`🔍 WHOIS information for **${domain}**`)

@@ -21,8 +21,9 @@ module.exports = {
 
     const domain = interaction.options.getString('domain');
 
+
     try {
-      let dnsData = await getData(domain);
+      let dnsData = await getData(`dnslookup:${domain}`);
 
       if (dnsData) {
         dnsData = JSON.parse(dnsData);
@@ -78,7 +79,7 @@ module.exports = {
           },
         });
 
-        await setData(domain, JSON.stringify(response.data));
+        await setData(`dnslookup:${domain}`, JSON.stringify(response.data));
 
         const data = response.data;
 
