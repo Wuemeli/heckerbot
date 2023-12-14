@@ -1,4 +1,8 @@
 require('dotenv').config();
+if (process.env.DOTENV_VAULT_ENABLED === 'true') {
+  require('dotenv-vault').config({ DOTENV_KEY: 'ENVKEY' });
+}
+
 const ExtendedClient = require('./class/ExtendedClient');
 const { handling } = require('./functions/errorHandler');
 const server = require('./express/server.js');
