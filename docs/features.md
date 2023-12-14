@@ -36,7 +36,7 @@
 
 ## Utility Commands
 - `avatar` - Get the avatar of a user
-- `ping` - Get the bot ping
+- `userinfo`- Get Information about a user
 
 
 ## User Context Menu
