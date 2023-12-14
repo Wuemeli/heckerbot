@@ -1,5 +1,5 @@
 module.exports = {
-  dotenv: { enabled: true },
+  dotenv: { enabled: false },
   handler: {
     deploy: true,
     commands: {
