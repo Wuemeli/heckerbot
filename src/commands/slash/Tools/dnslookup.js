@@ -1,3 +1,5 @@
+import { dns } from "bun";
+
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const { getData, setData } = require('../../../typescript/redis/index');
@@ -35,32 +37,32 @@ module.exports = {
           .addFields(
             {
               name: 'A records:',
-              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'A').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No A records found',
+              value: dnsData.filter((record) => record.record_type === 'A').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No A records found',
               inline: true,
             },
             {
               name: 'AAAA records:',
-              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'AAAA').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No AAAA records found',
+              value: dnsData.filter((record) => record.record_type === 'AAAA').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No AAAA records found',
               inline: true,
             },
             {
               name: 'MX records:',
-              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'MX').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No MX records found',
+              value: dnsData.filter((record) => record.record_type === 'MX').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No MX records found',
               inline: true,
             },
             {
               name: 'NS records:',
-              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'NS').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No NS records found',
+              value: dnsData.filter((record) => record.record_type === 'NS').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No NS records found',
               inline: true,
             },
             {
               name: 'SOA record:',
-              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'SOA').map((record) => `**MName:** ${record.mname}\n**RName:** ${record.rname}\n**Serial:** ${record.serial}\n**Refresh:** ${record.refresh}\n**Retry:** ${record.retry}\n**Expire:** ${record.expire}\n**TTL:** ${record.ttl}`).join('\n') : 'No SOA record found',
+              value: dnsData.filter((record) => record.record_type === 'SOA').map((record) => `**MName:** ${record.mname}\n**RName:** ${record.rname}\n**Serial:** ${record.serial}\n**Refresh:** ${record.refresh}\n**Retry:** ${record.retry}\n**Expire:** ${record.expire}\n**TTL:** ${record.ttl}`).join('\n') || 'No SOA record found',
               inline: true,
             },
             {
               name: 'TXT records:',
-              value: Array.isArray(dnsData) ? dnsData.filter((record) => record.record_type === 'TXT').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') : 'No TXT records found',
+              value: dnsData.filter((record) => record.record_type === 'TXT').map((record) => `\`\`\`${record.value}\`\`\``).join('\n') || 'No TXT records found',
               inline: true,
             },
           );
