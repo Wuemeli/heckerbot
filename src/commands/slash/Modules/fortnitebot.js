@@ -7,27 +7,27 @@ const ExtendedClient = require('../../../class/ExtendedClient');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('fortnite-bot')
-    .setDescription('🤖 Fortnite Bot')
+    .setDescription('🤖・Fortnite Bot')
     .addSubcommand(subcommand =>
       subcommand
         .setName('create')
-        .setDescription('🚧 Create a Fortnite Bot. Do /fortnite-bot help for a full Guide')
+        .setDescription('🚧・Create a Fortnite Bot. Do /fortnite-bot help for a full Guide')
         .addStringOption(option =>
           option
             .setName('authcode')
-            .setDescription('🔑 Auth Code')
+            .setDescription('Auth Code')
             .setRequired(true),
         )
         .addStringOption(option =>
           option
             .setName('status')
-            .setDescription('📝 Status')
+            .setDescription('Status')
             .setRequired(true),
         )
         .addStringOption(option =>
           option
             .setName('platform')
-            .setDescription('📱 Platform')
+            .setDescription('Platform')
             .setRequired(true)
             .addChoices(
               { name: 'Windows', value: 'WIN' },
@@ -43,34 +43,34 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('start')
-        .setDescription('🚀 Start your Fortnite Bot'),
+        .setDescription('🚀・Start your Fortnite Bot'),
 
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('help')
-        .setDescription('📖Fortnite Bot Help'),
+        .setDescription('📖・Fortnite Bot Help'),
 
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('commands')
-        .setDescription('📖 Get a list of commands'),
+        .setDescription('📖・Get a list of commands'),
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('edit')
-        .setDescription('📝 Edit your Fortnite Bot')
+        .setDescription('📝・Edit your Fortnite Bot')
         .addStringOption(option =>
           option
             .setName('status')
-            .setDescription('📝 New Status')
+            .setDescription('New Status')
             .setRequired(true),
         )
         .addStringOption(option =>
           option
             .setName('platform')
-            .setDescription('📱 New Platform')
+            .setDescription('FN-Platform')
             .setRequired(true)
             .addChoices(
               { name: 'Windows', value: 'WIN' },
@@ -86,7 +86,7 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('remove')
-        .setDescription('🗑️ Remove your Fortnite Bot'),
+        .setDescription('🗑️・Remove your Fortnite Bot'),
     ),
   /**
     * @param {ExtendedClient} client

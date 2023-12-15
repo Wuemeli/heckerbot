@@ -6,11 +6,11 @@ const ExtendedClient = require('../../../class/ExtendedClient');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('counting')
-    .setDescription('🔄 Counting Settings')
+    .setDescription('🔄・Counting Settings')
     .addSubcommand(subcommand =>
       subcommand
         .setName('channel')
-        .setDescription('🔄 Set the Counting Channel')
+        .setDescription('🔄・Set the Counting Channel')
         .addChannelOption(option =>
           option
             .setName('channel')
@@ -21,12 +21,12 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('remove')
-        .setDescription('🔄 Remove the Counting Channel'),
+        .setDescription('🔄・Remove the Counting Channel'),
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('info')
-        .setDescription('🔄 Display the Counting Settings'),
+        .setDescription('🔄・Display the Counting Settings'),
     ),
   run: async (client, interaction) => {
     await interaction.deferReply(

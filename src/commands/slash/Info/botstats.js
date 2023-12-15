@@ -4,7 +4,7 @@ const ms = require('ms');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('botstats')
-    .setDescription('📊 Displays the bot statistics.'),
+    .setDescription('📊・Displays the bot statistics.'),
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

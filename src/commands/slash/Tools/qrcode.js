@@ -3,7 +3,7 @@ const {SlashCommandBuilder, EmbedBuilder} = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('qrcode')
-    .setDescription('📱 Generate a QR code.')
+    .setDescription('📱・Generate a QR code.')
     .addStringOption((option) =>
       option.setName('value')
         .setDescription('The value you want to generate a QR code for.')

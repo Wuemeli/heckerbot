@@ -5,7 +5,7 @@ const { time } = require('../../../functions');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('userinfo')
-    .setDescription('Get a user\'s information.')
+    .setDescription('👤・Get a user\'s information.')
     .addUserOption((opt) =>
       opt.setName('user')
         .setDescription('The user.')

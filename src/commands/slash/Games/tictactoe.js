@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('tictactoe')
-    .setDescription('❌ Play a game of Tic Tac Toe with a friend!')
+    .setDescription('❌・Play a game of Tic Tac Toe with a friend!')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('🔥 The user to play with.')

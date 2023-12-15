@@ -5,7 +5,7 @@ const { getData, setData } = require('../../../typescript/redis/index');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('ipinfo')
-    .setDescription('🌐 Gets the information of an IP address.')
+    .setDescription('🌐・Gets the information of an IP address.')
     .addStringOption((opt) =>
       opt.setName('ip')
         .setDescription('What is the IP address?')

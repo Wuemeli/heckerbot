@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('trivia')
-    .setDescription('🧠 Test your knowledge with a trivia question!'),
+    .setDescription('🧠・Test your knowledge with a trivia question!'),
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction

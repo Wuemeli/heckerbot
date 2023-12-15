@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('contributors')
-    .setDescription('🫅 Displays the contributors of the bot.'),
+    .setDescription('🫅・Displays the contributors of the bot.'),
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

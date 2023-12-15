@@ -7,7 +7,7 @@ const emojis = require('../../../functions/emojis');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('backup')
-    .setDescription('📊 Backup commands')
+    .setDescription('📊・Backup commands')
     .addSubcommand(subcommand =>
       subcommand
         .setName('create')

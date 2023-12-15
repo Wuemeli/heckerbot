@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('support')
-    .setDescription('🕹️ Get the Invite Link to the Discord Support Server'),
+    .setDescription('🕹️・Get the Invite Link to the Discord Support Server'),
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

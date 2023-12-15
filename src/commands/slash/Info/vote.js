@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('vote')
-    .setDescription('🗳 Gets the Vote Link for the Bot'),
+    .setDescription('🗳・Gets the Vote Link for the Bot'),
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction
