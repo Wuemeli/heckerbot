@@ -1,4 +1,4 @@
-import { Client, TextChannel, EmbedBuilder } from 'discord.js';
+import { Client, TextChannel, EmbedBuilder, ChannelType } from 'discord.js';
 
 function handleLogs(client: Client): void {
   const logSchema = require('../../schemas/auditlogSchema');
@@ -31,7 +31,7 @@ function handleLogs(client: Client): void {
       .setDescription(`
             **Author : ** <@${message.author.id}> - *${message.author.tag}*
             **Date : ** ${message.createdAt}
-            **Channel : ** <#${message.channel.id}> - *${message.channel.name}*
+            **Channel : ** <#${message.channel.id}> - *${'name' in message.channel ? message.channel.name : 'DMChannel'}*
             **Deleted Message : **\`${message.content.replace(/`/g, '\'')}\`
          `);
 
@@ -79,7 +79,7 @@ function handleLogs(client: Client): void {
 
     const embed = new EmbedBuilder()
       .setTitle('User Started Boosting!')
-      .setColor('Pink')
+      .setColor('Aqua')
       .setDescription(`**${member.user.tag}** has started boosting  ${member.guild.name}!`);
     return sendLog(member.guild.id, embed);
 
@@ -90,7 +90,7 @@ function handleLogs(client: Client): void {
 
     const embed = new EmbedBuilder()
       .setTitle('User Stopped Boosting!')
-      .setColor('Pink')
+      .setColor('Aqua')
       .setDescription(`**${member.user.tag}** has stopped boosting  ${member.guild.name}!`);
 
     return sendLog(member.guild.id, embed);
@@ -139,8 +139,8 @@ function handleLogs(client: Client): void {
     const embed = new EmbedBuilder()
       .setTitle('User Joined')
       .setColor('Green')
-      .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``,
-        member.user.displayAvatarURL({ dynamic: true }));
+      .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``)
+      .setThumbnail(member.displayAvatarURL())
 
     return sendLog(member.guild.id, embed);
 
@@ -152,8 +152,8 @@ function handleLogs(client: Client): void {
     const embed = new EmbedBuilder()
       .setTitle('User Left')
       .setColor('Red')
-      .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``,
-        member.user.displayAvatarURL({ dynamic: true }));
+      .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``)
+      .setThumbnail(member.displayAvatarURL())
 
     return sendLog(member.guild.id, embed);
 
@@ -164,7 +164,7 @@ function handleLogs(client: Client): void {
 
     const embed = new EmbedBuilder()
       .setTitle('Server Boost Level Up')
-      .setColor('Pink')
+      .setColor('Aqua')
       .setDescription(`${guild.name} reached the boost level ${newLevel}`);
 
     return sendLog(guild.id, embed);
@@ -176,7 +176,7 @@ function handleLogs(client: Client): void {
 
     const embed = new EmbedBuilder()
       .setTitle('Server Boost Level Down')
-      .setColor('Pink')
+      .setColor('Aqua')
       .setDescription(`${guild.name} lost a level from ${oldLevel} to ${newLevel}`);
 
     return sendLog(guild.id, embed);
@@ -513,14 +513,14 @@ function handleLogs(client: Client): void {
 
   // Channel Deleted
   client.on('channelDelete', (channel) => {
+    if (channel.type === ChannelType.DM) return;
 
     const embed = new EmbedBuilder()
       .setTitle('Channel Deleted')
       .setColor('Red')
-      .setDescription(`${channel.name} has been deleted.`);
+      .setDescription(`${'name' in channel ? channel.name : 'DMChannel'} has been deleted.`);
 
     return sendLog(channel.guild.id, embed);
-
   });
 }
 

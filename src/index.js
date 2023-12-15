@@ -7,18 +7,26 @@ if (config.dotenv.enabled) {
 const ExtendedClient = require('./class/ExtendedClient');
 const { handling } = require('./typescript/functions/errorHandler');
 const server = require('./express/server.js');
-const {log} = require('./functions/index');
+const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
 
 
 const client = new ExtendedClient();
 
-client.start();
-log('Client Started.', 'done');
-server.start(client);
-topgg(client);
-handleLogs(client);
+try {
+  client.start();
+
+  log('Client Started.', 'done');
+
+  server.start(client);
+  topgg(client);
+  handleLogs(client);
+
+} catch (error) {
+  log(error, 'error');
+}
+
 
 module.exports = { client };
 
