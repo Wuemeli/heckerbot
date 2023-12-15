@@ -51,6 +51,7 @@ module.exports = {
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been set to <#${channelId}>`,
+          ephemeral: true,
         });
       } else if (subcommand === 'remove') {
         await auditlogSchema.findOneAndDelete({
@@ -59,6 +60,7 @@ module.exports = {
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been removed`,
+          ephemeral: true,
         });
       }
     } catch (error) {
