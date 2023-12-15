@@ -7,7 +7,7 @@ const randomSentence = require('random-sentence');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('fasttype')
-    .setDescription('🎮 Play the fast type game!'),
+    .setDescription('🎮・Play the fast type game!'),
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

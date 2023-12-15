@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('rps')
-    .setDescription('✊✋✌️ Play a game of Rock Paper Scissors!')
+    .setDescription('✊✋・Play a game of Rock Paper Scissors!')
     .addUserOption(option =>
       option.setName('opponent')
         .setDescription('🔥 The user to play with.')
@@ -34,7 +34,7 @@ module.exports = {
         timeoutMessage: 'The Game went unfinished! No one won the Game!',
         playerOnlyMessage: 'Only {player} and {opponent} can use these buttons.',
       });
-      
+
       Game.startGame();
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error);

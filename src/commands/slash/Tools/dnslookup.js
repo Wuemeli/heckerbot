@@ -5,7 +5,7 @@ const { getData, setData } = require('../../../typescript/redis/index');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('dnslookup')
-    .setDescription('🔍 Performs a DNS lookup on a domain name.')
+    .setDescription('🔍・Performs a DNS lookup on a domain name.')
     .addStringOption((opt) =>
       opt.setName('domain')
         .setDescription('The domain name to perform a DNS lookup on.')

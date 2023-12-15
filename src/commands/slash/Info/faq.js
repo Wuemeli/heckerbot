@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('faq')
-    .setDescription('❗(Maybe) Answers some Questions'),
+    .setDescription('❗・(Maybe) Answers some Questions'),
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

@@ -3,10 +3,10 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('avatar')
-    .setDescription('Get the avatar of a user.')
+    .setDescription('👤・Get the avatar of a user.')
     .addUserOption((opt) =>
       opt.setName('user')
-        .setDescription('👤 The user whose avatar you want to retrieve.')
+        .setDescription('👤・The user whose avatar you want to retrieve.')
         .setRequired(false),
     ),
   /**

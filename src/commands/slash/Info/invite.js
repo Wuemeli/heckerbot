@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('invite')
-    .setDescription('💌 Get the invite link for the bot.'),
+    .setDescription('💌・Get the invite link for the bot.'),
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

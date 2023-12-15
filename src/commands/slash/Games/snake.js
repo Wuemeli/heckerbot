@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('snake')
-    .setDescription('🐍 Play a game of Snake!'),
+    .setDescription('🐍・Play a game of Snake!'),
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction

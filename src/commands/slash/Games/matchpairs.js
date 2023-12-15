@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('matchpairs')
-    .setDescription('🔀 Play the Match Pairs game!'),
+    .setDescription('🔀・Play the Match Pairs game!'),
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction

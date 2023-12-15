@@ -4,7 +4,7 @@ const { Pagination } = require('pagination.djs');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('help')
-    .setDescription('💥 Lists all commands'),
+    .setDescription('💥・Lists all commands'),
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

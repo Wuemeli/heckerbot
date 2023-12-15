@@ -7,11 +7,11 @@ const ExtendedClient = require('../../../class/ExtendedClient');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('fortnite-bot')
-    .setDescription('🤖 Fortnite Bot')
+    .setDescription('🤖・Fortnite Bot')
     .addSubcommand(subcommand =>
       subcommand
         .setName('create')
-        .setDescription('🚧 Create a Fortnite Bot. Do /fortnite-bot help for a full Guide')
+        .setDescription('🚧・Create a Fortnite Bot. Do /fortnite-bot help for a full Guide')
         .addStringOption(option =>
           option
             .setName('authcode')
@@ -43,24 +43,24 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('start')
-        .setDescription('🚀 Start your Fortnite Bot'),
+        .setDescription('🚀・Start your Fortnite Bot'),
 
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('help')
-        .setDescription('📖Fortnite Bot Help'),
+        .setDescription('📖・Fortnite Bot Help'),
 
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('commands')
-        .setDescription('📖 Get a list of commands'),
+        .setDescription('📖・Get a list of commands'),
     )
     .addSubcommand(subcommand =>
       subcommand
         .setName('edit')
-        .setDescription('📝 Edit your Fortnite Bot')
+        .setDescription('📝・Edit your Fortnite Bot')
         .addStringOption(option =>
           option
             .setName('status')
@@ -86,7 +86,7 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('remove')
-        .setDescription('🗑️ Remove your Fortnite Bot'),
+        .setDescription('🗑️・Remove your Fortnite Bot'),
     ),
   /**
     * @param {ExtendedClient} client

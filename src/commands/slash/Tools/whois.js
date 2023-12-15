@@ -8,7 +8,7 @@ module.exports = {
     .setDescription('Gets the WHOIS information for a domain name.')
     .addStringOption((opt) =>
       opt.setName('domain')
-        .setDescription('🔎 The domain name to look up.')
+        .setDescription('🔎・The domain name to look up.')
         .setRequired(true),
     ),
   /**

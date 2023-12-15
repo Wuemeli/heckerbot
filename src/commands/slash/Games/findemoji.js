@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('findemoji')
-    .setDescription('🔎 Play a game of Find Emoji!'),
+    .setDescription('🔎・Play a game of Find Emoji!'),
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction
