@@ -10,24 +10,24 @@ module.exports = {
     .setDescription('📊・Backup commands')
     .addSubcommand(subcommand =>
       subcommand
-        .setName('📊・create')
-        .setDescription('Create a backup of the server'))
+        .setName('create')
+        .setDescription('📊・Create a backup of the server'))
     .addSubcommand(subcommand =>
       subcommand
-        .setName('📊・list')
-        .setDescription('List all backups of the user'))
+        .setName('list')
+        .setDescription('📊・List all backups of the user'))
     .addSubcommand(subcommand =>
       subcommand
-        .setName('📊・load')
-        .setDescription('Load a backup of the server')
+        .setName('load')
+        .setDescription('📊・Load a backup of the server')
         .addStringOption(option => option
           .setName('backup-id')
           .setDescription('The ID of the backup')
           .setRequired(true)))
     .addSubcommand(subcommand =>
       subcommand
-        .setName('📊・remove')
-        .setDescription('Remove a backup')
+        .setName('remove')
+        .setDescription('📊・Remove a backup')
         .addStringOption(option =>
           option.setName('backup-id')
             .setDescription('The ID of the backup to remove')
