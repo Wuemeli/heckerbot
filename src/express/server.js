@@ -53,11 +53,8 @@ module.exports = {
     });
 
     app.get('/health-check', (req, res) => {
-      const ping = Math.round(client.ws.ping);
-
       res.json({
         'OK': true,
-        ping,
       });
     });
 
