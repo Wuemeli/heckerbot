@@ -15,19 +15,19 @@ module.exports = {
         .addStringOption(option =>
           option
             .setName('authcode')
-            .setDescription('🔑 Auth Code')
+            .setDescription('Auth Code')
             .setRequired(true),
         )
         .addStringOption(option =>
           option
             .setName('status')
-            .setDescription('📝 Status')
+            .setDescription('Status')
             .setRequired(true),
         )
         .addStringOption(option =>
           option
             .setName('platform')
-            .setDescription('📱 Platform')
+            .setDescription('Platform')
             .setRequired(true)
             .addChoices(
               { name: 'Windows', value: 'WIN' },
@@ -64,13 +64,13 @@ module.exports = {
         .addStringOption(option =>
           option
             .setName('status')
-            .setDescription('📝 New Status')
+            .setDescription('New Status')
             .setRequired(true),
         )
         .addStringOption(option =>
           option
             .setName('platform')
-            .setDescription('📱 New Platform')
+            .setDescription('FN-Platform')
             .setRequired(true)
             .addChoices(
               { name: 'Windows', value: 'WIN' },
