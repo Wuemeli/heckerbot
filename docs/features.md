@@ -27,6 +27,7 @@
 - `welcome` - Welcome module
 - `fortnite-bot` - Fortnite module
 - `backup` - Backup module
+- `auditlogs` - Audit logs module
 
 ## Tools Commands
 - `dnslookup` - Lookup a dns

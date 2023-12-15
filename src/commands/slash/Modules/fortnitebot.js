@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fnbotSchema = require('../../../schemas/fnbotSchema');
-const { createBot, startBot } = require('../../../fn-bot/main');
+const { createBot, startBot } = require('../../../typescript/fn-bot/main');
 const emojis = require('../../../functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
 

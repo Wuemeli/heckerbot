@@ -1,12 +1,12 @@
-const axios = require('axios');
-const { Client } = require('fnbr');
-const fnbot = require('../schemas/fnbotSchema');
-const { codeError } = require('../functions/errorHandler');
-const { handleCommand } = require('./commands');
+import axios from 'axios';
+import { Client, Platform } from 'fnbr';
+import { codeError } from '../functions/errorHandler';
+import { handleCommand } from './commands';
+import fnbot from '../../schemas/fnbotSchema';
 
-const bots = [];
+const bots: string[] = [];
 
-async function refreshToken(refreshToken) {
+async function refreshToken(refreshToken: string): Promise<string> {
   try {
     const response = await axios.post('https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token', {
       grant_type: 'refresh_token',
@@ -15,11 +15,11 @@ async function refreshToken(refreshToken) {
 
     return response.data.access_token;
   } catch (error) {
-    codeError(error, 'src/fn-bot/main.js');
+    codeError(error as Error, 'src/fn-bot/main.js');
   }
 }
 
-async function startBot(botId) {
+async function startBot(botId: string): Promise<{ name: string | null, started: boolean }> {
   try {
     const data = await fnbot.findOne({ botId: botId });
     if (!data) return { name: null, started: false };
@@ -29,11 +29,11 @@ async function startBot(botId) {
     bots.push(botId);
     return { name: botId, started: false };
   } catch (err) {
-    codeError(err, 'src/fn-bot/main.js');
+    codeError(err as Error, 'src/fn-bot/main.js');
   }
 }
 
-async function checkAuthCode(authcode) {
+async function checkAuthCode(authcode: string): Promise<boolean> {
   try {
     const client = new Client({
       auth: { authorizationCode: authcode },
@@ -50,9 +50,10 @@ async function checkAuthCode(authcode) {
   }
 }
 
-async function createBot(ownerId, authcode, status, platform) {
+async function createBot(ownerId: string, authcode: string, status: string, platform: string): Promise<{ error: boolean, botId: string }> {
+  let botId = '';
   try {
-    const botId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    botId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
     if (!status || typeof status !== 'string') {
       throw new Error('Invalid status');
@@ -81,16 +82,16 @@ async function createBot(ownerId, authcode, status, platform) {
     return { error: false, botId: botId };
   } catch (err) {
     console.log(err);
-    if (err.code === 'errors.com.epicgames.account.auth_token.invalid_refresh_token')  { return { error: false }; }
-    return { error: true };
+    if ((err as Error).message === 'errors.com.epicgames.account.auth_token.invalid_refresh_token') { return { error: false, botId: botId }; }
+    return { error: true, botId: '' };
   }
 }
 
-async function createClient(deviceAuth, status, platform) {
+async function createClient(deviceAuth: any, status: string, platform: string) {
   try {
     const fnbot = new Client({
       'defaultStatus': status,
-      'platform': platform,
+      'platform': platform as Platform,
       'auth': { deviceAuth: deviceAuth },
       'partyConfig': {
         'joinConfirmation': false,
@@ -123,11 +124,11 @@ async function createClient(deviceAuth, status, platform) {
 
   } catch (err) {
     console.log(err);
-    codeError(err, 'src/fn-bot/main.js');
+    codeError(err as Error, 'src/fn-bot/main.js');
   }
 };
 
-module.exports = {
+export {
   createBot,
   startBot,
 };

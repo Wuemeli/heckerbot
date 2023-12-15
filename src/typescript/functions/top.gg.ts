@@ -1,15 +1,16 @@
-const axios = require('axios');
-const { log } = require('../functions/index');
+import axios, { AxiosResponse } from 'axios';
+import { Client } from 'discord.js';
+const { log } = require('../../functions/index');
+import { codeError } from './errorHandler';
 
-module.exports = async (client) => {
+export default async (client: Client) => {
   if (!process.env.TOPGG_TOKEN) return;
 
   log('Top.gg Started.', 'done');
 
-
   async function postStats() {
     try {
-      const response = await axios.post(`https://top.gg/api/bots/${client.user.id}/stats`, {
+      const response: AxiosResponse = await axios.post(`https://top.gg/api/bots/${client.user?.id}/stats`, {
         server_count: client.guilds.cache.size,
       }, {
         headers: {
@@ -18,7 +19,7 @@ module.exports = async (client) => {
       });
       console.log(`Posted stats to top.gg! ${response.status}`);
     } catch (e) {
-      console.log(`Oops! ${e}`);
+      codeError(e as Error, 'top.gg.ts');
     }
   }
 
