@@ -4,7 +4,7 @@ const emojis = require('../../../functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()
-    .setName('auditlogs')
+    .setName('auditlog')
     .setDescription('📓・Audit Log Settings')
     .addSubcommand(subcommand =>
       subcommand
