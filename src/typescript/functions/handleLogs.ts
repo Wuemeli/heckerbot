@@ -22,23 +22,41 @@ function handleLogs(client: Client): void {
     }
   }
 
-  client.on('messageDelete', function (message) {
+  async function getAuditLogUser(guild: any, type: any, target: any) {
+    const fetchedLogs = await guild.fetchAuditLogs({
+      limit: 1,
+      type: type,
+    });
+
+    const auditLog = fetchedLogs.entries.first();
+
+    if (!auditLog) return null;
+
+    if (auditLog.target.id === target.id) {
+      return auditLog.executor;
+    } else {
+      return null;
+    }
+  }
+
+  client.on('messageDelete', async (message) => {
     if (message.author.bot) return;
 
+    const executor = await getAuditLogUser(message.guild, 72, message.author);
+    
     const embed = new EmbedBuilder()
       .setTitle('Message Deleted')
       .setColor('Red')
       .setDescription(`
-            **Author : ** <@${message.author.id}> - *${message.author.tag}*
-            **Date : ** ${message.createdAt}
+            **Message   Author : ** <@${message.author.id}> - *${message.author.tag}*
             **Channel : ** <#${message.channel.id}> - *${'name' in message.channel ? message.channel.name : 'DMChannel'}*
+            **User : ** <@${executor.id}> - *${executor.tag}*
             **Deleted Message : **\`${message.content.replace(/`/g, '\'')}\`
          `);
 
     return sendLog(message.guild.id, embed);
   });
 
-  // Channel Topic Updating
   client.on('guildChannelTopicUpdate', (channel, oldTopic, newTopic) => {
 
     const embed = new EmbedBuilder()
@@ -50,7 +68,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Channel Permission Updating
   client.on('guildChannelPermissionsUpdate', (channel, oldPermissions, newPermissions) => {
 
     const embed = new EmbedBuilder()
@@ -62,7 +79,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // unhandled Guild Channel Update
   client.on('unhandledGuildChannelUpdate', (oldChannel, newChannel) => {
 
     const embed = new EmbedBuilder()
@@ -74,7 +90,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Member Started Boosting
   client.on('guildMemberBoost', (member) => {
 
     const embed = new EmbedBuilder()
@@ -85,7 +100,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Member Unboosted
   client.on('guildMemberUnboost', (member) => {
 
     const embed = new EmbedBuilder()
@@ -97,7 +111,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Member Got Role
   client.on('guildMemberRoleAdd', (member, role) => {
 
     const embed = new EmbedBuilder()
@@ -109,7 +122,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Member Lost Role
   client.on('guildMemberRoleRemove', (member, role) => {
 
     const embed = new EmbedBuilder()
@@ -121,7 +133,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Nickname Changed
   client.on('guildMemberNicknameUpdate', (member, oldNickname, newNickname) => {
 
     const embed = new EmbedBuilder()
@@ -133,7 +144,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Member Joined
   client.on('guildMemberAdd', (member) => {
 
     const embed = new EmbedBuilder()
@@ -146,7 +156,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Member Joined
   client.on('guildMemberRemove', (member) => {
 
     const embed = new EmbedBuilder()
@@ -159,7 +168,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Server Boost Level Up
   client.on('guildBoostLevelUp', (guild, oldLevel, newLevel) => {
 
     const embed = new EmbedBuilder()
@@ -171,7 +179,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Server Boost Level Down
   client.on('guildBoostLevelDown', (guild, oldLevel, newLevel) => {
 
     const embed = new EmbedBuilder()
@@ -183,7 +190,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Banner Added
   client.on('guildBannerAdd', (guild, bannerURL) => {
 
     const embed = new EmbedBuilder()
@@ -195,7 +201,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // AFK Channel Added
   client.on('guildAfkChannelAdd', (guild, afkChannel) => {
 
     const embed = new EmbedBuilder()
@@ -207,7 +212,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Guild Vanity Add
   client.on('guildVanityURLAdd', (guild, vanityURL) => {
 
     const embed = new EmbedBuilder()
@@ -219,7 +223,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Guild Vanity Remove
   client.on('guildVanityURLRemove', (guild, vanityURL) => {
 
     const embed = new EmbedBuilder()
@@ -231,7 +234,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Guild Vanity Link Updated
   client.on('guildVanityURLUpdate', (guild, oldVanityURL, newVanityURL) => {
 
     const embed = new EmbedBuilder()
@@ -243,7 +245,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Message Pinned
   client.on('messagePinned', (message) => {
 
     const embed = new EmbedBuilder()
@@ -255,7 +256,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Message Edited
   client.on('messageContentEdited', (message, oldContent, newContent) => {
 
     const embed = new EmbedBuilder()
@@ -267,7 +267,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Role Position Updated
   client.on('rolePositionUpdate', (role, oldPosition, newPosition) => {
 
     const embed = new EmbedBuilder()
@@ -279,7 +278,6 @@ function handleLogs(client: Client): void {
 
   });
 
-  // Role Permission Updated
   client.on('rolePermissionsUpdate', (role, oldPermissions, newPermissions) => {
 
     const embed = new EmbedBuilder()
