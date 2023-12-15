@@ -5,7 +5,7 @@ const { getData, setData } = require('../../../typescript/redis/index');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('whois')
-    .setDescription('Gets the WHOIS information for a domain name.')
+    .setDescription('🔎・Gets the WHOIS information for a domain name.')
     .addStringOption((opt) =>
       opt.setName('domain')
         .setDescription('🔎・The domain name to look up.')
