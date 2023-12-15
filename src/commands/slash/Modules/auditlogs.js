@@ -50,7 +50,7 @@ module.exports = {
         );
 
         await interaction.editReply({
-          content: `${emojis.checkicon}・The Audit Log Channel has been set to <#${channelId}>`,
+          content: `${emojis.checkicon} The Audit Log Channel has been set to <#${channelId}>`,
         });
       } else if (subcommand === 'remove') {
         await auditlogSchema.findOneAndDelete({
@@ -58,7 +58,7 @@ module.exports = {
         });
 
         await interaction.editReply({
-          content: '✅・The Audit Log Channel has been removed',
+          content: `${emojis.checkicon} The Audit Log Channel has been removed`,
         });
       }
     } catch (error) {
