@@ -1,5 +1,6 @@
-const {SlashCommandBuilder, EmbedBuilder} = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
+const { getData, setData } = require('../../../typescript/redis/index');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -21,52 +22,100 @@ module.exports = {
     const domain = interaction.options.getString('domain');
 
     try {
-      const response = await axios.get(`https://api.api-ninjas.com/v1/whois?domain=${domain}`, {
-        headers: {
-          'X-Api-Key': process.env.API_NINJAS_KEY,
-        },
-      });
+      let whoisData = await getData(domain);
 
-      const data = response.data;
+      if (whoisData) {
+        whoisData = JSON.parse(whoisData);
 
-      const whoisembed = new EmbedBuilder()
-        .setTitle(`🔍 WHOIS information for **${domain}**`)
-        .setColor('Green')
-        .addFields(
-          {
-            name: 'Registrar:',
-            value: `\`\`\`${data.registrar}\`\`\``,
-            inline: true,
+        const whoisembedcached = new EmbedBuilder()
+          .setTitle(`🔍 WHOIS information for **${domain}**`)
+          .setColor('Green')
+          .setFooter({ text: 'This data has been cached.' })
+          .addFields(
+            {
+              name: 'Registrar:',
+              value: `\`\`\`${whoisData.registrar}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'WHOIS Server:',
+              value: `\`\`\`${whoisData.whois_server}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'Updated Date:',
+              value: `\`\`\`${new Date(whoisData.updated_date).toLocaleString()}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'Creation Date:',
+              value: `\`\`\`${new Date(whoisData.creation_date).toLocaleString()}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'Expiration Date:',
+              value: `\`\`\`${new Date(whoisData.expiration_date).toLocaleString()}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'DNSSEC:',
+              value: `\`\`\`${whoisData.dnssec}\`\`\``,
+              inline: true,
+            },
+          );
+        interaction.editReply({
+          embeds: [whoisembedcached],
+        });
+      } else {
+        const response = await axios.get(`https://api.api-ninjas.com/v1/whois?domain=${domain}`, {
+          headers: {
+            'X-Api-Key': process.env.API_NINJAS_KEY,
           },
-          {
-            name: 'WHOIS Server:',
-            value: `\`\`\`${data.whois_server}\`\`\``,
-            inline: true,
-          },
-          {
-            name: 'Updated Date:',
-            value: `\`\`\`${new Date(data.updated_date * 1000).toLocaleString()}\`\`\``,
-            inline: true,
-          },
-          {
-            name: 'Creation Date:',
-            value: `\`\`\`${new Date(data.creation_date * 1000).toLocaleString()}\`\`\``,
-            inline: true,
-          },
-          {
-            name: 'Expiration Date:',
-            value: `\`\`\`${new Date(data.expiration_date * 1000).toLocaleString()}\`\`\``,
-            inline: true,
-          },
-          {
-            name: 'DNSSEC:',
-            value: `\`\`\`${data.dnssec}\`\`\``,
-            inline: true,
-          },
-        );
-      interaction.editReply({
-        embeds: [whoisembed],
-      });
+        });
+
+        const data = response.data;
+
+        await setData(domain, data);
+
+        const whoisembed = new EmbedBuilder()
+          .setTitle(`🔍 WHOIS information for **${domain}**`)
+          .setColor('Green')
+          .addFields(
+            {
+              name: 'Registrar:',
+              value: `\`\`\`${data.registrar}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'WHOIS Server:',
+              value: `\`\`\`${data.whois_server}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'Updated Date:',
+              value: `\`\`\`${new Date(data.updated_date * 1000).toLocaleString()}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'Creation Date:',
+              value: `\`\`\`${new Date(data.creation_date * 1000).toLocaleString()}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'Expiration Date:',
+              value: `\`\`\`${new Date(data.expiration_date * 1000).toLocaleString()}\`\`\``,
+              inline: true,
+            },
+            {
+              name: 'DNSSEC:',
+              value: `\`\`\`${data.dnssec}\`\`\``,
+              inline: true,
+            },
+          );
+        interaction.editReply({
+          embeds: [whoisembed],
+        });
+      }
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }

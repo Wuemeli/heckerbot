@@ -1,27 +1,26 @@
 require('dotenv').config();
+const config = require('./config.js');
+if (config.dotenv.enabled) {
+  require('dotenv').config({ DOTENV_KEY: 'ENVKEY' });
+}
+
 const ExtendedClient = require('./class/ExtendedClient');
-const Errorhandler = require('./functions/errorHandler');
+const { handling } = require('./functions/errorHandler');
 const server = require('./express/server.js');
 const {log} = require('./functions/index');
 const topgg = require('./functions/top.gg');
 
+
 const client = new ExtendedClient();
 
 client.start();
-
 log('Client Started.', 'done');
-
 server.start(client);
-
-log('Server Started.', 'done');
-
 topgg(client);
-
-log('Top.gg Started.', 'done');
 
 module.exports = { client };
 
-global.handle = new Errorhandler(client);
+global.handle = new handling(client);
 
 process.on('unhandledRejection', console.error);
 process.on('uncaughtException', console.error);

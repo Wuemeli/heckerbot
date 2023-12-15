@@ -11,6 +11,7 @@ module.exports = {
    */
   run: async (client, message) => {
     if (message.mentions.has(client.user.id)) {
+      if (!message.content.startsWith(`<@${client.user.id}>`)) return;
       const response = await axios.get('https://randomuselessfact.appspot.com/random.json?language=en');
       const fact = response.data.text;
 

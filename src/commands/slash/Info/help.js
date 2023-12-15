@@ -5,6 +5,10 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('help')
     .setDescription('💥 Lists all commands'),
+  /**
+ * @param {ExtendedClient} client
+ * @param {ChatInputCommandInteraction} interaction
+ */
   run: async (client, interaction) => {
     await interaction.deferReply();
 
