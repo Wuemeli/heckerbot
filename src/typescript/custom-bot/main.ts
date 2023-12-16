@@ -1,5 +1,6 @@
 import ExtendedClient from '../../class/ExtendedClient';
 import custombotSchema from '../../schemas/custombotSchema.js';
+import { codeError } from '../functions/errorHandler';
 
 let bots: Record<string, any> = {};
 
@@ -17,7 +18,7 @@ async function startallBots() {
       bots[custombot.clientId] = bot;
     });
   } catch (err) {
-    console.log(err);
+    codeError(err as Error, 'src/typescript/custom-bot/main.ts');
   }
 }
 
@@ -32,11 +33,12 @@ async function clientIdInfo(clientId: string) {
     }
   }
   catch (err) {
-    console.log(err);
+    codeError(err as Error, 'src/typescript/custom-bot/main.ts');
   }
 }
 
 function stopBot(clientId: string) {
+  try {
   const bot = bots[clientId];
   if (bot) {
     bot.destroy();
@@ -44,5 +46,9 @@ function stopBot(clientId: string) {
   } else {
     return false;
   }
+  } catch (err) {
+    codeError(err as Error, 'src/typescript/custom-bot/main.ts');
+  }
 }
+
 export { createBot, startallBots, clientIdInfo, stopBot };
