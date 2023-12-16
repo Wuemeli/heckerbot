@@ -28,12 +28,12 @@ module.exports = {
             .setName('status')
             .setDescription('The status of the bot.')
             .setRequired(true),
-        )
-        .addSubcommand(subcommand =>
-          subcommand
-            .setName('delete')
-            .setDescription('👷・Delete your bot.'),
         ),
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('delete')
+        .setDescription('👷・Delete your bot.'),
     ),
   /**
  * @param {ExtendedClient} client
