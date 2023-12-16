@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "production": "bun install && bun start",
-    "env.vault": "bunx dotenv-vault build && bunx dotenv-vault keys production"
+    "custombot": "bun src/custombotserver.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.465.0",

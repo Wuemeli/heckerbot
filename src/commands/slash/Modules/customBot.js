@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { createBot } = require('../../../typescript/custom-bot/main');
 const custombotSchema = require('../../../schemas/custombotSchema');
+const axios = require('axios');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -44,12 +45,10 @@ module.exports = {
       const clientid = interaction.options.getString('clientid');
       const status = interaction.options.getString('status');
 
-      await createBot(token, clientid);
-      await custombotSchema.create({
-        userId: interaction.user.id,
+
+      axios.post(`${process.env.CUSTOM_BOT_URL}/create`, {
         token,
         clientId: clientid,
-        status,
       });
 
       await interaction.editReply('Created bot!');

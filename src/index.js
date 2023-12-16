@@ -10,8 +10,6 @@ const server = require('./express/server.js');
 const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
-const { startallBots } = require('./typescript/custom-bot/main');
-
 const client = new ExtendedClient();
 
 try {
@@ -37,12 +35,6 @@ try {
   handleLogs(client);
 } catch (error) {
   console.error('Error during handleLogs', error);
-}
-
-try {
-  startallBots();
-} catch (error) {
-  console.error('Error during startingsubbots');
 }
 
 module.exports = { client };
