@@ -54,9 +54,9 @@ module.exports = {
       }
 
       if (process.env[command.options.category.toUpperCase()] === 'false') {
-        return interaction.reply({ content: `The ${command.options.category} category is currently disabled.`, ephemeral: true });
+        return interaction.reply({ content: `${emojis.erroricon} The ${command.options.category} category is currently disabled.`, ephemeral: true });
       }
-      
+
       if (command.options?.cooldown) {
         const cooldownFunction = () => {
           const data = cooldown.get(interaction.user.id);
