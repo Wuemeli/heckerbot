@@ -28,6 +28,7 @@
 - `fortnite-bot` - Fortnite module
 - `backup` - Backup module
 - `auditlogs` - Audit logs module
+- `custombot` - Custom bot module
 
 ## Tools Commands
 - `dnslookup` - Lookup a dns
@@ -68,6 +69,7 @@
 - Error Handler
 - Emojis
 - Redis Database
+- Ability to turn of certain Modules/Commands in env
 
 ## TOP.GG
 - Stats Posting
@@ -75,3 +77,5 @@
 
 ## Server
 - Stats Enpoint
+
+
