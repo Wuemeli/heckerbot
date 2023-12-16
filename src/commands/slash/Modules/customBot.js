@@ -40,6 +40,11 @@ module.exports = {
         .setName('stop')
         .setDescription('👷・Stop your bot.'),
     ),
+  options: {
+    nsfw: false,
+    category: 'CustomBot',
+    cooldown: 1,
+  },
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

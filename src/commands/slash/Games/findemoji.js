@@ -5,6 +5,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('findemoji')
     .setDescription('🔎・Play a game of Find Emoji!'),
+  options: {
+    nsfw: false,
+    category: 'Games',
+    cooldown: 1,
+  },
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction

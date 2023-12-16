@@ -41,6 +41,11 @@ module.exports = {
         .setName('remove')
         .setDescription('🔄 Remove the Welcome Channel'),
     ),
+  options: {
+    nsfw: false,
+    category: 'Welcome',
+    cooldown: 1,
+  },
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction

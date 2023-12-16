@@ -9,6 +9,11 @@ module.exports = {
         .setDescription('The value you want to generate a QR code for.')
         .setRequired(true),
     ),
+  options: {
+    nsfw: false,
+    category: 'Tools',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

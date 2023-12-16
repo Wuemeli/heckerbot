@@ -4,6 +4,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('support')
     .setDescription('🕹️・Get the Invite Link to the Discord Support Server'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

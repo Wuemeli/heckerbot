@@ -33,6 +33,15 @@ module.exports = {
           { name: 'White', value: '#FFFFFF' },
         ),
     ),
+  options: {
+    nsfw: false,
+    category: 'Utility',
+    cooldown: 1,
+  },
+  /**
+   * @param {ExtendedClient} client
+   * @param {ChatInputCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
     await interaction.deferReply();
 

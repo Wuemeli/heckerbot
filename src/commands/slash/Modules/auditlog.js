@@ -22,6 +22,11 @@ module.exports = {
         .setName('remove')
         .setDescription('💥・Removes the Audit Log Channel'),
     ),
+  options: {
+    nsfw: false,
+    category: 'Auditlog',
+    cooldown: 1,
+  },
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

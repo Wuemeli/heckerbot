@@ -20,7 +20,6 @@
 - `changelog` - Get the bot changelog
 - `vote` - Get the bot vote link
 - `support` - Get the bot support server
-- `faq` - Get the bot faq
 
 ## Modules
 - `counting` - Counting module

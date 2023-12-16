@@ -4,6 +4,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('invite')
     .setDescription('💌・Get the invite link for the bot.'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

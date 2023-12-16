@@ -32,6 +32,11 @@ module.exports = {
           option.setName('backup-id')
             .setDescription('The ID of the backup to remove')
             .setRequired(true))),
+  options: {
+    nsfw: false,
+    category: 'Backup',
+    cooldown: 1,
+  },
   /**
 * @param {ExtendedClient} client
 * @param {ChatInputCommandInteraction} interaction
