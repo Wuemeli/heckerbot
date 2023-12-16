@@ -53,12 +53,12 @@ module.exports = {
     await interaction.deferReply();
 
     try {
-      if (!process.env.CUSTOM_BOT_URL) return await interaction.editReply('Custom bot server not configured!');
+      if (!process.env.CUSTOM_BOT_URL) return await interaction.editReply('Custom bot server not configured!', { ephemeral: true });
 
       switch (interaction.options.getSubcommand()) {
       case 'create': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
-        if (data) return await interaction.editReply('You already have a bot!');
+        if (data) return await interaction.editReply('You already have a bot!', { ephemeral: true });
 
         const token = interaction.options.getString('token');
         const clientId = interaction.options.getString('clientid');
@@ -74,14 +74,14 @@ module.exports = {
             Authorization: process.env.CUSTOM_BOT_SECRET,
           },
         });
-        if (response.status === 409) return await interaction.editReply(`${emojis.erroricon} You already have a bot!`);
-        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to create bot!`);
-        if (response.status === 201) return await interaction.editReply(`${emojis.successicon} Created bot!`);
+        if (response.status === 409) return await interaction.editReply(`${emojis.erroricon} You already have a bot!`, { ephemeral: true });
+        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to create bot!`, { ephemeral: true });
+        if (response.status === 201) return await interaction.editReply(`${emojis.successicon} Created bot!`, { ephemeral: true });
         break;
       }
       case 'delete': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
-        if (!data) return await interaction.editReply('You don\'t have a bot!');
+        if (!data) return await interaction.editReply('You don\'t have a bot!', { ephemeral: true });
 
         const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/delete`, {
           userId: interaction.user.id,
@@ -90,14 +90,14 @@ module.exports = {
             Authorization: process.env.CUSTOM_BOT_SECRET,
           },
         });
-        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
-        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to delete bot!`);
-        if (response.status === 200) return await interaction.editReply(`${emojis.successicon} Deleted bot!`);
+        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`, { ephemeral: true });
+        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to delete bot!`, { ephemeral: true });
+        if (response.status === 200) return await interaction.editReply(`${emojis.successicon} Deleted bot!`, { ephemeral: true });
         break;
       }
       case 'stop': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
-        if (!data) return await interaction.editReply('You don\'t have a bot!');
+        if (!data) return await interaction.editReply('You don\'t have a bot!', { ephemeral: true });
         const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/stop`, {
           clientId: data.clientId,
         }, {
@@ -106,9 +106,9 @@ module.exports = {
           },
         });
 
-        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
-        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to stop bot!`);
-        if (response.status === 200) return await interaction.editReply(`${emojis.successicon} Stopped bot!`);
+        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`, { ephemeral: true });
+        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to stop bot!`, { ephemeral: true });
+        if (response.status === 200) return await interaction.editReply(`${emojis.successicon} Stopped bot!`, { ephemeral: true });
       }
       }
 
