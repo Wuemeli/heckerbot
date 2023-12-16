@@ -4,6 +4,7 @@ const { log } = require('./functions/index');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
 const cors = require('cors');
+const { codeError } = require('./typescript/functions/errorHandler');
 
 const app = express();
 app.use(express.json());
@@ -34,7 +35,7 @@ app.post('/create', async (req, res) => {
     await custombotSchema.create({ userId, token, clientId, status });
     res.status(201).send('Custom bot created');
   } catch (error) {
-    console.log(error);
+    codeError(error, 'src/custombotserver.js');
     res.status(500).send('Error during createBot');
   }
 });
@@ -50,7 +51,7 @@ app.post('/stop', async (req, res) => {
     await stopBot(clientId);
     res.status(200).send('Custom bot stopped');
   } catch (error) {
-    console.log(error);
+    codeError(error, 'src/custombotserver.js');
     res.status(500).send('Error during stopBot');
   }
 });
@@ -66,7 +67,7 @@ app.post('/delete', async (req, res) => {
 
     res.status(200).send('Custom bot deleted');
   } catch (error) {
-    console.log(error);
+    codeError(error, 'src/custombotserver.js');
     res.status(500).send('Error during deleteBot');
   }
 });
