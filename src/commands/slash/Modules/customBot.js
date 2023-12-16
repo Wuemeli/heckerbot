@@ -38,6 +38,7 @@ module.exports = {
     await interaction.deferReply();
 
     try {
+      if (!process.env.CUSTOM_BOT_URL) return await interaction.editReply('Custom bot server not configured!');
       const data = await custombotSchema.findOne({ userId: interaction.user.id });
       if (data) return await interaction.editReply('You already have a bot!');
 
@@ -51,6 +52,10 @@ module.exports = {
         token,
         clientId: clientid,
         status,
+      }, {
+        headers: {
+          Authorization: process.env.CUSTOM_BOT_SECRET,
+        },
       });
 
       await interaction.editReply('Created bot!');

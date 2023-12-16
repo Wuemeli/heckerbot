@@ -17,6 +17,7 @@ log('Custom bot server started', 'done');
 
 app.post('/create', async (req, res) => {
   try {
+    if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { userId, token, clientId, status } = req.body;
     await createBot(token, clientId);
     await custombotSchema.create({ userId, token, clientId, status });
