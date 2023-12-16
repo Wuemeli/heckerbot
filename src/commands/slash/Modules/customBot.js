@@ -47,8 +47,10 @@ module.exports = {
 
 
       axios.post(`${process.env.CUSTOM_BOT_URL}/create`, {
+        userId: interaction.user.id,
         token,
         clientId: clientid,
+        status,
       });
 
       await interaction.editReply('Created bot!');

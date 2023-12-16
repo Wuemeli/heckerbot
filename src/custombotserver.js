@@ -1,30 +1,19 @@
-require('dotenv').config();
-const config = require('./config.js');
-if (config.dotenv.enabled) {
-  require('dotenv').config({ DOTENV_KEY: 'ENVKEY' });
-}
-
 const express = require('express');
 const { startallBots, createBot } = require('./typescript/custom-bot/main');
 const { log } = require('./functions/index');
 const custombotSchema = require('./schemas/custombotSchema');
-
+const mongoose = require('./handlers/mongoose');
 
 const app = express();
+app.use(express.json());
+
 const port = process.env.CUSTOM_BOT_PORT || 3001;
+const secret = process.env.CUSTOM_BOT_SECRET;
+
+mongoose();
 
 startallBots();
 log('Custom bot server started', 'done');
-
-app.get('/start', async (req, res) => {
-  try {
-    await startallBots();
-    res.send('All custom bots started');
-  } catch (error) {
-    log('Error during startallBots', 'error');
-    res.status(500).send('Error during startallBots');
-  }
-});
 
 app.post('/create', async (req, res) => {
   try {
@@ -33,7 +22,7 @@ app.post('/create', async (req, res) => {
     await custombotSchema.create({ userId, token, clientId, status });
     res.send('Custom bot created');
   } catch (error) {
-    log('Error during createBot', 'error');
+    console.log(error);
     res.status(500).send('Error during createBot');
   }
 });
