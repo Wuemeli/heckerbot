@@ -1,16 +1,16 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { createBot } = require('../../../typescript/custom-bot/main');
-const custombotSchema = require('../../../schemas/custombotSchema');
 const axios = require('axios');
+const custombotSchema = require('../../../schemas/custombotSchema');
+const emojis = require('../../../functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('custombot')
-    .setDescription('Create your own Discord bot!')
+    .setDescription('👷・Create your own Discord bot!')
     .addSubcommand(subcommand =>
       subcommand
-        .setName('token')
-        .setDescription('Create a bot token.')
+        .setName('create')
+        .setDescription('👷・Create your Custom Discord Bot.')
         .addStringOption(option =>
           option
             .setName('token')
@@ -28,6 +28,11 @@ module.exports = {
             .setName('status')
             .setDescription('The status of the bot.')
             .setRequired(true),
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('delete')
+            .setDescription('👷・Delete your bot.'),
         ),
     ),
   /**
@@ -42,25 +47,43 @@ module.exports = {
       const data = await custombotSchema.findOne({ userId: interaction.user.id });
       if (data) return await interaction.editReply('You already have a bot!');
 
-      const token = interaction.options.getString('token');
-      const clientid = interaction.options.getString('clientid');
-      const status = interaction.options.getString('status');
+      switch (interaction.options.getSubcommand()) {
+      case 'create': {
+        const token = interaction.options.getString('token');
+        const clientId = interaction.options.getString('clientid');
+        const status = interaction.options.getString('status');
 
+        const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/create`, {
+          userId: interaction.user.id,
+          token,
+          clientId,
+          status,
+        }, {
+          headers: {
+            Authorization: process.env.CUSTOM_BOT_SECRET,
+          },
+        });
+        if (response.status === 409) return await interaction.editReply(`${emojis.erroricon} You already have a bot!`);
+        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to create bot!`);
+        if (response.status === 201) return await interaction.editReply(`${emojis.successicon} Created bot!`);
+        break;
+      }
+      case 'delete': {
+        const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/delete`, {
+          userId: interaction.user.id,
+        }, {
+          headers: {
+            Authorization: process.env.CUSTOM_BOT_SECRET,
+          },
+        });
+        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
+        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to delete bot!`);
+        if (response.status === 200) return await interaction.editReply(`${emojis.successicon} Deleted bot!`);
+      }
+      }
 
-      axios.post(`${process.env.CUSTOM_BOT_URL}/create`, {
-        userId: interaction.user.id,
-        token,
-        clientId: clientid,
-        status,
-      }, {
-        headers: {
-          Authorization: process.env.CUSTOM_BOT_SECRET,
-        },
-      });
-
-      await interaction.editReply('Created bot!');
     } catch (error) {
-      await interaction.editReply('Failed to create bot!');
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }
   },
 };
