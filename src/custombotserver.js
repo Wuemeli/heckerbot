@@ -3,12 +3,16 @@ const { startallBots, createBot } = require('./typescript/custom-bot/main');
 const { log } = require('./functions/index');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
+
 
 const port = process.env.CUSTOM_BOT_PORT || 3001;
 const secret = process.env.CUSTOM_BOT_SECRET;
+const ipwhite = process.env.CUSTOM_BOT_IPWHITE;
 
 mongoose();
 
@@ -21,6 +25,7 @@ app.get('/health-check', (req, res) => {
 
 app.post('/create', async (req, res) => {
   try {
+    if (ipwhite && req.headers['x-forwarded-for'] !== ipwhite) return res.status(401).send('Unauthorized');
     if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { userId, token, clientId, status } = req.body;
     const check = await custombotSchema.findOne({ userId });
@@ -36,6 +41,7 @@ app.post('/create', async (req, res) => {
 
 app.post('/delete', async (req, res) => {
   try {
+    if (ipwhite && req.headers['x-forwarded-for'] !== ipwhite) return res.status(401).send('Unauthorized');
     if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { userId } = req.body;
     const data = await custombotSchema.findOne({ userId });
