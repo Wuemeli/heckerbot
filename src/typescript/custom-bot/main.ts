@@ -39,12 +39,10 @@ async function clientIdInfo(clientId: string) {
 function stopBot(clientId: string) {
   const bot = bots[clientId];
   if (bot) {
-    console.log(`Stopping bot with clientId: ${clientId}`);
     bot.destroy();
-    console.log(`Bot with clientId: ${clientId} stopped`);
     delete bots[clientId];
   } else {
-    console.log(`No bot found with clientId: ${clientId}`);
+    return false;
   }
 }
 export { createBot, startallBots, clientIdInfo, stopBot };

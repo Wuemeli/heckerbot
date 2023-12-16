@@ -26,8 +26,10 @@ app.post('/create', async (req, res) => {
   try {
     if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { userId, token, clientId, status } = req.body;
+
     const check = await custombotSchema.findOne({ userId });
     if (check) return res.status(409).send('Bot already exists');
+
     await createBot(token, clientId);
     await custombotSchema.create({ userId, token, clientId, status });
     res.status(201).send('Custom bot created');
@@ -39,14 +41,13 @@ app.post('/create', async (req, res) => {
 
 app.post('/stop', async (req, res) => {
   try {
-    console.log('Received stop request');
     if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { clientId } = req.body;
+
     const data = await custombotSchema.findOne({ clientId });
     if (!data) return res.status(404).send('Bot not found');
-    console.log('Calling stopBot function');
+
     await stopBot(clientId);
-    console.log('stopBot function called');
     res.status(200).send('Custom bot stopped');
   } catch (error) {
     console.log(error);
@@ -59,8 +60,10 @@ app.post('/delete', async (req, res) => {
     if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { userId } = req.body;
     const data = await custombotSchema.findOne({ userId });
+
     if (!data) return res.status(404).send('Bot not found');
     await data.delete();
+
     res.status(200).send('Custom bot deleted');
   } catch (error) {
     console.log(error);
