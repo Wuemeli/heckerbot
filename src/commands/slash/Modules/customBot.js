@@ -34,6 +34,11 @@ module.exports = {
       subcommand
         .setName('delete')
         .setDescription('👷・Delete your bot.'),
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('stop')
+        .setDescription('👷・Stop your bot.'),
     ),
   /**
  * @param {ExtendedClient} client
@@ -44,11 +49,12 @@ module.exports = {
 
     try {
       if (!process.env.CUSTOM_BOT_URL) return await interaction.editReply('Custom bot server not configured!');
-      const data = await custombotSchema.findOne({ userId: interaction.user.id });
-      if (data) return await interaction.editReply('You already have a bot!');
 
       switch (interaction.options.getSubcommand()) {
       case 'create': {
+        const data = await custombotSchema.findOne({ userId: interaction.user.id });
+        if (data) return await interaction.editReply('You already have a bot!');
+
         const token = interaction.options.getString('token');
         const clientId = interaction.options.getString('clientid');
         const status = interaction.options.getString('status');
@@ -69,6 +75,9 @@ module.exports = {
         break;
       }
       case 'delete': {
+        const data = await custombotSchema.findOne({ userId: interaction.user.id });
+        if (!data) return await interaction.editReply('You don\'t have a bot!');
+
         const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/delete`, {
           userId: interaction.user.id,
         }, {
@@ -79,6 +88,22 @@ module.exports = {
         if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
         if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to delete bot!`);
         if (response.status === 200) return await interaction.editReply(`${emojis.successicon} Deleted bot!`);
+        break;
+      }
+      case 'stop': {
+        const data = await custombotSchema.findOne({ userId: interaction.user.id });
+        if (!data) return await interaction.editReply('You don\'t have a bot!');
+        const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/stop`, {
+          clientId: data.clientId,
+        }, {
+          headers: {
+            Authorization: process.env.CUSTOM_BOT_SECRET,
+          },
+        });
+
+        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
+        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to stop bot!`);
+        if (response.status === 200) return await interaction.editReply(`${emojis.successicon} Stopped bot!`);
       }
       }
 

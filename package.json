@@ -5,10 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "bun --watch .",
+    "cb-dev": "bun --watch src/custombotserver.js",
     "start": "bun run .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "production": "bun install && bun start",
+    "production": "bun start && bun custombot",
     "custombot": "bun src/custombotserver.js"
   },
   "dependencies": {

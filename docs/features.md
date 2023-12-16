@@ -39,6 +39,7 @@
 ## Utility Commands
 - `avatar` - Get the avatar of a user
 - `userinfo`- Get Information about a user
+- `embed` - Create an embed
 
 
 ## User Context Menu
@@ -63,6 +64,10 @@
 - Server AFK (channel and timeout)
 - Server channels (with permissions, type, nsfw, messages, etc...)
 - Server roles (with permissions, color, etc...)
+
+
+## Custom Bot
+This Feature allows the User to spin up there own Version of Heckerbot easily. Docs for this will be made soon.
 
 ## Other Features
 - If you ping the bot you get a random useless Fact

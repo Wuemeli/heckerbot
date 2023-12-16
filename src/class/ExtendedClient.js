@@ -5,6 +5,7 @@ const deploy = require('../handlers/deploy');
 const mongoose = require('../handlers/mongoose');
 const components = require('../handlers/components');
 
+const bots = {};
 module.exports = class ExtendedClient extends Client {
   constructor(token, clientId) {
     super({
@@ -28,7 +29,7 @@ module.exports = class ExtendedClient extends Client {
     };
 
     this.applicationcommandsArray = [];
-    
+
   }
 
   async start() {
@@ -40,5 +41,7 @@ module.exports = class ExtendedClient extends Client {
 
     await this.login(this.token);
     deploy(this, this.token, this.clientId);
+
+    bots[this.clientId] = this;
   };
 };
