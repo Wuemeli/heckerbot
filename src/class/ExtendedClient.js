@@ -1,21 +1,21 @@
-const { Client, Partials, Collection, GatewayIntentBits } = require('discord.js');
-const config = require('../config');
+const { Client, Partials, Collection } = require('discord.js');
 const commands = require('../handlers/commands');
 const events = require('../handlers/events');
 const deploy = require('../handlers/deploy');
 const mongoose = require('../handlers/mongoose');
 const components = require('../handlers/components');
 
-module.exports = class extends Client {
-  constructor() {
+module.exports = class ExtendedClient extends Client {
+  constructor(token, clientId) {
     super({
-      intents: Object.values(
-        {
-          intents: 3276543,
-        },
-      ),
+      intents: Object.values({
+        intents: 3276543,
+      }),
       partials: [Object.keys(Partials)],
     });
+
+    this.token = token || process.env.CLIENT_TOKEN;
+    this.clientId = clientId || process.env.CLIENT_ID;
 
     this.collection = {
       interactioncommands: new Collection(),
@@ -28,6 +28,7 @@ module.exports = class extends Client {
     };
 
     this.applicationcommandsArray = [];
+    
   }
 
   async start() {
@@ -37,8 +38,7 @@ module.exports = class extends Client {
 
     mongoose();
 
-    await this.login(process.env.CLIENT_TOKEN);
-
-    if (config.handler.deploy) deploy(this, config);
+    await this.login(this.token);
+    deploy(this, this.token, this.clientId);
   };
 };

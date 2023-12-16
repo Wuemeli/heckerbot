@@ -10,6 +10,7 @@ const server = require('./express/server.js');
 const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
+const { startallBots } = require('./typescript/custom-bot/main');
 
 const client = new ExtendedClient();
 
@@ -23,19 +24,25 @@ try {
 try {
   server.start(client);
 } catch (error) {
-  console.error('Error during server.start():', error);
+  console.error('Error during server.start', error);
 }
 
 try {
   topgg(client);
 } catch (error) {
-  console.error('Error during topgg():', error);
+  console.error('Error during topgg', error);
 }
 
 try {
   handleLogs(client);
 } catch (error) {
-  console.error('Error during handleLogs():', error);
+  console.error('Error during handleLogs', error);
+}
+
+try {
+  startallBots();
+} catch (error) {
+  console.error('Error during startingsubbots');
 }
 
 module.exports = { client };
@@ -46,3 +53,4 @@ process.on('unhandledRejection', console.error);
 process.on('uncaughtException', console.error);
 process.on('uncaughtExceptionMonitor', console.error);
 process.on('warning', console.error);
+

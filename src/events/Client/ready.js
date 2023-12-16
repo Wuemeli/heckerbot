@@ -1,5 +1,6 @@
 const {log} = require('../../functions');
 const ExtendedClient = require('../../class/ExtendedClient');
+const { clientIdInfo } = require('../../typescript/custom-bot/main');
 
 module.exports = {
   event: 'ready',
@@ -11,7 +12,6 @@ module.exports = {
      * @returns
      */
   run: async (_, client) => {
-
     let totalUsers = 0;
     client.guilds.cache.forEach(guild => {
       totalUsers += guild.memberCount;
@@ -19,17 +19,28 @@ module.exports = {
 
     const guildcount = client.guilds.cache.size;
 
-    client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
+    const check = await clientIdInfo(client.user.id);
+    if (check) {
+      client.user.setActivity(check.status, { type: 4 });
+    } else {
+      client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
+      log('Logged in as: ' + client.user.tag, 'done');
 
-    setInterval(() => {
+    }
+
+    setInterval(async () => {
       let totalUsers = 0;
       client.guilds.cache.forEach(guild => {
         totalUsers += guild.memberCount;
       });
       const guildcount = client.guilds.cache.size;
-      client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
-    }, 60000);
 
-    log('Logged in as: ' + client.user.tag, 'done');
+      const check = await clientIdInfo(client.user.id);
+      if (check) {
+        client.user.setActivity(check.status, { type: 4 });
+      } else {
+        client.user.setActivity(`${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`, { type: 4 });
+      }
+    }, 60000);
   },
 };

@@ -5,13 +5,13 @@ const {log} = require('../functions');
  *
  * @param {ExtendedClient} client
  */
-module.exports = async (client) => {
-  const rest = new REST({version: '10'}).setToken(process.env.CLIENT_TOKEN);
+module.exports = async (client, token, clientId) => {
+  const rest = new REST({version: '10'}).setToken(token);
 
   try {
     log('Started loading application commands... (this might take minutes!)', 'warn');
 
-    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
+    await rest.put(Routes.applicationCommands(clientId), {
       body: client.applicationcommandsArray,
     });
 
