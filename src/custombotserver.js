@@ -10,9 +10,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use((req, res, next) => {
+  const secret = process.env.CUSTOM_BOT_SECRET;
+  if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
+  next();
+});
+
 
 const port = process.env.CUSTOM_BOT_PORT || 3001;
-const secret = process.env.CUSTOM_BOT_SECRET;
 
 mongoose();
 
@@ -25,7 +30,6 @@ app.get('/health-check', (req, res) => {
 
 app.post('/create', async (req, res) => {
   try {
-    if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { userId, token, clientId, status } = req.body;
 
     const check = await custombotSchema.findOne({ userId });
@@ -42,7 +46,6 @@ app.post('/create', async (req, res) => {
 
 app.post('/stop', async (req, res) => {
   try {
-    if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { clientId } = req.body;
 
     const data = await custombotSchema.findOne({ clientId });
@@ -58,7 +61,6 @@ app.post('/stop', async (req, res) => {
 
 app.post('/delete', async (req, res) => {
   try {
-    if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
     const { userId } = req.body;
     const data = await custombotSchema.findOne({ userId });
 
