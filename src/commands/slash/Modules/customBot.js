@@ -134,7 +134,7 @@ module.exports = {
           });
 
 
-          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Started bot! Invite: https://discord.com/oauth2/authorize?client_id=${data.clientId}&scope=bot&permissions=28582944439537`);
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Started bot! [Invite](https://discord.com/oauth2/authorize?client_id=${data.clientId}&scope=bot&permissions=28582944439537)`);
         } catch (error) {
           if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!`);
           if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
