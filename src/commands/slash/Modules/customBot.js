@@ -73,70 +73,97 @@ module.exports = {
         const clientId = interaction.options.getString('clientid');
         const status = interaction.options.getString('status');
 
-        const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/create`, {
-          userId: interaction.user.id,
-          token,
-          clientId,
-          status,
-        }, {
-          headers: {
-            Authorization: process.env.CUSTOM_BOT_SECRET,
-          },
-        });
-        if (response.status === 409) return await interaction.editReply(`${emojis.erroricon} You already have a bot!`);
-        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to create bot!`);
-        if (response.status === 201) return await interaction.editReply(`${emojis.checkicon} Created bot!`);
+        try {
+          const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/create`, {
+            userId: interaction.user.id,
+            token,
+            clientId,
+            status,
+          }, {
+            headers: {
+              Authorization: process.env.CUSTOM_BOT_SECRET,
+            },
+          });
+
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Created bot!`);
+
+        } catch (error) {
+          if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!`);
+          if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot already exists!`);
+          if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to create bot!`);
+        }
         break;
       }
       case 'delete': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
         if (!data) return await interaction.editReply('You don\'t have a bot!');
 
-        const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/delete`, {
-          userId: interaction.user.id,
-        }, {
-          headers: {
-            Authorization: process.env.CUSTOM_BOT_SECRET,
-          },
-        });
-        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
-        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to delete bot!`);
-        if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Deleted bot!`);
+        try {
+          const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/delete`, {
+            userId: interaction.user.id,
+          }, {
+            headers: {
+              Authorization: process.env.CUSTOM_BOT_SECRET,
+            },
+          });
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Deleted bot!`);
+
+        } catch (error) {
+          if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!`);
+          if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
+          if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to delete bot!`);
+        }
         break;
       }
       case 'start': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
         if (!data) return await interaction.editReply('You don\'t have a bot!');
 
-        const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/start`, {
-          clientId: data.clientId,
-        }, {
-          headers: {
-            Authorization: process.env.CUSTOM_BOT_SECRET,
-          },
-        });
+        try {
+          const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/start`, {
+            clientId: data.clientId,
+          }, {
+            headers: {
+              Authorization: process.env.CUSTOM_BOT_SECRET,
+            },
+          });
 
-        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
-        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to start bot!`);
-        if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Started bot!`);
+
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Started bot!`);
+        } catch (error) {
+          if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!`);
+          if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
+          if (error.response.status === 409) return await interaction.editReply(`${emojis.erroricon} Bot is already started!`);
+          if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to start bot!`);
+        }
+
         break;
       }
       case 'stop': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
         if (!data) return await interaction.editReply('You don\'t have a bot!');
-        const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/stop`, {
-          clientId: data.clientId,
-        }, {
-          headers: {
-            Authorization: process.env.CUSTOM_BOT_SECRET,
-          },
-        });
 
-        if (response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
-        if (response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to stop bot!`);
-        if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Stopped bot!`);
+        try {
+          const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/stop`, {
+            clientId: data.clientId,
+          }, {
+            headers: {
+              Authorization: process.env.CUSTOM_BOT_SECRET,
+            },
+          });
+
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Stopped bot!`);
+        } catch (error) {
+          if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!`);
+          if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
+          if (error.response.status === 409) return await interaction.editReply(`${emojis.erroricon} Bot is already stopped!`);
+          if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to stop bot!`);
+        }
+
+        break;
       }
       }
+
 
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error);

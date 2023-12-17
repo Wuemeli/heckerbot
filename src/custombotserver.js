@@ -5,8 +5,7 @@ const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
 const cors = require('cors');
 const { codeError } = require('./typescript/functions/errorHandler');
-const axios = require('axios');
-
+const { Client, Partials } = require('discord.js');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -16,7 +15,6 @@ app.use((req, res, next) => {
   if (req.headers.authorization !== secret) return res.status(401).send('Unauthorized');
   next();
 });
-
 
 const port = process.env.CUSTOM_BOT_PORT || 3001;
 
@@ -34,14 +32,14 @@ app.post('/create', async (req, res) => {
     const { userId, token, clientId, status } = req.body;
 
     const check = await custombotSchema.findOne({ userId });
-    if (check) return res.status(409).send('Bot already exists');
+    if (check) return res.status(404).send('Bot already exists');
 
     const isValid = await validateTokenAndClientId(token, clientId, res);
     if (!isValid) return;
 
     await createBot(token, clientId);
     await custombotSchema.create({ userId, token, clientId, status });
-    res.status(201).send('Custom bot created');
+    res.status(200).send('Custom bot created');
   } catch (error) {
     codeError(error, 'src/custombotserver.js');
     res.status(500).send('Error during createBot');
@@ -56,11 +54,12 @@ app.post('/start', async (req, res) => {
     const data = await custombotSchema.findOne({ clientId });
     if (!data) return res.status(404).send('Bot not found');
 
+    if (data.online) return res.status(409).send('Bot is already started');
+
     const isValid = await validateTokenAndClientId(data.token, clientId, res);
     if (!isValid) return;
 
-    const bot = createBot(data.token, clientId);
-    bot[clientId] = bot;
+    await createBot(data.token, clientId);
     await custombotSchema.updateOne({ clientId }, { online: true });
 
     res.status(200).send('Custom bot started');
@@ -77,8 +76,7 @@ app.post('/stop', async (req, res) => {
     const data = await custombotSchema.findOne({ clientId });
     if (!data) return res.status(404).send('Bot not found');
 
-    const isValid = await validateTokenAndClientId(data.token, clientId, res);
-    if (!isValid) return;
+    if (!data.online) return res.status(409).send('Bot is already stopped');
 
     await stopBot(clientId);
     res.status(200).send('Custom bot stopped');
@@ -94,8 +92,10 @@ app.post('/delete', async (req, res) => {
     const data = await custombotSchema.findOne({ userId });
 
     if (!data) return res.status(404).send('Bot not found');
-    await data.delete();
 
+    if (data.online) return res.status(409).send('Bot needs to be offline');
+
+    await data.delete();
 
     res.status(200).send('Custom bot deleted');
   } catch (error) {
@@ -106,32 +106,25 @@ app.post('/delete', async (req, res) => {
 
 async function validateTokenAndClientId(token, clientId, res) {
   try {
-    const tokenResponse = await axios.get('https://discord.com/api/v8/users/@me', {
-      headers: { Authorization: `Bot ${token}` },
-    }).catch((error) => {
-      if (error.response && error.response.status === 401) {
-        res.status(401).send('Invalid token');
-        return null;
-      }
-      throw error;
+    const client = new Client({
+      intents: Object.values({
+        intents: 3276543,
+      }),
+      partials: [Object.keys(Partials)],
     });
 
-    if (!tokenResponse) return false;
+    await client.login(token);
 
-    const clientResponse = await axios.get(`https://discord.com/api/v8/applications/${clientId}`).catch((error) => {
-      if (error.response && error.response.status === 404) {
-        res.status(404).send('Invalid clientId');
-        return null;
-      }
-      throw error;
-    });
+    if (client.user.id !== clientId) {
+      await client.destroy();
+      return res.status(401).send('Unauthorized');
+    }
 
-    if (!clientResponse) return false;
-
+    await client.destroy();
     return true;
   } catch (error) {
     codeError(error, 'src/custombotserver.js');
-    res.status(500).send('Error during validateTokenAndClientId');
+    res.status(401).send('Unauthorized');
     return false;
   }
 }
