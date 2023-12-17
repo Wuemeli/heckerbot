@@ -157,7 +157,7 @@ module.exports = {
             },
           });
 
-          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Stopped bot!`);
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Stopped bot!. This may take 30 Minutes!`);
         } catch (error) {
           if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!`);
           if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);

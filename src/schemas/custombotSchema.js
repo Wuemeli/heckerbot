@@ -5,7 +5,7 @@ const custombotSchema = new mongoose.Schema({
   token: { type: String, required: true },
   clientId: { type: String, required: true },
   status: { type: String, required: true },
-  online: { type: Boolean, default: false },
+  online: { type: Boolean, default: true },
 });
 
 module.exports = mongoose.model('custombot', custombotSchema);
