@@ -7,6 +7,7 @@ const cors = require('cors');
 const { codeError } = require('./typescript/functions/errorHandler');
 const { Client, Partials } = require('discord.js');
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 

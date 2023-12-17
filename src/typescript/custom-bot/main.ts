@@ -22,21 +22,6 @@ async function startallBots() {
   }
 }
 
-
-async function clientIdInfo(clientId: string) {
-  try {
-    const check = await custombotSchema.findOne({ clientId: clientId });
-    if (check) {
-      return { status: check.status, userId: check.userId };
-    } else {
-      return false;
-    }
-  }
-  catch (err) {
-    codeError(err as Error, 'src/typescript/custom-bot/main.ts');
-  }
-}
-
 async function stopBot(clientId: string) {
   try {
     const bot = bots[clientId];
@@ -48,6 +33,20 @@ async function stopBot(clientId: string) {
       return false;
     }
   } catch (err) {
+    codeError(err as Error, 'src/typescript/custom-bot/main.ts');
+  }
+}
+
+async function clientIdInfo(clientId: string) {
+  try {
+    const check = await custombotSchema.findOne({ clientId: clientId });
+    if (check) {
+      return { status: check.status, userId: check.userId };
+    } else {
+      return false;
+    }
+  }
+  catch (err) {
     codeError(err as Error, 'src/typescript/custom-bot/main.ts');
   }
 }
