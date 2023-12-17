@@ -12,7 +12,7 @@ function createBot(token?: string, clientId?: string) {
 
 async function startallBots() {
   try {
-    const custombots = await custombotSchema.find();
+    const custombots = await custombotSchema.find({ online: true });
     custombots.forEach((custombot: { token: string, clientId: string }) => {
       const bot = createBot(custombot.token, custombot.clientId);
       bots[custombot.clientId] = bot;
@@ -37,15 +37,16 @@ async function clientIdInfo(clientId: string) {
   }
 }
 
-function stopBot(clientId: string) {
+async function stopBot(clientId: string) {
   try {
-  const bot = bots[clientId];
-  if (bot) {
-    bot.destroy();
-    delete bots[clientId];
-  } else {
-    return false;
-  }
+    const bot = bots[clientId];
+    if (bot) {
+      bot.destroy();
+      delete bots[clientId];
+      await custombotSchema.updateOne({ clientId }, { online: false });
+    } else {
+      return false;
+    }
   } catch (err) {
     codeError(err as Error, 'src/typescript/custom-bot/main.ts');
   }
