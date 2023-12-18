@@ -6,6 +6,7 @@ if (config.dotenv.enabled) {
 
 const ExtendedClient = require('./class/ExtendedClient');
 const { handling } = require('./typescript/functions/errorHandler');
+const { logging } = require('./typescript/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
@@ -40,6 +41,9 @@ try {
 module.exports = { client };
 
 global.handle = new handling(client);
+global.log = new logging();
+
+global.log.startuplog('Started normal bot');
 
 process.on('unhandledRejection', console.error);
 process.on('uncaughtException', console.error);
