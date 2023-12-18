@@ -23,8 +23,6 @@ async function fetchCustomBotsCount() {
 
 export default async function editStatsEmbed(client: Client) {
   if (!process.env.STATS_CHANNEL_ID) { return; }
-  const userCount = client.users.cache.size.toString();
-  const guildCount = client.guilds.cache.size.toString();
   const { customBotsCount, cpu, ram, customBotCpu, customBotRam } = await fetchCustomBotsCount();
 
   const embed = new EmbedBuilder()
