@@ -114,18 +114,39 @@ async function validateTokenAndClientId(token, clientId, res) {
       partials: [Object.keys(Partials)],
     });
 
-    await client.login(token);
-
-    if (client.user.id !== clientId) {
-      await client.destroy();
-      return res.status(401).send('Unauthorized');
+    try {
+      await client.login(token);
+    } catch (error) {
+      console.error('Error during login:', error);
+      res.status(401).send('Unauthorized');
+      return false;
     }
 
-    await client.destroy();
-    return true;
+    return new Promise((resolve, reject) => {
+      client.on('ready', async () => {
+        console.log(`Logged in bot ID: ${client.user.id}`);
+        console.log(`Provided client ID: ${clientId}`);
+        if (client.options.intents !== 3276543) {
+          console.log('Intents are not enabled');
+          client.destroy();
+          res.status(401).send('Unauthorized');
+          resolve(false);
+        } else if (client.user.id !== clientId) {
+          console.log('Client ID is not matching');
+          client.destroy();
+          res.status(401).send('Unauthorized');
+          resolve(false);
+        } else {
+          await client.destroy();
+          resolve(true);
+        }
+      });
+    });
+
   } catch (error) {
+    console.log(error);
+    res.status(401).send('Error during validateTokenAndClientId');
     codeError(error, 'src/custombotserver.js');
-    res.status(401).send('Unauthorized');
     return false;
   }
 }
