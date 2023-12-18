@@ -152,3 +152,9 @@ async function validateTokenAndClientId(token, clientId, res) {
 app.listen(port, () => {
   log(`Custom bot server listening at http://localhost:${port}`, 'done');
 });
+
+
+process.on('unhandledRejection', global.log.anticrashlog('unhandledRejection'));
+process.on('uncaughtException', global.log.anticrashlog('uncaughtException'));
+process.on('uncaughtExceptionMonitor', global.log.anticrashlog('uncaughtExceptionMonitor'));
+process.on('warning', global.log.anticrashlog('warning'));

@@ -45,8 +45,8 @@ global.log = new logging();
 
 global.log.startuplog('Started normal bot');
 
-process.on('unhandledRejection', console.error);
-process.on('uncaughtException', console.error);
-process.on('uncaughtExceptionMonitor', console.error);
-process.on('warning', console.error);
+process.on('unhandledRejection', global.log.anticrashlog('unhandledRejection'));
+process.on('uncaughtException', global.log.anticrashlog('uncaughtException'));
+process.on('uncaughtExceptionMonitor', global.log.anticrashlog('uncaughtExceptionMonitor'));
+process.on('warning', global.log.anticrashlog('warning'));
 

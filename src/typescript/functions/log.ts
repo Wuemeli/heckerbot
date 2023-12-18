@@ -39,6 +39,17 @@ class logging {
 
     axios.post(`${process.env.LOG_WEBHOOK_URL}`, { embeds: [embed] });
   }
+
+  async anticrashlog(message: string): Promise<void> {
+    if (!message) throw new Error('No message provided');
+
+    const embed = new EmbedBuilder()
+      .setTitle('🟢 AntiCrash')
+      .setDescription(message)
+      .setColor('Green');
+
+    axios.post(`${process.env.LOG_WEBHOOK_URL}`, { embeds: [embed] });
+  }
 }
 
 export { logging };
