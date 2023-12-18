@@ -4,7 +4,7 @@ const { log } = require('./functions/index');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
 const cors = require('cors');
-const { codeError } = require('./typescript/functions/errorHandler');
+const { codeError, handling } = require('./typescript/functions/errorHandler');
 const { Client, Partials } = require('discord.js');
 const app = express();
 
@@ -20,6 +20,7 @@ app.use((req, res, next) => {
 const port = process.env.CUSTOM_BOT_PORT || 3001;
 
 mongoose();
+global.handle = new handling();
 
 startallBots();
 log('Custom bot server started', 'done');
