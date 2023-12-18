@@ -107,6 +107,7 @@ app.post('/delete', async (req, res) => {
 });
 
 async function validateTokenAndClientId(token, clientId, res) {
+  console.log('validateTokenAndClientId');
   try {
     const client = new Client({
       intents: Object.values({
@@ -116,38 +117,30 @@ async function validateTokenAndClientId(token, clientId, res) {
     });
 
     try {
-      await client.login(token);
+      await Promise.race([
+        client.login(token),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Login timed out')), 5000)),
+      ]);
+      console.log('success');
+      console.log('promise');
+      if (client.user.id !== clientId) {
+        console.log('client.user.id !== clientId');
+        setTimeout(() => client.destroy(), 5000);
+        res.status(401).send('Unauthorized');
+        return false;
+      } else {
+        setTimeout(() => client.destroy(), 5000);
+        return true;
+      }
     } catch (error) {
-      console.error('Error during login:', error);
+      console.log('error');
       res.status(401).send('Unauthorized');
       return false;
     }
-
-    return new Promise((resolve, reject) => {
-      client.on('ready', async () => {
-        console.log(`Logged in bot ID: ${client.user.id}`);
-        console.log(`Provided client ID: ${clientId}`);
-        if (client.options.intents !== 3276543) {
-          console.log('Intents are not enabled');
-          client.destroy();
-          res.status(401).send('Unauthorized');
-          resolve(false);
-        } else if (client.user.id !== clientId) {
-          console.log('Client ID is not matching');
-          client.destroy();
-          res.status(401).send('Unauthorized');
-          resolve(false);
-        } else {
-          await client.destroy();
-          resolve(true);
-        }
-      });
-    });
-
-  } catch (error) {
-    console.log(error);
-    res.status(401).send('Error during validateTokenAndClientId');
-    codeError(error, 'src/custombotserver.js');
+  }
+  catch (error) {
+    console.log('error');
+    res.status(401).send('Unauthorized');
     return false;
   }
 }
