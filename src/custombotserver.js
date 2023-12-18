@@ -1,5 +1,5 @@
 const express = require('express');
-const { startallBots, createBot, stopBot } = require('./typescript/custom-bot/main');
+const { startallBots, createBot, stopBot, bots } = require('./typescript/custom-bot/main');
 const { log } = require('./functions/index');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
@@ -7,6 +7,7 @@ const { logging } = require('./typescript/functions/log');
 const cors = require('cors');
 const { codeError, handling } = require('./typescript/functions/errorHandler');
 const { Client, Partials } = require('discord.js');
+const os = require('os');
 const app = express();
 
 app.use(express.json());
@@ -30,7 +31,12 @@ startallBots();
 log('Custom bot server started', 'done');
 
 app.get('/health-check', (req, res) => {
-  res.send('ok');
+  res.send({
+    status: 'ok',
+    ram: `${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100}/${Math.round((os.totalmem() / 1024 / 1024) * 100) / 100}`,
+    cpu: `${Math.round((process.cpuUsage().system / 1024 / 1024) * 100) / 100}/${os.cpus().length}`,
+    customBotsCount: Object.keys(bots).length,
+  });
 });
 
 app.post('/create', async (req, res) => {

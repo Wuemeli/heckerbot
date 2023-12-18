@@ -2,7 +2,7 @@ import ExtendedClient from '../../class/ExtendedClient';
 import custombotSchema from '../../schemas/custombotSchema.js';
 import { codeError } from '../functions/errorHandler';
 
-let bots: Record<string, any> = {};
+export let bots: Record<string, any> = {};
 
 function createBot(token?: string, clientId?: string) {
   const client = new ExtendedClient(token, clientId);
