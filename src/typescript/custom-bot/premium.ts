@@ -1,5 +1,6 @@
 import axios from 'axios';
 import premiumSchema from '../../schemas/premiumSchema';
+import custombotSchema from '../../schemas/custombotSchema';
 
 export async function handleEntitlements() {
   if (!process.env.PREMIUM) return;
@@ -9,8 +10,6 @@ export async function handleEntitlements() {
       Authorization: `Bot ${process.env.PREMIUM_TOKEN}`,
     },
   });
-
-  console.log(response.data);
 
   for (const entitlement of response.data) {
     const { user_id, starts_at, ends_at, deleted } = entitlement;
@@ -30,6 +29,10 @@ export async function handleEntitlements() {
   const expiredEntitlements = await premiumSchema.find({ premiumExpires: { $lt: new Date() } });
   for (const expiredEntitlement of expiredEntitlements) {
     await premiumSchema.findOneAndDelete({ userID: expiredEntitlement.userID });
+    const check = await custombotSchema.findOne({ userID: expiredEntitlement.userID });
+    if (check) {
+      await custombotSchema.findOneAndDelete({ userID: expiredEntitlement.userID });
+    }
   }
 }
 

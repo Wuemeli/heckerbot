@@ -16,6 +16,7 @@ const { handleEntitlements } = require('./typescript/custom-bot/premium');
 const client = new ExtendedClient();
 
 handleEntitlements();
+setInterval(handleEntitlements, 1000 * 60 );
 
 try {
   client.start();
