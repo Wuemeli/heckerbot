@@ -53,6 +53,7 @@ module.exports = {
   options: {
     nsfw: false,
     category: 'CustomBot',
+    premium: true,
     cooldown: 1,
   },
   /**

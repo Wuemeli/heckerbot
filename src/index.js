@@ -11,8 +11,11 @@ const server = require('./express/server.js');
 const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
+const { handleEntitlements } = require('./typescript/custom-bot/premium');
 
 const client = new ExtendedClient();
+
+handleEntitlements();
 
 try {
   client.start();

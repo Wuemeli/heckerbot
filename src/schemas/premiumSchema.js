@@ -7,4 +7,4 @@ const premiumSchema = new mongoose.Schema({
   premiumExpires: { type: Date, required: false },
 });
 
-const model = mongoose.model('PremiumModels', premiumSchema);
+module.exports = mongoose.model('premiumdata', premiumSchema);

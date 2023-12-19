@@ -1,38 +1,40 @@
-import { Client } from 'discord.js';
+import axios from 'axios';
 import premiumSchema from '../../schemas/premiumSchema';
 
-export function setupEntitlementEvents(client: Client) {
+export async function handleEntitlements() {
   if (!process.env.PREMIUM) return;
 
-  client.on('ENTITLEMENT_CREATE', async (entitlement) => {
-    const { user_id, starts_at, ends_at } = entitlement;
+  const response = await axios.get(`https://discord.com/api/v10/applications/1092475154791145542/entitlements`, {
+    headers: {
+      Authorization: `Bot ${process.env.PREMIUM_TOKEN}`,
+    },
+  });
+
+  console.log(response.data);
+
+  for (const entitlement of response.data) {
+    const { user_id, starts_at, ends_at, deleted } = entitlement;
+
+    if (deleted) {
+      await premiumSchema.findOneAndDelete({ userID: user_id });
+      continue;
+    }
+
     await premiumSchema.findOneAndUpdate(
       { userID: user_id },
       { premium: true, premiumSince: starts_at, premiumExpires: ends_at },
       { upsert: true }
     );
-  });
+  }
 
-  client.on('ENTITLEMENT_UPDATE', async (entitlement) => {
-    const { user_id, ends_at } = entitlement;
-    await premiumSchema.findOneAndUpdate(
-      { userID: user_id },
-      { premiumExpires: ends_at },
-      { upsert: true }
-    );
-  });
-
-  client.on('ENTITLEMENT_DELETE', async (entitlement) => {
-    const { user_id } = entitlement;
-    await premiumSchema.findOneAndUpdate(
-      { userID: user_id },
-      { premium: false },
-      { upsert: true }
-    );
-  });
+  const expiredEntitlements = await premiumSchema.find({ premiumExpires: { $lt: new Date() } });
+  for (const expiredEntitlement of expiredEntitlements) {
+    await premiumSchema.findOneAndDelete({ userID: expiredEntitlement.userID });
+  }
 }
 
 export async function hasPremium(userID: string) {
   const userPremium = await premiumSchema.findOne({ userID });
-  return userPremium?.premium || false;
+  if (!userPremium || !userPremium.premium) return false;
+  return true;
 }

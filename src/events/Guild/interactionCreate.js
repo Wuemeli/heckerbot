@@ -3,6 +3,7 @@ const {log} = require('../../functions');
 const ExtendedClient = require('../../class/ExtendedClient');
 const emojis = require('../../functions/emojis');
 const {PermissionFlagsBits} = require('discord.js');
+const { hasPremium } = require('../../typescript/custom-bot/premium');
 
 const cooldown = new Map();
 
@@ -51,6 +52,16 @@ module.exports = {
         });
 
         return;
+      }
+
+      if (command.options.premium) {
+        if (!process.env.PREMIUM) {
+          return interaction.reply({ content: `${emojis.erroricon} This command can only be used by premium users.`, ephemeral: true });
+        }
+        const hasUserPremium = await hasPremium(interaction.user.id);
+        if (!hasUserPremium) {
+          return interaction.reply({ content: `${emojis.erroricon} This command can only be used by premium users.`, ephemeral: true });
+        }
       }
 
       if (process.env[command.options.category.toUpperCase()] === 'false') {
