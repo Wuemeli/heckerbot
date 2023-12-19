@@ -4,18 +4,23 @@ import emojis from '../../functions/emojis';
 import os from 'os';
 
 async function fetchCustomBotsCount() {
-  const response = await axios.get(`${process.env.CUSTOM_BOT_URL}/health-check`, {
-    headers: {
-      Authorization: process.env.CUSTOM_BOT_SECRET,
-    },
-  });
+  let response;
+  try {
+    response = await axios.get(`${process.env.CUSTOM_BOT_URL}/health-check`, {
+      headers: {
+        Authorization: process.env.CUSTOM_BOT_SECRET,
+      },
+    });
+  } catch (error) {
+    console.log('Error fetching custom bot stats');
+  }
 
   const serverStats = {
     cpu: `${Math.round((process.cpuUsage().system / 1024 / 1024) * 100) / 100}/${os.cpus().length}`,
     ram: `${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100}/${Math.round((os.totalmem() / 1024 / 1024) * 100) / 100}`,
-    customBotsCount: response.data.customBotsCount,
-    customBotCpu: response.data.cpu,
-    customBotRam: response.data.ram,
+    customBotsCount: response ? response.data.customBotsCount : '0',
+    customBotCpu: response ? response.data.cpu : '0',
+    customBotRam: response ? response.data.ram : '0'
   };
 
   return serverStats;
