@@ -107,7 +107,8 @@ app.post('/delete', async (req, res) => {
 
     if (data.online) return res.status(409).send('Bot needs to be offline');
 
-    await custombotSchema.deleteOne({ userId });
+    await stopBot(data.clientId);
+    await custombotSchema.delete({ userId });
 
     res.status(200).send('Custom bot deleted');
   } catch (error) {

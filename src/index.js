@@ -11,6 +11,7 @@ const server = require('./express/server.js');
 const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
+
 const client = new ExtendedClient();
 
 try {
