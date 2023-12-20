@@ -56,14 +56,17 @@ module.exports = {
 
       if (command.options.premium) {
         if (!process.env.PREMIUM) {
-          return interaction.reply({ content: `${emojis.erroricon} This command can only be used by premium users.`, ephemeral: true });
+          return interaction.reply({ content: `${emojis.erroricon} Premium System needs to be enabled.`, ephemeral: true });
         }
         const hasUserPremium = await hasPremium(interaction.user.id);
         if (!hasUserPremium) {
-          return interaction.reply({ content: `${emojis.erroricon} This command can only be used by premium users.`, ephemeral: true });
+          return interaction.reply({
+            type: 10,
+            data: { content: `${emojis.erroricon} This command can only be used by premium users.` },
+            ephemeral: true,
+          });
         }
       }
-
       if (process.env[command.options.category.toUpperCase()] === 'false') {
         return interaction.reply({ content: `${emojis.erroricon} The ${command.options.category} category is currently disabled.`, ephemeral: true });
       }
