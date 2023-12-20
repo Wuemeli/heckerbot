@@ -76,7 +76,6 @@ app.post('/delete', async (req, res) => {
 });
 
 async function validateTokenAndClientId(token, clientId, res) {
-  console.log('validateTokenAndClientId');
   try {
     const client = new Client({
       intents: Object.values({
@@ -90,8 +89,6 @@ async function validateTokenAndClientId(token, clientId, res) {
         client.login(token),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Login timed out')), 5000)),
       ]);
-      console.log('success');
-      console.log('promise');
       if (client.user.id !== clientId) {
         console.log('client.user.id !== clientId');
         setTimeout(() => client.destroy(), 5000);
