@@ -48,7 +48,7 @@ export default async function editStatsEmbed(client: Client) {
   }
 
   const messages = await channel.messages.fetch({ limit: 100 });
-  const statsMessages = messages.filter((msg: Message) => msg.embeds && msg.embeds[0]?.title === ':online: Bot Statistics');
+  const statsMessages = messages.filter((msg: Message) => msg.embeds && msg.embeds[0]?.title.includes('Bot Statistics'))
   const statsMessage = statsMessages.first();
 
   if (statsMessage) {
