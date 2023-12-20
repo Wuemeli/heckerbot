@@ -7,7 +7,7 @@ export async function handleEntitlements() {
 
   const response = await axios.get(`https://discord.com/api/v10/applications/1092475154791145542/entitlements`, {
     headers: {
-      Authorization: `Bot ${process.env.PREMIUM_TOKEN}`,
+      Authorization: `Bot ${process.env.CLIENT_TOKEN}`,
     },
   });
 
