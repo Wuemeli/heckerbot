@@ -1,6 +1,6 @@
 const {log} = require('../../functions');
 const ExtendedClient = require('../../class/ExtendedClient');
-const { clientIdInfo } = require('../../typescript/custom-bot/main');
+const { botInfo } = require('../../typescript/custom-bot/main');
 const editStatsEmbed = require('../../typescript/functions/statsEmbed').default;
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
 
     const guildcount = client.guilds.cache.size;
 
-    const check = await clientIdInfo(client.user.id);
+    const check = await botInfo(client.user.id);
     if (check) {
       check.status = check.status.replace('{users}', totalUsers);
       check.status = check.status.replace('{guilds}', guildcount);
@@ -39,7 +39,7 @@ module.exports = {
       });
       const guildcount = client.guilds.cache.size;
 
-      const check = await clientIdInfo(client.user.id);
+      const check = await botInfo(client.user.id);
       if (check) {
         check.status = check.status.replace('{users}', totalUsers);
         check.status = check.status.replace('{guilds}', guildcount);

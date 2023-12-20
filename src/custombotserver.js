@@ -1,5 +1,5 @@
 const express = require('express');
-const { startallBots, createBot, stopBot, bots } = require('./typescript/custom-bot/main');
+const { startallBots, createBot, bots } = require('./typescript/custom-bot/main');
 const { log } = require('./functions/index');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
@@ -66,10 +66,7 @@ app.post('/delete', async (req, res) => {
 
     if (!data) return res.status(404).send('Bot not found');
 
-    if (data.online) return res.status(409).send('Bot needs to be offline');
-
-    await stopBot(data.clientId);
-    await custombotSchema.delete({ userId });
+    await custombotSchema.findOneAndDelete({ userId });
 
     res.status(200).send('Custom bot deleted');
   } catch (error) {
