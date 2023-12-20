@@ -16,8 +16,6 @@ const editStatsEmbed = require('./typescript/functions/statsEmbed').default;
 
 const client = new ExtendedClient();
 
-handleEntitlements();
-editStatsEmbed(client);
 setInterval(editStatsEmbed, 1000 * 60, client);
 setInterval(handleEntitlements, 1000 * 60 );
 
