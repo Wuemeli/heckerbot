@@ -58,7 +58,7 @@ module.exports = {
     );
 
     try {
-      if (!process.env.CUSTOM_BOT_URL) return await interaction.editReply('Custom bot server not configured!');
+      if (!process.env.CUSTOM_BOT_URL) return await interaction.editReply(`${emojis.checkicon} Custom bot server hasnt been configured!`);
 
       switch (interaction.options.getSubcommand()) {
       case 'create': {
