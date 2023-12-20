@@ -4,7 +4,7 @@ const emojis = require('../../../functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()
-    .setName('auditlogs')
+    .setName('auditlog')
     .setDescription('📓・Audit Log Settings')
     .addSubcommand(subcommand =>
       subcommand
@@ -22,6 +22,11 @@ module.exports = {
         .setName('remove')
         .setDescription('💥・Removes the Audit Log Channel'),
     ),
+  options: {
+    nsfw: false,
+    category: 'Auditlog',
+    cooldown: 1,
+  },
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction
@@ -51,6 +56,7 @@ module.exports = {
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been set to <#${channelId}>`,
+          ephemeral: true,
         });
       } else if (subcommand === 'remove') {
         await auditlogSchema.findOneAndDelete({
@@ -59,6 +65,7 @@ module.exports = {
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been removed`,
+          ephemeral: true,
         });
       }
     } catch (error) {

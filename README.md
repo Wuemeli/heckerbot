@@ -10,6 +10,9 @@
 - [Discord.js](https://discord.js.org) - The Framework used
 - [MongoDB](https://mongodb.com) - The Database used
 
+
+**Note: I do not recommend to use this for personal Purposes as still some Features dont work in this case. For my Production case everything is coded for this. But it isnt coded for Personal use. Such as Premium, Custombot, env Variables, etc.**
+
 ## 🪺 Preqrequisites
 Before you begin, ensure you have met the following requirements: <br>
 Bun.sh is installed on your system.  <br>

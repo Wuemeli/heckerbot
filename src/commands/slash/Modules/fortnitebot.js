@@ -88,6 +88,11 @@ module.exports = {
         .setName('remove')
         .setDescription('🗑️・Remove your Fortnite Bot'),
     ),
+  options: {
+    nsfw: false,
+    category: 'FortniteBot',
+    cooldown: 1,
+  },
   /**
     * @param {ExtendedClient} client
     * @param {ChatInputCommandInteraction} interaction

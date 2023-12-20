@@ -4,6 +4,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('vote')
     .setDescription('🗳・Gets the Vote Link for the Bot'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

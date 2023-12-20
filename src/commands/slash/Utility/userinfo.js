@@ -11,6 +11,11 @@ module.exports = {
         .setDescription('The user.')
         .setRequired(false),
     ),
+  options: {
+    nsfw: false,
+    category: 'Utility',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

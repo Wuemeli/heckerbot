@@ -22,6 +22,7 @@ import { ChannelType } from 'discord.js';
 import nodeFetch from 'node-fetch';
 import { fetchChannelPermissions, fetchTextChannelData, fetchVoiceChannelData } from './util';
 import { MemberData } from './types/MemberData';
+import { codeError } from '../functions/errorHandler';
 
 /**
  * Returns an array with the banned members of the guild
@@ -166,12 +167,11 @@ export async function getChannels(guild: Guild, options: CreateOptions) {
       .toJSON();
     for (const channel of others) {
       if (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildAnnouncement) {
-        console.log('Channel is text channel');
         try {
           const channelData: TextChannelData = await fetchTextChannelData(channel as TextChannel, options);
           channels.others.push(channelData);
         } catch (e) {
-          console.error(e);
+          codeError(e as Error, 'src/typescript/backup/create.ts');
         }
       } else {
         const channelData: VoiceChannelData = await fetchVoiceChannelData(channel as VoiceChannel);

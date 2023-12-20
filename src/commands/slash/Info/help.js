@@ -5,6 +5,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('help')
     .setDescription('💥・Lists all commands'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

@@ -20,7 +20,6 @@
 - `changelog` - Get the bot changelog
 - `vote` - Get the bot vote link
 - `support` - Get the bot support server
-- `faq` - Get the bot faq
 
 ## Modules
 - `counting` - Counting module
@@ -28,6 +27,7 @@
 - `fortnite-bot` - Fortnite module
 - `backup` - Backup module
 - `auditlogs` - Audit logs module
+- `custombot` - Custom bot module
 
 ## Tools Commands
 - `dnslookup` - Lookup a dns
@@ -38,6 +38,7 @@
 ## Utility Commands
 - `avatar` - Get the avatar of a user
 - `userinfo`- Get Information about a user
+- `embed` - Create an embed
 
 
 ## User Context Menu
@@ -63,11 +64,16 @@
 - Server channels (with permissions, type, nsfw, messages, etc...)
 - Server roles (with permissions, color, etc...)
 
+
+## Custom Bot
+This Feature allows the User to spin up there own Version of Heckerbot easily. Docs for this will be made soon.
+
 ## Other Features
 - If you ping the bot you get a random useless Fact
 - Error Handler
 - Emojis
 - Redis Database
+- Ability to turn of certain Modules/Commands in env
 
 ## TOP.GG
 - Stats Posting
@@ -75,3 +81,5 @@
 
 ## Server
 - Stats Enpoint
+
+

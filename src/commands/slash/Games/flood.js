@@ -4,11 +4,16 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   structure: new SlashCommandBuilder()
     .setName('flood')
-    .setDescription('🧨・Play the Flood game!')
+    .setDescription('🧨・Play the Flood game!'),
+  options: {
+    nsfw: false,
+    category: 'Games',
+    cooldown: 1,
+  },
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction
-   */,
+   */
   run: async (client, interaction) => {
     try {
       const difficulty = Math.floor(Math.random() * 3) + 1;

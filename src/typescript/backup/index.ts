@@ -8,6 +8,7 @@ import * as utilMaster from './util';
 import nodeFetch from 'node-fetch';
 const streamToString = require('stream-to-string');
 import { Readable } from 'stream';
+import { codeError } from '../functions/errorHandler';
 
 
 const S3 = new S3Client({
@@ -31,7 +32,7 @@ const getBackupData = async (backupID: string) => {
       const backupData: BackupData = JSON.parse(await streamToString(bodyStream));
       resolve(backupData);
     } catch (error) {
-      console.log(error);
+      codeError(error as Error, 'src/typescript/backup/index.ts');
       reject('No backup found');
     }
   });
@@ -133,19 +134,18 @@ export const create = async (
       try {
         backupData.channels = await createMaster.getChannels(guild, options);
       } catch (e) {
-        console.log(e);
+        codeError(e as Error, 'src/typescript/backup/index.ts');
         return reject('An error occurred');
       }
-      console.log('7');
       const backupJSON = JSON.stringify(backupData, null, 4);
       try {
         await S3.send(new PutObjectCommand({ Bucket: bucketName, Key: `${backupData.id}.json`, Body: backupJSON }));
       } catch (error) {
-        console.error('Error saving backup:', error);
+        codeError(error as Error, 'src/typescript/backup/index.ts');
       }
       resolve(backupData);
     } catch (e) {
-      console.log(e);
+      codeError(e as Error, 'src/typescript/backup/index.ts');
       reject('An error occurred');
     }
   }

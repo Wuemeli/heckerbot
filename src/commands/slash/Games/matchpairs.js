@@ -5,6 +5,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('matchpairs')
     .setDescription('🔀・Play the Match Pairs game!'),
+  options: {
+    nsfw: false,
+    category: 'Games',
+    cooldown: 1,
+  },
   /**
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction

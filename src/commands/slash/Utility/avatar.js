@@ -9,6 +9,11 @@ module.exports = {
         .setDescription('👤・The user whose avatar you want to retrieve.')
         .setRequired(false),
     ),
+  options: {
+    nsfw: false,
+    category: 'Utility',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

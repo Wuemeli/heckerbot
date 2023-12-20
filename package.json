@@ -5,11 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "bun --watch .",
+    "cb-dev": "bun --watch src/custombotserver.js",
     "start": "bun run .",
+    "custombot": "bun src/custombotserver.js",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "production": "bun install && bun start",
-    "env.vault": "bunx dotenv-vault build && bunx dotenv-vault keys production"
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.465.0",

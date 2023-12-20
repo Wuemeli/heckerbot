@@ -81,7 +81,7 @@ async function createBot(ownerId: string, authcode: string, status: string, plat
 
     return { error: false, botId: botId };
   } catch (err) {
-    console.log(err);
+    codeError(err as Error, 'src/fn-bot/main.js');
     if ((err as Error).message === 'errors.com.epicgames.account.auth_token.invalid_refresh_token') { return { error: false, botId: botId }; }
     return { error: true, botId: '' };
   }
@@ -102,7 +102,7 @@ async function createClient(deviceAuth: any, status: string, platform: string) {
     });
 
     fnbot.login().catch(async (err) => {
-      console.error(`Failed to login: ${err}`);
+      codeError(err as Error, 'src/fn-bot/main.js');
       if (err.code === 'errors.com.epicgames.account.auth_token.invalid_refresh_token') {
         const newAccessToken = await refreshToken(deviceAuth.refreshToken);
         deviceAuth.accessToken = newAccessToken;

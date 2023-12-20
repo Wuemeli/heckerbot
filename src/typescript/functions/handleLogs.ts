@@ -22,506 +22,388 @@ function handleLogs(client: Client): void {
     }
   }
 
-  client.on('messageDelete', function (message) {
-    if (message.author.bot) return;
+  async function getAuditLogUser(guild: any, type: any) {
+    const fetchedLogs = await guild.fetchAuditLogs({
+      limit: 1,
+      type: type,
+    });
 
-    const embed = new EmbedBuilder()
-      .setTitle('Message Deleted')
-      .setColor('Red')
-      .setDescription(`
-            **Author : ** <@${message.author.id}> - *${message.author.tag}*
-            **Date : ** ${message.createdAt}
-            **Channel : ** <#${message.channel.id}> - *${'name' in message.channel ? message.channel.name : 'DMChannel'}*
-            **Deleted Message : **\`${message.content.replace(/`/g, '\'')}\`
-         `);
+    if (!fetchedLogs) return null;
+    if (!fetchedLogs.entries.first()) return null;
 
-    return sendLog(message.guild.id, embed);
-  });
+    return fetchedLogs;
+  }
 
-  // Channel Topic Updating
-  client.on('guildChannelTopicUpdate', (channel, oldTopic, newTopic) => {
+  try {
 
-    const embed = new EmbedBuilder()
-      .setTitle('Topic Updated!')
-      .setColor('Green')
-      .setDescription(`${channel} Topic changed from **${oldTopic}** to **${newTopic}**`);
+    client.on('messageDelete', async (message) => {
+      if (message.author.bot) return;
 
-    return sendLog(channel.guild.id, embed);
+      const fetchedLogs = await getAuditLogUser(message.guild, 72);
 
-  });
+      const executorId = fetchedLogs.entries.first().executorId;
 
-  // Channel Permission Updating
-  client.on('guildChannelPermissionsUpdate', (channel, oldPermissions, newPermissions) => {
+      const embed = new EmbedBuilder()
+        .setTitle('Message Deleted')
+        .setColor('Red')
+        .setDescription(`
+          **Message   Author : ** <@${message.author.id}> - *${message.author.tag}*
+          **Channel : ** <#${message.channel.id}> - *${'name' in message.channel ? message.channel.name : 'DMChannel'}*
+          **Executor : ** <@${executorId}> *
+          **Deleted Message : **\`${message.content.replace(/`/g, '\'')}\`
+       `);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Permission Updated!')
-      .setColor('Green')
-      .setDescription(channel.name + 's permissions updated!');
+      return sendLog(message.guild.id, embed);
+    });
 
-    return sendLog(channel.guild.id, embed);
+    client.on('guildChannelTopicUpdate', (channel, oldTopic, newTopic) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Topic Updated!')
+        .setColor('Green')
+        .setDescription(`${channel} Topic changed from **${oldTopic}** to **${newTopic}**`);
 
-  // unhandled Guild Channel Update
-  client.on('unhandledGuildChannelUpdate', (oldChannel, newChannel) => {
+      return sendLog(channel.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Channel Updated!')
-      .setColor('Green')
-      .setDescription('Channel \'' + oldChannel.id + '\' was edited but discord-logs couldn\'t find what was updated...');
+    });
 
-    return sendLog(oldChannel.guild.id, embed);
+    client.on('guildChannelPermissionsUpdate', (channel, oldPermissions, newPermissions) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Permission Updated!')
+        .setColor('Green')
+        .setDescription(channel.name + 's permissions updated!');
 
-  // Member Started Boosting
-  client.on('guildMemberBoost', (member) => {
+      return sendLog(channel.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Started Boosting!')
-      .setColor('Aqua')
-      .setDescription(`**${member.user.tag}** has started boosting  ${member.guild.name}!`);
-    return sendLog(member.guild.id, embed);
+    });
 
-  });
+    client.on('unhandledGuildChannelUpdate', (oldChannel, newChannel) => {
 
-  // Member Unboosted
-  client.on('guildMemberUnboost', (member) => {
+      const embed = new EmbedBuilder()
+        .setTitle('Channel Updated!')
+        .setColor('Green')
+        .setDescription('Channel \'' + oldChannel.id + '\' was edited but discord-logs couldn\'t find what was updated...');
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Stopped Boosting!')
-      .setColor('Aqua')
-      .setDescription(`**${member.user.tag}** has stopped boosting  ${member.guild.name}!`);
+      return sendLog(oldChannel.guild.id, embed);
 
-    return sendLog(member.guild.id, embed);
+    });
 
-  });
+    client.on('guildMemberBoost', (member) => {
 
-  // Member Got Role
-  client.on('guildMemberRoleAdd', (member, role) => {
+      const embed = new EmbedBuilder()
+        .setTitle('User Started Boosting!')
+        .setColor('Aqua')
+        .setDescription(`**${member.user.tag}** has started boosting  ${member.guild.name}!`);
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Got Role!')
-      .setColor('Green')
-      .setDescription(`**${member.user.tag}** got the role \`${role.name}\``);
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('guildMemberUnboost', (member) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('User Stopped Boosting!')
+        .setColor('Aqua')
+        .setDescription(`**${member.user.tag}** has stopped boosting  ${member.guild.name}!`);
 
-  // Member Lost Role
-  client.on('guildMemberRoleRemove', (member, role) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Lost Role!')
-      .setColor('Red')
-      .setDescription(`**${member.user.tag}** lost the role \`${role.name}\``);
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('guildMemberRoleAdd', (member, role) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('User Got Role!')
+        .setColor('Green')
+        .setDescription(`**${member.user.tag}** got the role \`${role.name}\``);
 
-  // Nickname Changed
-  client.on('guildMemberNicknameUpdate', (member, oldNickname, newNickname) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Nickname Updated')
-      .setColor('Green')
-      .setDescription(`${member.user.tag} changed nickname from \`${oldNickname}\` to \`${newNickname}\``);
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('guildMemberRoleRemove', (member, role) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('User Lost Role!')
+        .setColor('Red')
+        .setDescription(`**${member.user.tag}** lost the role \`${role.name}\``);
 
-  // Member Joined
-  client.on('guildMemberAdd', (member) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Joined')
-      .setColor('Green')
-      .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``)
-      .setThumbnail(member.displayAvatarURL())
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('guildMemberNicknameUpdate', (member, oldNickname, newNickname) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Nickname Updated')
+        .setColor('Green')
+        .setDescription(`${member.user.tag} changed nickname from \`${oldNickname}\` to \`${newNickname}\``);
 
-  // Member Joined
-  client.on('guildMemberRemove', (member) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Left')
-      .setColor('Red')
-      .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``)
-      .setThumbnail(member.displayAvatarURL())
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('guildMemberAdd', (member) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('User Joined')
+        .setColor('Green')
+        .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``)
+        .setThumbnail(member.displayAvatarURL())
 
-  // Server Boost Level Up
-  client.on('guildBoostLevelUp', (guild, oldLevel, newLevel) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Server Boost Level Up')
-      .setColor('Aqua')
-      .setDescription(`${guild.name} reached the boost level ${newLevel}`);
+    });
 
-    return sendLog(guild.id, embed);
+    client.on('guildMemberRemove', (member) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('User Left')
+        .setColor('Red')
+        .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``)
+        .setThumbnail(member.displayAvatarURL())
 
-  // Server Boost Level Down
-  client.on('guildBoostLevelDown', (guild, oldLevel, newLevel) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Server Boost Level Down')
-      .setColor('Aqua')
-      .setDescription(`${guild.name} lost a level from ${oldLevel} to ${newLevel}`);
+    });
 
-    return sendLog(guild.id, embed);
+    client.on('guildBoostLevelUp', (guild, oldLevel, newLevel) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Server Boost Level Up')
+        .setColor('Aqua')
+        .setDescription(`${guild.name} reached the boost level ${newLevel}`);
 
-  // Banner Added
-  client.on('guildBannerAdd', (guild, bannerURL) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Server Got a new banner')
-      .setColor('Green')
-      .setImage(bannerURL);
+    });
 
-    return sendLog(guild.id, embed);
+    client.on('guildBoostLevelDown', (guild, oldLevel, newLevel) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Server Boost Level Down')
+        .setColor('Aqua')
+        .setDescription(`${guild.name} lost a level from ${oldLevel} to ${newLevel}`);
 
-  // AFK Channel Added
-  client.on('guildAfkChannelAdd', (guild, afkChannel) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('AFK Channel Added')
-      .setColor('Green')
-      .setDescription(`${guild.name} has a new afk channel ${afkChannel}`);
+    });
 
-    return sendLog(guild.id, embed);
+    client.on('guildBannerAdd', (guild, bannerURL) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Server Got a new banner')
+        .setColor('Green')
+        .setImage(bannerURL);
 
-  // Guild Vanity Add
-  client.on('guildVanityURLAdd', (guild, vanityURL) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Vanity Link Added')
-      .setColor('Green')
-      .setDescription(`${guild.name} has a vanity link ${vanityURL}`);
+    });
 
-    return sendLog(guild.id, embed);
+    client.on('guildAfkChannelAdd', (guild, afkChannel) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('AFK Channel Added')
+        .setColor('Green')
+        .setDescription(`${guild.name} has a new afk channel ${afkChannel}`);
 
-  // Guild Vanity Remove
-  client.on('guildVanityURLRemove', (guild, vanityURL) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Vanity Link Removed')
-      .setColor('Red')
-      .setDescription(`${guild.name} has removed its vanity URL ${vanityURL}`);
+    });
 
-    return sendLog(guild.id, embed);
+    client.on('guildVanityURLAdd', (guild, vanityURL) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Vanity Link Added')
+        .setColor('Green')
+        .setDescription(`${guild.name} has a vanity link ${vanityURL}`);
 
-  // Guild Vanity Link Updated
-  client.on('guildVanityURLUpdate', (guild, oldVanityURL, newVanityURL) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Vanity Link Updated')
-      .setColor('Green')
-      .setDescription(`${guild.name} has changed its vanity URL from ${oldVanityURL} to ${newVanityURL}!`);
+    });
 
-    return sendLog(guild.id, embed);
+    client.on('guildVanityURLRemove', (guild, vanityURL) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Vanity Link Removed')
+        .setColor('Red')
+        .setDescription(`${guild.name} has removed its vanity URL ${vanityURL}`);
 
-  // Message Pinned
-  client.on('messagePinned', (message) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Message Pinned')
-      .setColor('Grey')
-      .setDescription(`${message} has been pinned by ${message.author}`);
+    });
 
-    return sendLog(message.guild.id, embed);
+    client.on('guildVanityURLUpdate', (guild, oldVanityURL, newVanityURL) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Vanity Link Updated')
+        .setColor('Green')
+        .setDescription(`${guild.name} has changed its vanity URL from ${oldVanityURL} to ${newVanityURL}!`);
 
-  // Message Edited
-  client.on('messageContentEdited', (message, oldContent, newContent) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Message Edited')
-      .setColor('Grey')
-      .setDescription(`Message Edited from \`${oldContent}\` to \`${newContent}\` by ${message.author}`);
+    });
 
-    return sendLog(message.guild.id, embed);
+    client.on('messagePinned', (message) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Message Pinned')
+        .setColor('Grey')
+        .setDescription(`${message} has been pinned by ${message.author}`);
 
-  // Role Position Updated
-  client.on('rolePositionUpdate', (role, oldPosition, newPosition) => {
+      return sendLog(message.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Role Position Updated')
-      .setColor('Green')
-      .setDescription(role.name + ' role was at position ' + oldPosition + ' and now is at position ' + newPosition);
+    });
 
-    return sendLog(role.guild.id, embed);
+    client.on('messageContentEdited', (message, oldContent, newContent) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Message Edited')
+        .setColor('Grey')
+        .setDescription(`Message Edited from \`${oldContent}\` to \`${newContent}\` by ${message.author}`);
 
-  // Role Permission Updated
-  client.on('rolePermissionsUpdate', (role, oldPermissions, newPermissions) => {
+      return sendLog(message.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Role Permission Updated')
-      .setColor('Green')
-      .setDescription(role.name + ' had as permissions ' + oldPermissions + ' and now has as permissions ' + newPermissions);
+    });
 
-    return sendLog(role.guild.id, embed);
+    client.on('rolePositionUpdate', (role, oldPosition, newPosition) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Role Position Updated')
+        .setColor('Green')
+        .setDescription(role.name + ' role was at position ' + oldPosition + ' and now is at position ' + newPosition);
 
-  // Username Updated
-  client.on('userUsernameUpdate', (user, oldUsername, newUsername) => {
+      return sendLog(role.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Username Updated')
-      .setColor('Green')
-      .setDescription(`${user.tag} updated their username from ${oldUsername} to ${newUsername}`);
+    });
 
-    return sendLog(user.guild.id, embed);
+    client.on('rolePermissionsUpdate', (role, oldPermissions, newPermissions) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Role Permission Updated')
+        .setColor('Green')
+        .setDescription(role.name + ' had as permissions ' + oldPermissions + ' and now has as permissions ' + newPermissions);
 
-  // Discriminator Updated
-  client.on('userDiscriminatorUpdate', (user, oldDiscriminator, newDiscriminator) => {
+      return sendLog(role.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Discriminator Updated')
-      .setColor('Green')
-      .setDescription(`${user.tag} updated their discriminator from ${oldDiscriminator} to ${oldDiscriminator}`);
+    });
 
-    return sendLog(user.guild.id, embed);
+    client.on('voiceChannelJoin', (member, channel) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Voice Channel Joined')
+        .setColor('Green')
+        .setDescription(member.user.tag + ' joined ' + `${channel}` + '!');
 
-  // Joined VC
-  client.on('voiceChannelJoin', (member, channel) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Voice Channel Joined')
-      .setColor('Green')
-      .setDescription(member.user.tag + ' joined ' + `${channel}` + '!');
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('voiceChannelLeave', (member, channel) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Voice Channel Left')
+        .setColor('Red')
+        .setDescription(member.user.tag + ' left ' + `${channel}` + '!');
 
-  // Left VC
-  client.on('voiceChannelLeave', (member, channel) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Voice Channel Left')
-      .setColor('Red')
-      .setDescription(member.user.tag + ' left ' + `${channel}` + '!');
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('voiceChannelSwitch', (member, oldChannel, newChannel) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Voice Channel Switched')
+        .setColor('Green')
+        .setDescription(member.user.tag + ' left ' + oldChannel.name + ' and joined ' + newChannel.name + '!');
 
-  // VC Switch
-  client.on('voiceChannelSwitch', (member, oldChannel, newChannel) => {
+      return sendLog(member.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('Voice Channel Switched')
-      .setColor('Green')
-      .setDescription(member.user.tag + ' left ' + oldChannel.name + ' and joined ' + newChannel.name + '!');
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('roleCreate', (role) => {
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Role Added')
+        .setColor('Red')
+        .setDescription(`Role: ${role}\nRolename: ${role.name}\nRoleID: ${role.id}\nHEX Code: ${role.hexColor}\nPosition: ${role.position}`);
 
-  // VC Mute
-  client.on('voiceChannelMute', (member, muteType) => {
+      return sendLog(role.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Muted')
-      .setColor('Red')
-      .setDescription(member.user.tag + ' became muted! (type: ' + muteType + ')');
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('roleDelete', async (role) => {
+      const fetchedLogs = await getAuditLogUser(role.guild, 32);
+      const executorId = fetchedLogs.entries.first().executorId;
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('Role Deleted')
+        .setColor('Red')
+        .setDescription(`Role: ${role}\nRolename: ${role.name}\nRoleID: ${role.id}\nHEX Code: ${role.hexColor}\nPosition: ${role.position}\nBy: <@${executorId}>`);
 
-  // VC Unmute
-  client.on('voiceChannelUnmute', (member, oldMuteType) => {
+      return sendLog(role.guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Unmuted')
-      .setColor('Green')
-      .setDescription(member.user.tag + ' became unmuted!');
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('guildBanAdd', async ({ guild, user }) => {
+      const fetchedLogs = await getAuditLogUser(guild, 22);
+      const executorId = fetchedLogs.entries.first().executorId;
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('User Banned')
+        .setColor('Red')
+        .setDescription(`User: ${user} (\`${user.id}\`)\n\`${user.tag}\`\nBy: <@${executorId}>`)
+        .setThumbnail(user.displayAvatarURL())
 
-  // VC Defean
-  client.on('voiceChannelDeaf', (member, deafType) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Deafend')
-      .setColor('Red')
-      .setDescription(member.user.tag + ' become deafed!');
+    });
 
-    return sendLog(member.guild.id, embed);
+    client.on('guildBanRemove', async ({ guild, user }) => {
+      const fetchedLogs = await getAuditLogUser(guild, 22);
+      const executorId = fetchedLogs.entries.first().executorId;
 
-  });
+      const embed = new EmbedBuilder()
+        .setTitle('User Unbanned')
+        .setColor('Green')
+        .setDescription(`User: ${user} (\`${user.id}\`)\n\`${user.tag}\`\nBy: <@${executorId}>`)
+        .setThumbnail(user.displayAvatarURL())
 
-  // VC Undefean
-  client.on('voiceChannelUndeaf', (member, deafType) => {
+      return sendLog(guild.id, embed);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Undeafend')
-      .setColor('Green')
-      .setDescription(member.user.tag + ' become undeafed!');
 
-    return sendLog(member.guild.id, embed);
+    });
 
-  });
+    client.on('channelCreate', async (channel) => {
+      const fetchedLogs = await getAuditLogUser(channel.guild, 11);
+      const executorId = fetchedLogs.entries.first().executorId;
 
-  // User Started to Stream
-  client.on('voiceStreamingStart', (member, voiceChannel) => {
 
+      const embed = new EmbedBuilder()
+        .setTitle('Channel Created')
+        .setColor('Green')
+        .setDescription(`${channel.name} has been created. By: <@${executorId}>`);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Started to Stream')
-      .setColor('Green')
-      .setDescription(member.user.tag + ' started streaming in ' + voiceChannel.name);
+      return sendLog(channel.guild.id, embed);
 
-    return sendLog(member.guild.id, embed);
+    });
 
-  });
+    client.on('channelDelete', async (channel) => {
+      if (channel.type === ChannelType.DM) return;
 
-  // User Stopped to Stream
-  client.on('voiceStreamingStop', (member, voiceChannel) => {
+      const fetchedLogs = await getAuditLogUser(channel.guild, 12);
+      const executorId = fetchedLogs.entries.first().executorId;
 
+      const embed = new EmbedBuilder()
+        .setTitle('Channel Deleted')
+        .setColor('Red')
+        .setDescription(`${'name' in channel ? channel.name : 'DMChannel'} has been deleted. By: <@${executorId}>`);
 
-    const embed = new EmbedBuilder()
-      .setTitle('User Stopped to Stream')
-      .setColor('Red')
-      .setDescription(member.user.tag + ' stopped streaming in ' + voiceChannel.name);
-
-    return sendLog(member.guild.id, embed);
-  });
-
-  // Member Became Offline
-  client.on('guildMemberOffline', (member, oldStatus) => {
-
-    const embed = new EmbedBuilder()
-      .setTitle('User Offline')
-      .setColor('Green')
-      .setDescription(member.user.tag + ' went offline!');
-
-    return sendLog(member.guild.id, embed);
-
-  });
-
-  // Member Became Online
-  client.on('guildMemberOnline', (member, newStatus) => {
-
-    const embed = new EmbedBuilder()
-      .setTitle('User Online')
-      .setColor('#2F3136')
-      .setDescription(member.user.tag + ' was offline and is now ' + newStatus + '!');
-
-    return sendLog(member.guild.id, embed);
-
-  });
-
-  // Role Created
-  client.on('roleCreate', (role) => {
-
-    const embed = new EmbedBuilder()
-      .setTitle('Role Added')
-      .setColor('Red')
-      .setDescription(`Role: ${role}\nRolename: ${role.name}\nRoleID: ${role.id}\nHEX Code: ${role.hexColor}\nPosition: ${role.position}`);
-
-    return sendLog(role.guild.id, embed);
-
-  });
-
-  // Role Deleted
-  client.on('roleDelete', (role) => {
-
-    const embed = new EmbedBuilder()
-      .setTitle('Role Deleted')
-      .setColor('Red')
-      .setDescription(`Role: ${role}\nRolename: ${role.name}\nRoleID: ${role.id}\nHEX Code: ${role.hexColor}\nPosition: ${role.position}`);
-
-    return sendLog(role.guild.id, embed);
-
-  });
-
-  // User Banned
-  client.on('guildBanAdd', ({ guild, user }) => {
-
-    const embed = new EmbedBuilder()
-      .setTitle('User Banned')
-      .setColor('Red')
-      .setDescription(`User: ${user} (\`${user.id}\`)\n\`${user.tag}\``)
-      .setThumbnail(user.displayAvatarURL())
-
-    return sendLog(guild.id, embed);
-
-  });
-
-  // User Unbanned
-  client.on('guildBanRemove', ({ guild, user }) => {
-
-    const embed = new EmbedBuilder()
-      .setTitle('User Unbanned')
-      .setColor('Green')
-      .setDescription(`User: ${user} (\`${user.id}\`)\n\`${user.tag}\``)
-      .setThumbnail(user.displayAvatarURL())
-
-    return sendLog(guild.id, embed);
-
-
-  });
-
-  // Channel Created
-  client.on('channelCreate', (channel) => {
-
-    const embed = new EmbedBuilder()
-      .setTitle('Channel Created')
-      .setColor('Green')
-      .setDescription(`${channel.name} has been created.`);
-
-    return sendLog(channel.guild.id, embed);
-
-  });
-
-  // Channel Deleted
-  client.on('channelDelete', (channel) => {
-    if (channel.type === ChannelType.DM) return;
-
-    const embed = new EmbedBuilder()
-      .setTitle('Channel Deleted')
-      .setColor('Red')
-      .setDescription(`${'name' in channel ? channel.name : 'DMChannel'} has been deleted.`);
-
-    return sendLog(channel.guild.id, embed);
-  });
+      return sendLog(channel.guild.id, embed);
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 export default handleLogs;

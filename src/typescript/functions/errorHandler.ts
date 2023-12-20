@@ -1,16 +1,11 @@
-import { WebhookClient, Guild, User, EmbedBuilder } from 'discord.js';
+import { Guild, User, EmbedBuilder } from 'discord.js';
 import axios from 'axios';
-
-const webhookid = process.env.ERROR_WEBHOOK_ID;
-const webhooktoken = process.env.ERROR_WEBHOOK_TOKEN;
 
 class handling {
   client: any;
-  webhook: WebhookClient;
 
   constructor(client = {}) {
     this.client = client;
-    this.webhook = new WebhookClient({ id: webhookid, token: webhooktoken });
   }
 
   async error(client: any, guildId: string, userId: string, errors: Error): Promise<void> {

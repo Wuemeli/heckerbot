@@ -8,6 +8,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('fasttype')
     .setDescription('🎮・Play the fast type game!'),
+  options: {
+    nsfw: false,
+    category: 'Games',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

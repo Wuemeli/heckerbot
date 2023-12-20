@@ -28,6 +28,15 @@ module.exports = {
         .setName('info')
         .setDescription('🔄・Display the Counting Settings'),
     ),
+  options: {
+    nsfw: false,
+    category: 'Counting',
+    cooldown: 1,
+  },
+  /**
+ * @param {ExtendedClient} client
+ * @param {ChatInputCommandInteraction} interaction
+ */
   run: async (client, interaction) => {
     await interaction.deferReply(
       {

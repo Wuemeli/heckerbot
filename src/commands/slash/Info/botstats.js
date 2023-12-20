@@ -5,6 +5,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('botstats')
     .setDescription('📊・Displays the bot statistics.'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction

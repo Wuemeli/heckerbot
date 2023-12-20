@@ -5,6 +5,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('changelog')
     .setDescription('🟰・Displays the last 10 Commits of the bot.'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
   /**
  * @param {ExtendedClient} client
  * @param {ChatInputCommandInteraction} interaction

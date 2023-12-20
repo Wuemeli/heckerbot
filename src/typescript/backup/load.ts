@@ -2,6 +2,7 @@ import type { BackupData, LoadOptions } from './types';
 import type { Emoji, ForumChannel, Guild, NewsChannel, Role, Snowflake, StageChannel, VoiceChannel } from 'discord.js';
 import { ChannelType, GuildFeature, TextChannel } from 'discord.js';
 import { loadCategory, loadChannel, sleep } from './util';
+import { codeError } from '../functions/errorHandler';
 
 /**
  * Restores the guild configuration
@@ -38,7 +39,7 @@ export const loadConfig = async (guild: Guild, backupData: BackupData): Promise<
       configPromises.push(guild.setExplicitContentFilter(backupData.explicitContentFilter));
     }
   } catch (error) {
-    console.error(error);
+    codeError(error as Error, 'src/typescript/backup/load.ts');
   }
   return Promise.all(configPromises);
 };
@@ -68,7 +69,7 @@ export const loadRoles = async (guild: Guild, backupData: BackupData): Promise<R
       roles.push(role);
       await sleep(1000);
     } catch (error) {
-      console.error(error);
+      codeError(error as Error, 'src/typescript/backup/load.ts');
     }
   }
   return roles;
@@ -90,7 +91,7 @@ export const loadChannels = async (guild: Guild, backupData: BackupData, options
       loadChannelPromises.push(loadChannel(channelData, guild, null, options));
     }
   } catch (error) {
-    console.error(error);
+    codeError(error as Error, 'src/typescript/backup/load.ts');
   }
   return Promise.all(loadChannelPromises);
 };
@@ -112,7 +113,7 @@ export const loadAFK = async (guild: Guild, backupData: BackupData): Promise<Gui
       afkPromises.push(guild.setAFKTimeout(backupData.afk.timeout));
     }
   } catch (error) {
-    console.error(error);
+    codeError(error as Error, 'src/typescript/backup/load.ts');
   }
   return Promise.all(afkPromises);
 };
@@ -133,7 +134,7 @@ export const loadEmojis = async (guild: Guild, backupData: BackupData): Promise<
       }
     });
   } catch (error) {
-    console.error(error);
+    codeError(error as Error, 'src/typescript/backup/load.ts');
   }
   return Promise.all(emojiPromises);
 };
@@ -152,7 +153,7 @@ export const loadBans = async (guild: Guild, backupData: BackupData): Promise<st
       );
     });
   } catch (error) {
-    console.error(error);
+    codeError(error as Error, 'src/typescript/backup/load.ts');
   }
   return Promise.all(banPromises);
 };
@@ -178,7 +179,7 @@ export const loadEmbedChannel = async (guild: Guild, backupData: BackupData): Pr
       );
     }
   } catch (error) {
-    console.error(error);
+    codeError(error as Error, 'src/typescript/backup/load.ts');
   }
   return Promise.all(embedChannelPromises);
 };

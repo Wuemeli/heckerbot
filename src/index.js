@@ -6,12 +6,17 @@ if (config.dotenv.enabled) {
 
 const ExtendedClient = require('./class/ExtendedClient');
 const { handling } = require('./typescript/functions/errorHandler');
+const { logging } = require('./typescript/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
+const { handleEntitlements } = require('./typescript/custom-bot/premium');
 
 const client = new ExtendedClient();
+
+handleEntitlements();
+setInterval(handleEntitlements, 1000 * 60 );
 
 try {
   client.start();
@@ -23,26 +28,29 @@ try {
 try {
   server.start(client);
 } catch (error) {
-  console.error('Error during server.start():', error);
+  console.error('Error during server.start', error);
 }
 
 try {
   topgg(client);
 } catch (error) {
-  console.error('Error during topgg():', error);
+  console.error('Error during topgg', error);
 }
 
 try {
   handleLogs(client);
 } catch (error) {
-  console.error('Error during handleLogs():', error);
+  console.error('Error during handleLogs', error);
 }
 
 module.exports = { client };
 
 global.handle = new handling(client);
+global.log = new logging();
 
-process.on('unhandledRejection', console.error);
-process.on('uncaughtException', console.error);
-process.on('uncaughtExceptionMonitor', console.error);
-process.on('warning', console.error);
+global.log.startuplog('Started normal bot');
+
+process.on('unhandledRejection', (reason) => global.log.anticrashlog('unhandledRejection', reason));
+process.on('uncaughtException', (reason) => global.log.anticrashlog('uncaughtException', reason));
+process.on('uncaughtExceptionMonitor', (reason) => global.log.anticrashlog('uncaughtExceptionMonitor', reason));
+process.on('warning', (reason) => global.log.anticrashlog('warning', reason));

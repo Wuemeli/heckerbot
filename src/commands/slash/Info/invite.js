@@ -4,6 +4,11 @@ module.exports = {
   structure: new SlashCommandBuilder()
     .setName('invite')
     .setDescription('💌・Get the invite link for the bot.'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction
@@ -19,7 +24,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle('💌 Invite')
         .setColor('Green')
-        .setDescription(`Click the Link to invite me to your server: [Invite](https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot%20applications.commands&permissions=8)`);
+        .setDescription(`Click the Link to invite me to your server: [Invite](https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot%20applications.commands&permissions=28582944439537)`);
 
       interaction.editReply({ embeds: [embed] });
     } catch (error) {

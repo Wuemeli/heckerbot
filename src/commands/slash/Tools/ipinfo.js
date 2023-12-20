@@ -11,6 +11,11 @@ module.exports = {
         .setDescription('What is the IP address?')
         .setRequired(true),
     ),
+  options: {
+    nsfw: false,
+    category: 'Tools',
+    cooldown: 1,
+  },
   /**
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction
