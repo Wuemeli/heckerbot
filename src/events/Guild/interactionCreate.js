@@ -62,7 +62,6 @@ module.exports = {
         if (!hasUserPremium) {
           return interaction.reply({
             type: 10,
-            data: { content: `${emojis.erroricon} This command can only be used by premium users.` },
             ephemeral: true,
           });
         }
