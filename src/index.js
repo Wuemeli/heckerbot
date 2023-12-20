@@ -12,10 +12,13 @@ const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
 const { handleEntitlements } = require('./typescript/custom-bot/premium');
+const editStatsEmbed = require('../../typescript/functions/statsEmbed').default;
 
 const client = new ExtendedClient();
 
 handleEntitlements();
+editStatsEmbed(client);
+setInterval(editStatsEmbed, 1000 * 60, client);
 setInterval(handleEntitlements, 1000 * 60 );
 
 try {
