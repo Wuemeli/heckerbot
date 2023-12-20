@@ -32,18 +32,8 @@ module.exports = {
     )
     .addSubcommand(subcommand =>
       subcommand
-        .setName('start')
-        .setDescription('👷・Start your bot.'),
-    )
-    .addSubcommand(subcommand =>
-      subcommand
         .setName('delete')
         .setDescription('👷・Delete your bot.'),
-    )
-    .addSubcommand(subcommand =>
-      subcommand
-        .setName('stop')
-        .setDescription('👷・Stop your bot.'),
     )
     .addSubcommand(subcommand =>
       subcommand
@@ -122,53 +112,6 @@ module.exports = {
         }
         break;
       }
-      case 'start': {
-        const data = await custombotSchema.findOne({ userId: interaction.user.id });
-        if (!data) return await interaction.editReply('You don\'t have a bot!');
-
-        try {
-          const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/start`, {
-            clientId: data.clientId,
-          }, {
-            headers: {
-              Authorization: process.env.CUSTOM_BOT_SECRET,
-            },
-          });
-
-
-          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Started bot! [Invite](https://discord.com/oauth2/authorize?client_id=${data.clientId}&scope=bot&permissions=28582944439537)`);
-        } catch (error) {
-          if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!  \n Double check your token and client id! And be sure to have all intents enabled!  \n Do /custombot stop for more information!`);
-          if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
-          if (error.response.status === 409) return await interaction.editReply(`${emojis.erroricon} Bot is already started!`);
-          if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to start bot!`);
-        }
-
-        break;
-      }
-      case 'stop': {
-        const data = await custombotSchema.findOne({ userId: interaction.user.id });
-        if (!data) return await interaction.editReply('You don\'t have a bot!');
-
-        try {
-          const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/stop`, {
-            clientId: data.clientId,
-          }, {
-            headers: {
-              Authorization: process.env.CUSTOM_BOT_SECRET,
-            },
-          });
-
-          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Stopped bot!. This may take 30 Minutes!`);
-        } catch (error) {
-          if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized! If this error keeps happening, please contact the support!`);
-          if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
-          if (error.response.status === 409) return await interaction.editReply(`${emojis.erroricon} Bot is already stopped!`);
-          if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to stop bot!`);
-        }
-
-        break;
-      }
       case 'help': {
         await interaction.editReply({
           embeds: [
@@ -179,14 +122,6 @@ module.exports = {
                 {
                   name: 'Create',
                   value: 'For this Feature you need a Discord Bot Token and a Client ID. \n You can get them from the [Discord Developer Portal](https://discord.com/developers/applications). \n After you created your Application, you can copy the Token and the Client ID from the Bot Section. \n Be sure to have ALL Intents enabled! \n After you have your Token and Client ID, you can create your Bot with the `/custombot create` Command.',
-                },
-                {
-                  name: 'Start',
-                  value: 'This will start your Bot. \n You can start your Bot with the `/custombot start` Command.',
-                },
-                {
-                  name: 'Stop',
-                  value: 'This will stop your Bot. \n You can stop your Bot with the `/custombot stop` Command.',
                 },
                 {
                   name: 'Delete',

@@ -59,45 +59,6 @@ app.post('/create', async (req, res) => {
 });
 
 
-app.post('/start', async (req, res) => {
-  try {
-    const { clientId } = req.body;
-
-    const data = await custombotSchema.findOne({ clientId });
-    if (!data) return res.status(404).send('Bot not found');
-
-    if (data.online) return res.status(409).send('Bot is already started');
-
-    const isValid = await validateTokenAndClientId(data.token, clientId, res);
-    if (!isValid) return;
-
-    await createBot(data.token, clientId);
-    await custombotSchema.updateOne({ clientId }, { online: true });
-
-    res.status(200).send('Custom bot started');
-  } catch (error) {
-    codeError(error, 'src/custombotserver.js');
-    res.status(500).send('Error during startBot');
-  }
-});
-
-app.post('/stop', async (req, res) => {
-  try {
-    const { clientId } = req.body;
-
-    const data = await custombotSchema.findOne({ clientId });
-    if (!data) return res.status(404).send('Bot not found');
-
-    if (!data.online) return res.status(409).send('Bot is already stopped');
-
-    await stopBot(clientId);
-    res.status(200).send('Custom bot stopped');
-  } catch (error) {
-    codeError(error, 'src/custombotserver.js');
-    res.status(500).send('Error during stopBot');
-  }
-});
-
 app.post('/delete', async (req, res) => {
   try {
     const { userId } = req.body;
