@@ -58,7 +58,7 @@ app.post('/create', async (req, res) => {
   }
 });
 
-
+/**
 app.post('/start', async (req, res) => {
   try {
     const { clientId } = req.body;
@@ -97,6 +97,7 @@ app.post('/stop', async (req, res) => {
     res.status(500).send('Error during stopBot');
   }
 });
+ */
 
 app.post('/delete', async (req, res) => {
   try {

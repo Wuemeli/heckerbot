@@ -30,21 +30,25 @@ module.exports = {
             .setRequired(true),
         ),
     )
+    /**
     .addSubcommand(subcommand =>
       subcommand
         .setName('start')
         .setDescription('👷・Start your bot.'),
     )
+     */
     .addSubcommand(subcommand =>
       subcommand
         .setName('delete')
         .setDescription('👷・Delete your bot.'),
     )
+    /**
     .addSubcommand(subcommand =>
       subcommand
         .setName('stop')
         .setDescription('👷・Stop your bot.'),
     )
+     */
     .addSubcommand(subcommand =>
       subcommand
         .setName('help')
