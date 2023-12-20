@@ -81,7 +81,7 @@ module.exports = {
             },
           });
 
-          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Created bot!`);
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Created bot! Invite it [here](https://discord.com/oauth2/authorize?client_id=${clientId}&scope=bot&permissions=8)`);
 
         } catch (error) {
           console.log(error.response.status);
