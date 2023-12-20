@@ -12,7 +12,7 @@ const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
 const handleLogs = require('./typescript/functions/handleLogs').default;
 const { handleEntitlements } = require('./typescript/custom-bot/premium');
-const editStatsEmbed = require('../../typescript/functions/statsEmbed').default;
+const editStatsEmbed = require('./typescript/functions/statsEmbed').default;
 
 const client = new ExtendedClient();
 
