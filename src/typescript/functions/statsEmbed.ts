@@ -32,7 +32,7 @@ export default async function editStatsEmbed(client: Client) {
 
   const embed = new EmbedBuilder()
     .setTitle(`${emojis.online} Bot Statistics`)
-    .setDescription(`I live on a server with CPU usage: ${cpu}%, RAM usage: ${ram} MB. My friend, the Custom Bot Server, has CPU usage: ${customBotCpu}%, RAM usage: ${customBotRam} mb, and hosts ${customBotsCount} custom bots.`)
+    .setDescription(`I live on a server with CPU usage: ${cpu}%, RAM usage: ${ram} MB. \nMy friend, the Custom Bot Server, has CPU usage: ${customBotCpu}%, RAM usage: ${customBotRam} mb, and hosts ${customBotsCount} custom bots.`)
     .setFooter({ text: `Last updated at ${new Date().toLocaleString()}` });
 
   const channel = client.channels.cache.get(process.env.STATS_CHANNEL_ID as string);
