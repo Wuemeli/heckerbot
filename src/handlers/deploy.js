@@ -11,12 +11,15 @@ module.exports = async (client, token, clientId) => {
   try {
     log('Started loading application commands... (this might take minutes!)', 'warn');
 
+    const env = process.env;
+    
     await rest.put(Routes.applicationCommands(clientId), {
-      body: client.applicationcommandsArray,
+      body: client.applicationcommandsArray.filter(cmd => !cmd.options || !cmd.options.category || env[cmd.options.category.toUpperCase()] !== 'false'),
     });
 
     log('Successfully loaded application commands to Discord API.', 'done');
   } catch (e) {
+    console.error(e);
     log('Unable to load application commands to Discord API.', 'err');
   }
 };

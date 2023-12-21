@@ -5,7 +5,7 @@ import custombotSchema from '../../schemas/custombotSchema';
 export async function handleEntitlements() {
   if (!process.env.PREMIUM) return;
 
-  const response = await axios.get(`https://discord.com/api/v10/applications/1092475154791145542/entitlements`, {
+  const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.CLIENT_ID}/entitlements`, {
     headers: {
       Authorization: `Bot ${process.env.CLIENT_TOKEN}`,
     },
