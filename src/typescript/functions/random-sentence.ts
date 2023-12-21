@@ -10,7 +10,16 @@ export async function random_sentence() {
     'serendipity', 'talisman', 'umbrella', 'vivid', 'whimsical', 'xanadu', 'yearning', 'zenith', 'aplomb', 'blissful',
     'cacophony', 'dexterity', 'effervescent', 'felicity', 'gallivant', 'halcyon', 'impeccable', 'jubilant', 'kismet', 'luminescent',
     'mellifluous', 'nurturing', 'opulent', 'quintessential', 'resplendent', 'serene', 'taciturn', 'ubiquitous', 'vestige', 'whimsical',
-    'xenial', 'yearning', 'zephyr'
+    'xenial', 'yearning', 'zephyr', 'abracadabra', 'brouhaha', 'collywobbles', 'discombobulate', 'ersatz', 'fiddledeedee', 'gobbledygook',
+    'hullabaloo', 'impetuous', 'jiggery-pokery', 'kerfuffle', 'lackadaisical', 'malarkey', 'namby-pamby', 'onomatopoeia', 'persnickety', 'quibble',
+    'riffraff', 'skedaddle', 'tintinnabulation', 'ululation', 'vamoose', 'whippersnapper', 'xylophone', 'yokel', 'zephyr', 'abecedarian',
+    'bailiwick', 'canoodle', 'doozy', 'ersatz', 'fandango', 'gazebo', 'hullabaloo', 'impetuous', 'jiggery-pokery', 'kerfuffle',
+    'lackadaisical', 'malarkey', 'namby-pamby', 'onomatopoeia', 'persnickety', 'quibble', 'riffraff', 'skedaddle', 'tintinnabulation', 'ululation',
+    'vamoose', 'whippersnapper', 'xylophone', 'yokel', 'zephyr', 'abecedarian', 'bailiwick', 'canoodle', 'doozy', 'ersatz',
+    'fandango', 'gazebo', 'hullabaloo', 'impetuous', 'jiggery-pokery', 'kerfuffle', 'lackadaisical', 'malarkey', 'namby-pamby', 'onomatopoeia',
+    'persnickety', 'quibble', 'riffraff', 'skedaddle', 'tintinnabulation', 'ululation', 'vamoose', 'whippersnapper', 'xylophone', 'yokel',
+    'zephyr', 'abecedarian', 'bailiwick', 'canoodle', 'doozy', 'ersatz', 'fandango', 'gazebo', 'hullabaloo', 'impetuous',
+    'jiggery-pokery', 'kerfuffle', 'lackadaisical', 'malarkey', 'namby-pamby', 'onomatopoeia', 'persnickety', 'quibble', 'riffraff', 'skedaddle',
   ];
 
   const sentenceLength = Math.floor(Math.random() * (12 - 6 + 1)) + 6;
