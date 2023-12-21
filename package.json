@@ -23,12 +23,10 @@
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "fnbr": "fnbrjs/fnbr.js",
     "mathjs": "^12.1.0",
     "mongoose": "^8.0.0",
     "node-fetch": "^3.3.2",
     "pagination.djs": "^4.0.12",
-    "random-sentence": "^1.0.4",
     "redis": "^4.6.11",
     "stream-to-string": "^1.2.1"
   },
