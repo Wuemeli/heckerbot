@@ -32,13 +32,7 @@ export default async function editStatsEmbed(client: Client) {
 
   const embed = new EmbedBuilder()
     .setTitle(`${emojis.online} Bot Statistics`)
-    .addFields([
-      { name: `${emojis.online} CPU Usage (Current Server)`, value: `${cpu}%`, inline: true },
-      { name: `${emojis.online} RAM Usage (Current Server)`, value: `${ram}mb`, inline: true },
-      { name: `${emojis.online} CPU Usage (Custom Bot Server)`, value: `${customBotCpu}%`, inline: true },
-      { name: `${emojis.online} RAM Usage (Custom Bot Server)`, value: `${customBotRam}mb`, inline: true },
-      { name: `${emojis.online} Custom Bots`, value: customBotsCount.toString(), inline: true },
-    ])
+    .setDescription(`${emojis.online} I live on a server with CPU usage: ${cpu}%, RAM usage: ${ram} mb. ${emojis.online} My friend, the Custom Bot Server, has CPU usage: ${customBotCpu}%, RAM usage: ${customBotRam} mb, and hosts ${customBotsCount} custom bots.`)
     .setFooter({ text: `Last updated at ${new Date().toLocaleString()}` });
 
   const channel = client.channels.cache.get(process.env.STATS_CHANNEL_ID as string);
