@@ -32,6 +32,29 @@ module.exports = {
     )
     .addSubcommand(subcommand =>
       subcommand
+        .setName('edit')
+        .setDescription('👷・Edit your Custom Discord Bot.')
+        .addStringOption(option =>
+          option
+            .setName('token')
+            .setDescription('The new token of the bot.')
+            .setRequired(false),
+        )
+        .addStringOption(option =>
+          option
+            .setName('clientid')
+            .setDescription('The new client id of the bot.')
+            .setRequired(false),
+        )
+        .addStringOption(option =>
+          option
+            .setName('status')
+            .setDescription('The new status of the bot.')
+            .setRequired(false),
+        ),
+    )
+    .addSubcommand(subcommand =>
+      subcommand
         .setName('delete')
         .setDescription('👷・Delete your bot.'),
     )
@@ -63,7 +86,7 @@ module.exports = {
       switch (interaction.options.getSubcommand()) {
       case 'create': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
-        if (data) return await interaction.editReply('You already have a bot!');
+        if (data) return await interaction.editReply(`${emojis.erroricon} You already have a bot!`);
 
         const token = interaction.options.getString('token');
         const clientId = interaction.options.getString('clientid');
@@ -81,7 +104,7 @@ module.exports = {
             },
           });
 
-          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Created bot!`);
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Created bot! Invite it [here](https://discord.com/oauth2/authorize?client_id=${clientId}&scope=bot&permissions=8)`);
 
         } catch (error) {
           console.log(error.response.status);
@@ -93,7 +116,7 @@ module.exports = {
       }
       case 'delete': {
         const data = await custombotSchema.findOne({ userId: interaction.user.id });
-        if (!data) return await interaction.editReply('You don\'t have a bot!');
+        if (!data) return await interaction.editReply(`${emojis.erroricon} You don't have a bot!`);
 
         try {
           const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/delete`, {
@@ -109,6 +132,45 @@ module.exports = {
           if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized! If this error keeps happening, please contact the support!`);
           if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
           if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to delete bot!`);
+        }
+        break;
+      }
+      case 'edit': {
+        const data = await custombotSchema.findOne({ userId: interaction.user.id });
+        if (!data) return await interaction.editReply(`${emojis.erroricon} You don't have a bot to edit!`);
+
+        let token;
+        let clientId;
+        let status;
+        token = interaction.options.getString('token');
+        if (!token) token = data.token;
+        clientId = interaction.options.getString('clientid');
+        clientId = interaction.options.getString('clientid');
+        if (!clientId) clientId = data.clientId;
+        status = interaction.options.getString('status');
+        status = interaction.options.getString('status');
+        if (!status) status = data.status;
+
+        if (!token || !clientId || !status) return await interaction.editReply(`${emojis.erroricon} What do you want to edit?`);
+
+        try {
+          const response = await axios.post(`${process.env.CUSTOM_BOT_URL}/edit`, {
+            userId: interaction.user.id,
+            token,
+            clientId,
+            status,
+          }, {
+            headers: {
+              Authorization: process.env.CUSTOM_BOT_SECRET,
+            },
+          });
+
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Edited bot!`);
+
+        } catch (error) {
+          if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized! Double check your new token and client id! And be sure to have all intents enabled!`);
+          if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot not found!`);
+          if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to edit bot!`);
         }
         break;
       }
