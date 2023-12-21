@@ -18,8 +18,6 @@ Here you can disable features of Heckerbot. If you want to disable a feature, se
 <br>
 | PREMIUM | Enables or disables the premium feature.|
 <br>
-| FORTNITE BOT | Enables or disables the fortnite feature.|
-<br>
 | WELCOME | Enables or disables the welcome feature.|
 <br>
 | TOOLS | Enables or disables the tools feature.|

@@ -24,7 +24,6 @@
 ## Modules
 - `counting` - Counting module
 - `welcome` - Welcome module
-- `fortnite-bot` - Fortnite module
 - `backup` - Backup module
 - `auditlogs` - Audit logs module
 - `custombot` - Custom bot module
