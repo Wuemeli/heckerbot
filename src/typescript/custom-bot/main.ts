@@ -60,4 +60,4 @@ async function startBot(userId: string) {
   }
 }
 
-export { createBot, startallBots, botInfo };
+export { createBot, startallBots, botInfo, startBot, stopBot };

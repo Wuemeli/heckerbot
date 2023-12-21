@@ -72,6 +72,18 @@ app.post('/edit', async (req, res) => {
 
     await stopBot(userId);
 
+    if (!bots[userId]) {
+      bots[userId] = {};
+    }
+
+    if (!bots[userId].token) {
+      bots[userId].token = token;
+    }
+
+    if (!bots[userId].status) {
+      bots[userId].status = status;
+    }
+
     bots[userId].token = token;
     bots[userId].status = status;
 
