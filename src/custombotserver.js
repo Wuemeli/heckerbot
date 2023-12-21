@@ -1,5 +1,5 @@
 const express = require('express');
-const { startallBots, createBot, bots } = require('./typescript/custom-bot/main');
+const { startallBots, createBot, bots, stopBot, startBot } = require('./typescript/custom-bot/main');
 const { log } = require('./functions/index');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
@@ -58,6 +58,31 @@ app.post('/create', async (req, res) => {
   }
 });
 
+app.post('/edit', async (req, res) => {
+  try {
+    const { userId, token, clientId, status } = req.body;
+    const data = await custombotSchema.findOne({ userId });
+
+    if (!data) return res.status(404).send('Bot not found');
+
+    const isValid = await validateTokenAndClientId(token, clientId, res);
+    if (!isValid) return;
+
+    await custombotSchema.findOneAndUpdate({ userId }, { token, clientId, status });
+
+    await stopBot(userId);
+
+    bots[userId].token = token;
+    bots[userId].status = status;
+
+    await startBot(userId);
+
+    res.status(200).send('Custom bot edited');
+  } catch (error) {
+    codeError(error, 'src/custombotserver.js');
+    res.status(500).send('Error during editBot');
+  }
+});
 
 app.post('/delete', async (req, res) => {
   try {

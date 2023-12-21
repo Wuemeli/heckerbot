@@ -36,4 +36,28 @@ async function botInfo(clientId: string) {
   }
 }
 
+async function stopBot(userId: string) {
+  try {
+    const bot = bots[userId];
+    if (bot) {
+      await bot.destroy();
+      delete bots[userId];
+    }
+  } catch (err) {
+    codeError(err as Error, 'src/typescript/custom-bot/main.ts');
+  }
+}
+
+async function startBot(userId: string) {
+  try {
+    const data = await custombotSchema.findOne({ userId });
+    if (data) {
+      const bot = createBot(data.token, data.clientId);
+      bots[userId] = bot;
+    }
+  } catch (err) {
+    codeError(err as Error, 'src/typescript/custom-bot/main.ts');
+  }
+}
+
 export { createBot, startallBots, botInfo };
