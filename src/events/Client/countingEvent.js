@@ -27,8 +27,15 @@ module.exports = {
       return;
     }
 
-    const { lastNumber, lastUser } = data;
+    const { lastNumber, lastUser, countingMode } = data;
+
+    if (countingMode === 'singleCount' && lastUser === author.id) {
+      await message.delete();
+      return;
+    }
+    
     if (parseInt(evaluatedContent) === lastNumber + 1) {
+
       await countingschema.findOneAndUpdate({ guildId: guild.id }, {
         channelId: channel.id,
         lastNumber: evaluatedContent,
