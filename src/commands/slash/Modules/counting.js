@@ -17,6 +17,16 @@ module.exports = {
             .setDescription('The channel to set')
             .addChannelTypes(ChannelType.GuildText)
             .setRequired(true),
+        )
+        .addStringOption(option =>
+          option
+            .setName('mode')
+            .setDescription('The mode to set')
+            .setRequired(true)
+            .addChoices(
+              { name: 'Normal', value: 'normal' },
+              { name: 'No Fail', value: 'nofail' },
+            ),
         ),
     )
     .addSubcommand(subcommand =>
@@ -54,6 +64,7 @@ module.exports = {
       const channel = interaction.options.getChannel('channel');
       const guildId = interaction.guild.id;
       const channelId = channel?.id;
+      const mode = interaction.options.getString('mode');
 
       if (subcommand === 'channel') {
 
@@ -65,11 +76,12 @@ module.exports = {
           lastNumber: 0,
           lastUser: null,
           lastMessageId: null,
+          countingMode: mode,
         }, {
           upsert: true,
         });
 
-        return interaction.editReply({ content: `${emojis.checkicon} Successfully set the counting channel to ${channel}!` });
+        return interaction.editReply({ content: `${emojis.checkicon} Successfully set the counting channel to ${channel}! The counting mode is set to \`${mode}\`.` });
       }
 
       if (subcommand === 'remove') {
