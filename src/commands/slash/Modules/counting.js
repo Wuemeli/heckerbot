@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
 const CountingSchema = require('../../../schemas/countingSchema');
 const emojis = require('../../../functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
@@ -15,6 +15,7 @@ module.exports = {
           option
             .setName('channel')
             .setDescription('The channel to set')
+            .addChannelTypes(ChannelType.GuildText)
             .setRequired(true),
         ),
     )
@@ -55,9 +56,6 @@ module.exports = {
       const channelId = channel?.id;
 
       if (subcommand === 'channel') {
-        if (!channelId) {
-          return interaction.editReply({ content: `${emojis.erroricon} You need to specify a channel!` });
-        }
 
         await CountingSchema.findOneAndUpdate({
           guildId,
