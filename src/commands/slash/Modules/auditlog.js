@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ChannelType } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, PermissionFlagsBits } = require('discord.js');
 const auditlogSchema = require('../../../schemas/auditlogSchema');
 const emojis = require('../../../functions/emojis');
 
@@ -40,6 +40,10 @@ module.exports = {
     );
 
     try {
+      if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
+      }
+
       const guildId = interaction.guild.id;
       const subcommand = interaction.options.getSubcommand();
 
