@@ -1,8 +1,6 @@
 const { FastType } = require('discord-gamecord');
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-
-const randomSentence = require('random-sentence');
-
+const { random_sentence } = require('../../../typescript/functions/random-sentence');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -19,6 +17,8 @@ module.exports = {
      */
   run: async (client, interaction) => {
     try {
+      const sentence = await random_sentence();
+
       const Game = new FastType({
         message: interaction,
         isSlashGame: true,
@@ -28,7 +28,7 @@ module.exports = {
           description: 'You have {time} seconds to type the sentence below.',
         },
         timeoutTime: 60000,
-        sentence: randomSentence({ min: 3, max: 6 }),
+        sentence: sentence,
         winMessage: 'You won! You finished the type race in {time} seconds with wpm of {wpm}.',
         loseMessage: 'You lost! You didn\'t type the correct sentence in time.',
       });

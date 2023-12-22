@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
 const welcomeSchema = require('../../../schemas/welcomeSchema');
 const emojis = require('../../../functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
@@ -15,6 +15,7 @@ module.exports = {
           option
             .setName('channel')
             .setDescription('The channel to set')
+            .addChannelTypes(ChannelType.GuildText)
             .setRequired(false),
         )
         .addStringOption((opt) =>
@@ -90,7 +91,7 @@ module.exports = {
           upsert: true,
         });
 
-        return interaction.editReply({ content: `${emojis.checkicon} Successfully set the counting channel to ${channel}!` });
+        return interaction.editReply({ content: `${emojis.checkicon} Successfully set the welcome channel to ${channel}!` });
       }
 
       if (subcommand === 'remove') {
@@ -98,7 +99,7 @@ module.exports = {
           guildId,
         });
 
-        return interaction.editReply({ content: `${emojis.checkicon} Successfully removed the counting channel!` });
+        return interaction.editReply({ content: `${emojis.checkicon} Successfully removed the welcome channel!` });
       }
 
       const welcomeData = await welcomeSchema.findOne({

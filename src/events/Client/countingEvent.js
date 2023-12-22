@@ -56,6 +56,11 @@ module.exports = {
 
       return;
     } else {
+      if (data.countingMode === 'nofail') {
+        await message.delete();
+        return;
+      }
+
       await countingschema.findOneAndUpdate({ guildId: guild.id }, {
         channelId: channel.id,
         lastNumber: 0,
@@ -63,7 +68,7 @@ module.exports = {
       });
 
       await channel.send({
-        content: `**${author.username}**, cant count! The counting has been reset.`,
+        content: `**<@${author.id}>** broke the chain! The counting has been reset to **0**.`,
       });
       return;
     }

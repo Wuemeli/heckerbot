@@ -10,7 +10,6 @@ const { logging } = require('./typescript/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/index');
 const { default: topgg } = require('./typescript/functions/top.gg');
-const handleLogs = require('./typescript/functions/handleLogs').default;
 const { handleEntitlements } = require('./typescript/custom-bot/premium');
 const editStatsEmbed = require('./typescript/functions/statsEmbed').default;
 
@@ -36,12 +35,6 @@ try {
   topgg(client);
 } catch (error) {
   console.error('Error during topgg', error);
-}
-
-try {
-  handleLogs(client);
-} catch (error) {
-  console.error('Error during handleLogs', error);
 }
 
 module.exports = { client };

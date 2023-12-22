@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, ChannelType } = require('discord.js');
 const auditlogSchema = require('../../../schemas/auditlogSchema');
 const emojis = require('../../../functions/emojis');
 
@@ -14,6 +14,7 @@ module.exports = {
           option
             .setName('channel')
             .setDescription('📓・The Audit Log Channel')
+            .addChannelTypes(ChannelType.GuildText)
             .setRequired(true),
         ),
     )
@@ -32,7 +33,11 @@ module.exports = {
  * @param {ChatInputCommandInteraction} interaction
  */
   run: async (client, interaction) => {
-    await interaction.deferReply();
+    await interaction.deferReply(
+      {
+        ephemeral: true,
+      },
+    );
 
     try {
       const guildId = interaction.guild.id;
@@ -56,7 +61,6 @@ module.exports = {
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been set to <#${channelId}>`,
-          ephemeral: true,
         });
       } else if (subcommand === 'remove') {
         await auditlogSchema.findOneAndDelete({
@@ -65,7 +69,6 @@ module.exports = {
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been removed`,
-          ephemeral: true,
         });
       }
     } catch (error) {

@@ -126,7 +126,7 @@ module.exports = {
               Authorization: process.env.CUSTOM_BOT_SECRET,
             },
           });
-          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Deleted bot!`);
+          if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Deleted bot! Usually the Bot will be offline after 30 Minutes`);
 
         } catch (error) {
           if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized! If this error keeps happening, please contact the support!`);

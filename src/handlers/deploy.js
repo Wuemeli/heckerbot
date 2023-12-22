@@ -17,6 +17,7 @@ module.exports = async (client, token, clientId) => {
 
     log('Successfully loaded application commands to Discord API.', 'done');
   } catch (e) {
+    console.error(e);
     log('Unable to load application commands to Discord API.', 'err');
   }
 };
