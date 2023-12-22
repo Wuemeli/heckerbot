@@ -31,13 +31,10 @@ try {
   console.error('Error during server.start', error);
 }
 
-try {
-  topgg(client);
-} catch (error) {
-  console.error('Error during topgg', error);
-}
 
 module.exports = { client };
+
+topgg(client);
 
 global.handle = new handling(client);
 global.log = new logging();

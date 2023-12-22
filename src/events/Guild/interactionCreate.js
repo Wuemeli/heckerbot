@@ -61,7 +61,7 @@ module.exports = {
         const hasUserPremium = await hasPremium(interaction.user.id);
         if (!hasUserPremium) {
           return interaction.reply({
-            type: 10,
+            content: `${emojis.erroricon} You need to have premium to use this command. Click on me and click on "Upgrade" to get premium.`,
             ephemeral: true,
           });
         }

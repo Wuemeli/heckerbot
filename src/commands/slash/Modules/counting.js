@@ -26,6 +26,7 @@ module.exports = {
             .addChoices(
               { name: 'Normal', value: 'normal' },
               { name: 'No Fail', value: 'nofail' },
+              { name: 'Single Count', value: 'singleCount' },
             ),
         ),
     )

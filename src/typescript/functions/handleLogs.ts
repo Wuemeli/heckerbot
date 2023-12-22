@@ -31,6 +31,7 @@ function handleLogs(client: Client): void {
     if (!fetchedLogs) return null;
     if (!fetchedLogs.entries.first()) return null;
 
+
     return fetchedLogs;
   }
 
@@ -285,39 +286,6 @@ function handleLogs(client: Client): void {
         .setDescription(role.name + ' had as permissions ' + oldPermissions + ' and now has as permissions ' + newPermissions);
 
       return sendLog(role.guild.id, embed);
-
-    });
-
-    client.on('voiceChannelJoin', (member, channel) => {
-
-      const embed = new EmbedBuilder()
-        .setTitle('Voice Channel Joined')
-        .setColor('Green')
-        .setDescription(member.user.tag + ' joined ' + `${channel}` + '!');
-
-      return sendLog(member.guild.id, embed);
-
-    });
-
-    client.on('voiceChannelLeave', (member, channel) => {
-
-      const embed = new EmbedBuilder()
-        .setTitle('Voice Channel Left')
-        .setColor('Red')
-        .setDescription(member.user.tag + ' left ' + `${channel}` + '!');
-
-      return sendLog(member.guild.id, embed);
-
-    });
-
-    client.on('voiceChannelSwitch', (member, oldChannel, newChannel) => {
-
-      const embed = new EmbedBuilder()
-        .setTitle('Voice Channel Switched')
-        .setColor('Green')
-        .setDescription(member.user.tag + ' left ' + oldChannel.name + ' and joined ' + newChannel.name + '!');
-
-      return sendLog(member.guild.id, embed);
 
     });
 
