@@ -21,7 +21,8 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction
    */
   run: async (client, interaction) => {
-
+    console.log(emojis);
+    console.log(emojis.erroricon)
     await interaction.deferReply( { ephemeral: true } );
 
     try {
