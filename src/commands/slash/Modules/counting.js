@@ -21,7 +21,7 @@ module.exports = {
         .addStringOption(option =>
           option
             .setName('mode')
-            .setDescription('The mode to set (comma-separated for multiple modes)')
+            .setDescription('The mode to set')
             .setRequired(true)
             .addChoices(
               { name: 'Normal', value: 'normal' },
