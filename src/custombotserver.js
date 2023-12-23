@@ -1,11 +1,11 @@
 const express = require('express');
-const { startallBots, createBot, bots, stopBot, startBot } = require('./typescript/custom-bot/main');
-const { log } = require('./functions/index');
+const { startallBots, createBot, bots, stopBot, startBot } = require('./functions/custom-bot/main');
+const { log } = require('./functions/functions/consolelog');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
-const { logging } = require('./typescript/functions/log');
+const { logging } = require('./functions/functions/log');
 const cors = require('cors');
-const { codeError, handling } = require('./typescript/functions/errorHandler');
+const { codeError, handling } = require('./functions/functions/errorHandler');
 const { Client, Partials } = require('discord.js');
 const os = require('os');
 const app = express();
