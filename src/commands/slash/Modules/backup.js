@@ -86,7 +86,7 @@ module.exports = {
             const guild = client.guilds.cache.get(result.guildId);
             const data = `**${result.backupId}** | ${guild.name} (${result.guildId})`;
             backups.push(data);
-          } catch {
+          } catch (error) {
             await backupSchema.deleteOne({
               backupId: result.backupId,
             });
