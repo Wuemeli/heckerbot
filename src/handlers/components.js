@@ -1,4 +1,4 @@
-const {readdirSync} = require('bun:fs');
+const {readdirSync} = require('fs');
 const { log } = require('../functions/functions/consolelog');
 
 /**
