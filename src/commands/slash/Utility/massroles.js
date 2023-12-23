@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { promisify } = require('util');
+const emojis = require('../../../functions/functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -25,6 +26,10 @@ module.exports = {
 
     try {
 
+      if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Adminstrator\` permission to use this command!` });
+      }
+
       const role = interaction.options.getRole('role');
 
       const members = await interaction.guild.members.fetch();
@@ -36,7 +41,7 @@ module.exports = {
         }
       }
 
-      await interaction.editReply(`Role <@&${role.id}> has been given to every user in the server.`);
+      await interaction.editReply(`${emojis.succesicon} Role <@&${role.id}> has been given to every user in the server.`);
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error);
     }
