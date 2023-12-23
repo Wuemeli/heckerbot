@@ -4,7 +4,7 @@ const events = require('../handlers/events');
 const deploy = require('../handlers/deploy');
 const mongoose = require('../handlers/mongoose');
 const components = require('../handlers/components');
-const handleLogs = require('../typescript/functions/handleLogs').default;
+const handleLogs = require('../functions/functions/handleLogs').default;
 
 const bots = {};
 module.exports = class ExtendedClient extends Client {

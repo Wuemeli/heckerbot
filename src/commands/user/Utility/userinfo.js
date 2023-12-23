@@ -1,6 +1,6 @@
 const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
-const { time } = require('../../../functions');
+const { time } = require('../../../functions/functions/consolelog');
 
 module.exports = {
   structure: new ContextMenuCommandBuilder()

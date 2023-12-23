@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
 const CountingSchema = require('../../../schemas/countingSchema');
-const emojis = require('../../../functions/emojis');
+const emojis = require('../../../functions/functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
 
 module.exports = {
@@ -65,7 +65,7 @@ module.exports = {
       const channel = interaction.options.getChannel('channel');
       const guildId = interaction.guild.id;
       const channelId = channel?.id;
-      const mode = interaction.options.getString('mode');
+      const mode = interaction.options.getString('mode').split(',');
 
       if (subcommand === 'channel') {
 

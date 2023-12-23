@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
 const welcomeSchema = require('../../../schemas/welcomeSchema');
-const emojis = require('../../../functions/emojis');
+const emojis = require('../../../functions/functions/emojis');
 const ExtendedClient = require('../../../class/ExtendedClient');
 
 module.exports = {

@@ -1,4 +1,4 @@
-const emojis = {
+const emojis: { [key: string]: string } = {
   offline: '<a:offline:1114851612943454208>',
   online: '<a:online:1114851583642054807>',
   offlinestatus: '<:offlinestatus:1114851072087965756>',
@@ -19,4 +19,4 @@ const emojis = {
   pepeheart: '<:pepeheart:1180191206723047536>',
 };
 
-module.exports = emojis;
+export default emojis;

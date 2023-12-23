@@ -1,9 +1,9 @@
 const config = require('../../config');
-const {log} = require('../../functions');
+const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
-const emojis = require('../../functions/emojis');
+const emojis = require('../../functions/functions/emojis');
 const {PermissionFlagsBits} = require('discord.js');
-const { hasPremium } = require('../../typescript/custom-bot/premium');
+const { hasPremium } = require('../../functions/custom-bot/premium');
 
 const cooldown = new Map();
 

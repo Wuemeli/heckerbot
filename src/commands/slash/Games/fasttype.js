@@ -1,6 +1,6 @@
 const { FastType } = require('discord-gamecord');
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { random_sentence } = require('../../../typescript/functions/random-sentence');
+const { random_sentence } = require('../../../functions/functions/random-sentence');
 
 module.exports = {
   structure: new SlashCommandBuilder()

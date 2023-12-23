@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const backupSchema = require('../../../schemas/backupSchema');
-const backup = require('../../../typescript/backup/index.ts');
-const emojis = require('../../../functions/emojis');
+const backup = require('../../../functions/backup/index.ts');
+const emojis = require('../../../functions/functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -86,7 +86,7 @@ module.exports = {
             const guild = client.guilds.cache.get(result.guildId);
             const data = `**${result.backupId}** | ${guild.name} (${result.guildId})`;
             backups.push(data);
-          } catch {
+          } catch (error) {
             await backupSchema.deleteOne({
               backupId: result.backupId,
             });

@@ -5,7 +5,7 @@ const countingSchema = new mongoose.Schema({
   channelId: { type: String, required: true },
   lastNumber: { type: Number, required: true },
   lastUser: { type: String, required: true },
-  countingMode: { type: String, default: 'normal', enum: ['normal', 'nofail', 'singleCount'] },
+  countingMode: { type: [String], default: ['normal'], enum: ['normal', 'nofail', 'singleCount'] },
 });
 
 module.exports = mongoose.model('counting', countingSchema);
