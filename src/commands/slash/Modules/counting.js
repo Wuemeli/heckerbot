@@ -21,7 +21,7 @@ module.exports = {
         .addStringOption(option =>
           option
             .setName('mode')
-            .setDescription('The mode to set')
+            .setDescription('The mode to set (comma-separated for multiple modes)')
             .setRequired(true)
             .addChoices(
               { name: 'Normal', value: 'normal' },
@@ -65,7 +65,7 @@ module.exports = {
       const channel = interaction.options.getChannel('channel');
       const guildId = interaction.guild.id;
       const channelId = channel?.id;
-      const mode = interaction.options.getString('mode');
+      const mode = interaction.options.getString('mode').split(',');
 
       if (subcommand === 'channel') {
 

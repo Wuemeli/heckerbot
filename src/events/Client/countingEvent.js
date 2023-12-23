@@ -29,11 +29,11 @@ module.exports = {
 
     const { lastNumber, lastUser, countingMode } = data;
 
-    if (countingMode === 'singleCount' && lastUser === author.id) {
+    if (data.countingMode.includes('singleCount') && lastUser === author.id) {
       await message.delete();
       return;
     }
-    
+
     if (parseInt(evaluatedContent) === lastNumber + 1) {
 
       await countingschema.findOneAndUpdate({ guildId: guild.id }, {
@@ -63,7 +63,7 @@ module.exports = {
 
       return;
     } else {
-      if (data.countingMode === 'nofail') {
+      if (data.countingMode.includes('nofail')) {
         await message.delete();
         return;
       }
