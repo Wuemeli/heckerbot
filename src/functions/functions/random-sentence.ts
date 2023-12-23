@@ -30,6 +30,5 @@ export async function random_sentence() {
     randomSentence += randomWord + ' ';
   }
 
-  console.log(randomSentence);
   return randomSentence.trim();
 }
