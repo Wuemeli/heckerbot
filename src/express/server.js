@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-const { log } = require('../functions/index.js');
+const { log } = require('../functions/functions/consolelog');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const emojis = require('../functions/emojis');
+const emojis = require('../functions/functions/emojis');
 
 const port = process.env.PORT || 3000;
 

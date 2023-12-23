@@ -1,5 +1,5 @@
 const {REST, Routes} = require('discord.js');
-const {log} = require('../functions');
+const { log } = require('../functions/functions/consolelog');
 
 /**
  *

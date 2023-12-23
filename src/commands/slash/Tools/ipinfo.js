@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
-const { getData, setData } = require('../../../typescript/redis/index');
+const { getData, setData } = require('../../../functions/redis/index');
 
 module.exports = {
   structure: new SlashCommandBuilder()

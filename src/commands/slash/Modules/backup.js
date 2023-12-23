@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const backupSchema = require('../../../schemas/backupSchema');
-const backup = require('../../../typescript/backup/index.ts');
-const emojis = require('../../../functions/emojis');
+const backup = require('../../../functions/backup/index.ts');
+const emojis = require('../../../functions/functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()

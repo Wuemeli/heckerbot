@@ -1,6 +1,6 @@
 import { TextChannel, DMChannel, NewsChannel, Message, Client, EmbedBuilder } from 'discord.js';
 import axios from 'axios';
-const emojis = require('../../functions/emojis.js');
+const emojis = require('..//functions/emojis.js');
 import os from 'os';
 
 async function fetchCustomBotsCount() {

@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
 const custombotSchema = require('../../../schemas/custombotSchema');
-const emojis = require('../../../functions/emojis');
+const emojis = require('../../../functions/functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()

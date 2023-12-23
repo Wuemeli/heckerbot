@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ChannelType, PermissionFlagsBits } = require('discord.js');
 const auditlogSchema = require('../../../schemas/auditlogSchema');
-const emojis = require('../../../functions/emojis');
+const emojis = require('../../../functions/functions/emojis');
 
 module.exports = {
   structure: new SlashCommandBuilder()

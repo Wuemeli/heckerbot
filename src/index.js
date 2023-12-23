@@ -5,13 +5,13 @@ if (config.dotenv.enabled) {
 }
 
 const ExtendedClient = require('./class/ExtendedClient');
-const { handling } = require('./typescript/functions/errorHandler');
-const { logging } = require('./typescript/functions/log');
+const { handling } = require('./functions/functions/errorHandler');
+const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
-const { log } = require('./functions/index');
-const { default: topgg } = require('./typescript/functions/top.gg');
-const { handleEntitlements } = require('./typescript/custom-bot/premium');
-const editStatsEmbed = require('./typescript/functions/statsEmbed').default;
+const { log } = require('./functions/functions/consolelog');
+const { default: topgg } = require('./functions/functions/top.gg');
+const { handleEntitlements } = require('./functions/custom-bot/premium');
+const editStatsEmbed = require('./functions/functions/statsEmbed').default;
 
 const client = new ExtendedClient();
 

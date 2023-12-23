@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Client } from 'discord.js';
-const { log } = require('../../functions/index');
+const { log } = require('./consolelog');
 import { codeError } from './errorHandler';
 
 export default async (client: Client) => {

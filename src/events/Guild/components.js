@@ -1,4 +1,4 @@
-const {log} = require('../../functions');
+const { log } = require('../../functions/functions/consolelog');
 
 module.exports = {
   event: 'interactionCreate',

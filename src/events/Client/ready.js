@@ -1,6 +1,6 @@
-const {log} = require('../../functions');
+const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
-const { botInfo } = require('../../typescript/custom-bot/main');
+const { botInfo } = require('../../functions/custom-bot/main');
 
 module.exports = {
   event: 'ready',
