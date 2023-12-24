@@ -51,7 +51,6 @@ module.exports = {
         });
       }
 
-
       await new reminderSchema({
         userID: interaction.user.id,
         time: Date.now() + parsed,

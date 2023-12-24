@@ -1,5 +1,7 @@
 # Heckerbot Features & Commands
 
+WILL BE UPDATED SOON
+
 # Commands
 
 ## Games Commands
