@@ -1,5 +1,7 @@
 # ENV Variabels
 
+WILL BE UPDATED SOON
+
 ## Features
 Here you can disable features of Heckerbot. If you want to disable a feature, set the value to `false`. If you want to enable a feature, set the value to `true`.
 
