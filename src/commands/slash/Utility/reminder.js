@@ -62,7 +62,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setColor('#00FF00')
         .setTitle('📝・Reminder')
-        .setDescription(`I will remind you on ${time(timestamp)} with ${message}. Be sure to have your DMs open!`);
+        .setDescription(`I will remind you on ${time(timestamp)} with **${message}**. \n Be sure to have your DMs open!`);
 
       return interaction.editReply({
         embeds: [embed],
