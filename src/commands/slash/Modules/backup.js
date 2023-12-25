@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const backupSchema = require('../../../schemas/backupSchema');
 const backup = require('../../../functions/backup/index.ts');
 const emojis = require('../../../functions/functions/emojis');
@@ -103,16 +103,24 @@ module.exports = {
       }
       case 'load': {
         const backupId = interaction.options.getString('backup-id');
-        const data = await backupSchema.findOne({ userId: interaction.user.id, backupId: backupId });
-        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups with that ID!`, ephemeral: true });
-        backup.load(backupId, interaction.guild).then(() => {
-          const embed = new EmbedBuilder()
-            .setTitle('Backup Loaded')
-            .setDescription('Successfully loaded backup!')
-            .setColor('Green');
 
-          interaction.editReply({ embeds: [embed] });
-        });
+        const data = await backupSchema.findOne({ backupId: backupId });
+        if (!data) return interaction.editReply({ content: `${emojis.erroricon} This Backup don't exists!`, ephemeral: true });
+
+        const row = new ActionRowBuilder()
+          .addComponents(
+            new ButtonBuilder()
+              .setCustomId('confirm-load-backup')
+              .setLabel('Confirm')
+              .setStyle(ButtonStyle.Success),
+          );
+
+        const embed = new EmbedBuilder()
+          .setTitle('Confirm Load Backup')
+          .setDescription(`This will clear the current server and load the backup **${backupId}**. Do you want to continue?`)
+          .setColor('Yellow');
+
+        interaction.editReply({ content: `Backup ID: ${backupId}`, embeds: [embed], components: [row] });
         break;
       }
       case 'remove': {
