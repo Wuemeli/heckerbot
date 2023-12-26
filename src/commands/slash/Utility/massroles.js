@@ -37,13 +37,13 @@ module.exports = {
       for (const member of members.values()) {
         if (!member.roles.cache.has(role.id)) {
           await member.roles.add(role).catch(console.error);
-          await setTimeout(promisify(setTimeout), 1000);
+          setTimeout(promisify(setTimeout), 1000);
         }
       }
 
-      await interaction.editReply(`${emojis.succesicon} Role <@&${role.id}> has been given to every user in the server.`);
+      await interaction.editReply(`${emojis.checkicon} Role <@&${role.id}> has been given to every user in the server.`);
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },
 };

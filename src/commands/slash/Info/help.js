@@ -26,7 +26,7 @@ module.exports = {
       pagination.setDescriptions(descriptions);
       await pagination.render();
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },
 };

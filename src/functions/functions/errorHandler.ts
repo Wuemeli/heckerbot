@@ -8,7 +8,7 @@ class handling {
     this.client = client;
   }
 
-  async error(client: any, guildId: string, userId: string, errors: Error): Promise<void> {
+  async error(client: any, guildId: string, userId: string, errors: Error, interaction: any): Promise<void> {
     if (!client) throw new Error('No client provided');
     if (!guildId) throw new Error('No guildId provided');
     if (!errors) throw new Error('No errors provided');
@@ -31,6 +31,8 @@ class handling {
       .setColor('Red');
 
     user.send({ embeds: [userembed] });
+
+    await interaction.editReply({ content: `🔴 An error occured, we already notified the developers about this. \n **Error ID:** ${errorid}` });
   }
 }
 

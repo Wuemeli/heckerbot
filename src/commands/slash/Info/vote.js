@@ -19,7 +19,7 @@ module.exports = {
     try {
       await interaction.editReply(`[Click Here to Vote for ${client.user.username}!](https://top.gg/bot/${client.user.id}/vote)`);
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },
 };

@@ -135,7 +135,7 @@ module.exports = {
         return interaction.editReply({ embeds: [embed] });
       }
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },
 };
