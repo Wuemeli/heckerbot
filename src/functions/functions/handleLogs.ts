@@ -365,7 +365,10 @@ function handleLogs(client: Client): void {
       const embed = new EmbedBuilder()
         .setTitle('Channel Deleted')
         .setColor('Red')
-        .setDescription(`${'name' in channel ? channel.name : 'DMChannel'} has been deleted. By: <@${executorId}>`);
+        .setDescription(`
+        ${'name' in channel ? channel.name : 'DMChannel'} has been deleted.
+        Executor: <@${executorId}>
+        `);
 
       return sendLog(channel.guild.id, embed);
     });

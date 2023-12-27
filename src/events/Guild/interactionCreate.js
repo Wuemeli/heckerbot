@@ -2,8 +2,8 @@ const config = require('../../config');
 const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const emojis = require('../../functions/functions/emojis');
-const {PermissionFlagsBits} = require('discord.js');
 const { hasPremium } = require('../../functions/custom-bot/premium');
+const { permissionChecker } = require('../../functions/functions/permissionChecker');
 
 const cooldown = new Map();
 
@@ -18,21 +18,22 @@ module.exports = {
   run: async (client, interaction) => {
     if (!interaction.isCommand()) return;
 
+
     if (
       config.handler.commands.slash === false &&
-            interaction.isChatInputCommand()
+      interaction.isChatInputCommand()
     ) {
       return;
     }
     if (
       config.handler.commands.user === false &&
-            interaction.isUserContextMenuCommand()
+      interaction.isUserContextMenuCommand()
     ) {
       return;
     }
     if (
       config.handler.commands.message === false &&
-            interaction.isMessageContextMenuCommand()
+      interaction.isMessageContextMenuCommand()
     ) {
       return;
     }
@@ -44,14 +45,18 @@ module.exports = {
     if (!command) return;
 
     try {
-
-      if (command.options?.nsfw && !interaction.channel.nsfw) {
+      if (!interaction.guild) {
         await interaction.reply({
-          content: `${emojis.erroricon} This command can only be used in a NSFW channel.`,
+          content: `${emojis.erroricon} This command can only be used in a server.`,
           ephemeral: true,
         });
+      }
 
-        return;
+      if (!permissionChecker(interaction)) {
+        return interaction.reply({
+          content: `${emojis.erroricon} I don't have the required permissions to run this command. Please reinvite me with the correct permissions.`,
+          ephemeral: true,
+        });
       }
 
       if (command.options.premium) {
@@ -66,6 +71,7 @@ module.exports = {
           });
         }
       }
+
       if (process.env[command.options.category.toUpperCase()] === 'false') {
         return interaction.reply({ content: `${emojis.erroricon} The ${command.options.category} category is currently disabled.`, ephemeral: true });
       }
@@ -115,5 +121,6 @@ module.exports = {
     } catch (error) {
       log(error, 'err');
     }
+
   },
 };

@@ -19,7 +19,7 @@ module.exports = {
     try {
       await interaction.editReply(`[Click here to join the Support Server!](${process.env.SUPP_INVITE_URL})`);
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },
 };

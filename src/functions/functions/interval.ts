@@ -1,7 +1,7 @@
 import reminderSchema from '../../schemas/reminderSchema';
 import { EmbedBuilder } from 'discord.js';
 
-async function checkReminders(client: any) {
+export async function checkReminders(client: any) {
   const reminders = await reminderSchema.find({ time: { $lt: new Date() } });
   for (const reminder of reminders) {
     const user = await client.users.fetch(reminder.userID);
@@ -18,4 +18,3 @@ async function checkReminders(client: any) {
   setTimeout(() => checkReminders(client), 1000 * 10);
 }
 
-export default checkReminders;
