@@ -41,7 +41,6 @@ export function permissionChecker(interaction: any) {
 
   const requiredPermissionsBitfield = 100600952913141n;
   if ((interaction.guild.members.me.permissions.bitfield & requiredPermissionsBitfield) !== requiredPermissionsBitfield) {
-    console.log('Missing permissions');
     return false;
   }
   return true;
