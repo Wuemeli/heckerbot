@@ -58,7 +58,7 @@ module.exports = {
 
         backup.create(interaction.guild, {
         }).then((backupData) => {
-          
+
           new backupSchema({
             userId: interaction.user.id,
             guildId: interaction.guild.id,
@@ -88,9 +88,7 @@ module.exports = {
             const data = `**${result.backupId}** | ${guild.name} (${result.guildId})`;
             backups.push(data);
           } catch (error) {
-            await backupSchema.deleteOne({
-              backupId: result.backupId,
-            });
+            await interaction.editReply({ content: `${emojis.erroricon} An error occurred while fetching backup`, ephemeral: true });
           }
         }
 
