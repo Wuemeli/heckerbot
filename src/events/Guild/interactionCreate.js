@@ -53,6 +53,10 @@ module.exports = {
       }
 
       if (!permissionChecker(interaction)) {
+        const guildOwner = await interaction.guild.fetchOwner();
+        guildOwner.send(
+          `${emojis.erroricon} Oh no! I cant work in your server because I dont have the required permissions. Please reinvite me with the correct permissions.`,
+        );
         return interaction.reply({
           content: `${emojis.erroricon} I don't have the required permissions to run this command. Please reinvite me with the correct permissions.`,
           ephemeral: true,
