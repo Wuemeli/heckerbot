@@ -39,7 +39,9 @@ export function permissionChecker(interaction: any) {
   if (interaction.commandName === 'invite') { return true; }
   if (interaction.commandName === 'help') { return true; }
 
-  if (interaction.guild.members.me.permissions.bitfield !== 100600952913141n) {
+  const requiredPermissionsBitfield = 100600952913141n;
+  if ((interaction.guild.members.me.permissions.bitfield & requiredPermissionsBitfield) !== requiredPermissionsBitfield) {
+    console.log('Missing permissions');
     return false;
   }
   return true;
