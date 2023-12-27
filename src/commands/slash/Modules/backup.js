@@ -58,18 +58,19 @@ module.exports = {
 
         backup.create(interaction.guild, {
         }).then((backupData) => {
+          
+          new backupSchema({
+            userId: interaction.user.id,
+            guildId: interaction.guild.id,
+            backupId: backupData.id,
+          }).save();
+
           const embed = new EmbedBuilder()
             .setTitle('Backup Created')
             .setDescription('**Backup ID:** ' + backupData.id + '\n**We strongly recommend to dont share this ID with anyone!**')
             .setColor('Green');
 
           interaction.editReply({ embeds: [embed] });
-          const backup = new backupSchema({
-            userId: interaction.user.id,
-            backupId: backupData.id,
-            guildId: interaction.guild.id,
-          });
-          backup.save();
         },
         );
         break;

@@ -71,9 +71,6 @@ export const create = async (
   }
 ) => {
   return new Promise<BackupData>(async (resolve, reject) => {
-    const intents = new IntentsBitField(guild.client.options.intents?.toArray() || []);
-    if (!intents.has(IntentsBitField.Flags.Guilds)) return reject('Guilds intent is required');
-
     try {
       const backupData: BackupData = {
         name: guild.name,
@@ -141,10 +138,12 @@ export const create = async (
       try {
         await S3.send(new PutObjectCommand({ Bucket: bucketName, Key: `${backupData.id}.json`, Body: backupJSON }));
       } catch (error) {
+        console.log(error);
         codeError(error as Error, 'src/typescript/backup/index.ts');
       }
       resolve(backupData);
     } catch (e) {
+      console.log(e);
       codeError(e as Error, 'src/typescript/backup/index.ts');
       reject('An error occurred');
     }

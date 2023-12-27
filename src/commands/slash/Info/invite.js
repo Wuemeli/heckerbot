@@ -24,7 +24,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle('💌 Invite')
         .setColor('Green')
-        .setDescription(`Click the Link to invite me to your server: [Invite](https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot%20applications.commands&permissions=28582944439537)`);
+        .setDescription(`Click the Link to invite me to your server: [Invite](https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot%20applications.commands&permissions=100600952913141)`);
 
       interaction.editReply({ embeds: [embed] });
     } catch (error) {

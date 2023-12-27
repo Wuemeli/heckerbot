@@ -1,8 +1,8 @@
-import { re } from "mathjs";
+import { Permissions } from 'discord.js';
 
-const { PermissionFlagsBits } = require('discord.js');
-
+//This is just a array of the perms. Dont gets used
 const PERMISSIONS = [
+  'BanMembers',
   'ChangeNickname',
   'CreateInstantInvite',
   'ManageChannels',
@@ -22,14 +22,25 @@ const PERMISSIONS = [
   'SendMessages',
   'UseApplicationCommands',
   'UseExternalEmojis',
+  'CreatePrivateThreads',
+  'CreatePublicThreads',
+  'ManageThreads',
+  'SendMessagesInThreads',
+  'SendTTSMessages',
+  'UseExternalStickers',
+  'CreateEvents',
+  'ManageEvents',
+  'ModerateMembers',
+  'ViewCreatorMonetizationInsights',
+  'SendVoiceMessage'
 ];
 
-export function permissionChecker(interaction: any, command: any) {
+export function permissionChecker(interaction: any) {
+  if (interaction.commandName === 'invite') { return true; }
+  if (interaction.commandName === 'help') { return true; }
 
-  for (const permission of PERMISSIONS) {
-    if (!interaction.member.permissions.has(PermissionFlagsBits[permission])) {
-      return false;
-    }
+  if (interaction.guild.members.me.permissions.bitfield !== 100600952913141n) {
+    return false;
   }
   return true;
 }
