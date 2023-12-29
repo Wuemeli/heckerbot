@@ -132,6 +132,8 @@ module.exports = {
             .setDescription('Successfully removed backup!')
             .setColor('Green');
 
+          backupSchema.findOneAndDelete({ backupId: backupId });
+
           interaction.editReply({ embeds: [embed] });
         });
         break;
