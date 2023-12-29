@@ -43,7 +43,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction
    */
   run: async (client, interaction) => {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
       const title = interaction.options.getString('title');
@@ -57,7 +57,7 @@ module.exports = {
 
       await interaction.channel.send({ embeds: [embed] });
 
-      await interaction.editReply({ content: 'Embed sent!', ephemeral: true });
+      await interaction.editReply({ content: 'Embed sent!'});
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
