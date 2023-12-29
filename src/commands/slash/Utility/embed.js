@@ -55,7 +55,9 @@ module.exports = {
         .setDescription(description)
         .setColor(color);
 
-      await interaction.editReply({ embeds: [embed] });
+      await interaction.channel.send({ embeds: [embed] });
+
+      await interaction.editReply({ content: 'Embed sent!', ephemeral: true });
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
