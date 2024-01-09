@@ -3,6 +3,7 @@ const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, Butt
 const backupSchema = require('../../../schemas/backupSchema');
 const backup = require('../../../functions/backup/index.ts');
 const emojis = require('../../../functions/functions/emojis');
+const guildsettingsSchema = require('../../../schemas/guildSchema');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -96,6 +97,15 @@ module.exports = {
           }
         }
 
+        if (interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+          const adminBackups = await backupSchema.find({ guildId: interaction.guild.id, dayBackup: true, userId: null });
+          for (const backup of adminBackups) {
+            const guild = client.guilds.cache.get(backup.guildId);
+            const data = `**${backup.backupId}** | ${guild.name} (${backup.guildId})`;
+            backups.push(data);
+          }
+        }
+
         const embed = new EmbedBuilder()
           .setTitle('Backups')
           .setDescription(backups.length > 0 ? backups.join('\n') : 'No backups available')
@@ -126,7 +136,6 @@ module.exports = {
         interaction.editReply({ content: `Backup ID: ${backupId}`, embeds: [embed], components: [row] });
         break;
       }
-      /**
       case 'autobackup': {
         if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
           return interaction.editReply({ content: `${emojis.erroricon} You need the Administrator permission to use this command!`, ephemeral: true });
@@ -153,7 +162,6 @@ module.exports = {
 
         return interaction.editReply({ content: 'Auto backup setup successfully!', ephemeral: true });
       }
-      */
       case 'remove': {
         const backupId = interaction.options.getString('backup-id');
         const data = await backupSchema.findOne({ userId: interaction.user.id, backupId: backupId });
