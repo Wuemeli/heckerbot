@@ -3,7 +3,6 @@ const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const emojis = require('../../functions/functions/emojis');
 const { hasPremium } = require('../../functions/custom-bot/premium');
-const { permissionChecker } = require('../../functions/functions/permissionChecker');
 
 const cooldown = new Map();
 
@@ -48,17 +47,6 @@ module.exports = {
       if (!interaction.guild) {
         await interaction.reply({
           content: `${emojis.erroricon} This command can only be used in a server.`,
-          ephemeral: true,
-        });
-      }
-
-      if (!permissionChecker(interaction)) {
-        const guildOwner = await interaction.guild.fetchOwner();
-        guildOwner.send(
-          `${emojis.erroricon} Oh no! I cant work in your server because I dont have the required permissions. Please reinvite me with the correct permissions.`,
-        );
-        return interaction.reply({
-          content: `${emojis.erroricon} I don't have the required permissions to run this command. Please reinvite me with the correct permissions.`,
           ephemeral: true,
         });
       }

@@ -26,6 +26,10 @@ module.exports = {
           .setRequired(true)))
     .addSubcommand(subcommand =>
       subcommand
+        .setName('autobackup')
+        .setDescription('📊・Backups your Server Daily'))
+    .addSubcommand(subcommand =>
+      subcommand
         .setName('remove')
         .setDescription('📊・Remove a backup')
         .addStringOption(option =>
@@ -122,6 +126,34 @@ module.exports = {
         interaction.editReply({ content: `Backup ID: ${backupId}`, embeds: [embed], components: [row] });
         break;
       }
+      /**
+      case 'autobackup': {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+          return interaction.editReply({ content: `${emojis.erroricon} You need the Administrator permission to use this command!`, ephemeral: true });
+        }
+
+        const guildId = interaction.guild.id;
+
+        const data = await guildsettingsSchema.findOne({ guildId: guildId });
+        if (!data) {
+          new guildsettingsSchema({
+            guildId: guildId,
+            dayBackup: true,
+          }).save();
+          return interaction.editReply({ content: 'Auto backup setup successfully!', ephemeral: true });
+        }
+
+        if (data.dayBackup === true) {
+          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: false });
+          return interaction.editReply({ content: 'Auto backup disabled successfully!', ephemeral: true });
+        } else if (data.dayBackup === false) {
+          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: true });
+          return interaction.editReply({ content: 'Auto backup enabled successfully!', ephemeral: true });
+        }
+
+        return interaction.editReply({ content: 'Auto backup setup successfully!', ephemeral: true });
+      }
+      */
       case 'remove': {
         const backupId = interaction.options.getString('backup-id');
         const data = await backupSchema.findOne({ userId: interaction.user.id, backupId: backupId });

@@ -1,5 +1,7 @@
 import reminderSchema from '../../schemas/reminderSchema';
 import { EmbedBuilder } from 'discord.js';
+import backupSchema from '../../schemas/backupSchema';
+import backup from '../backup/index';
 
 export async function checkReminders(client: any) {
   const reminders = await reminderSchema.find({ time: { $lt: new Date() } });
