@@ -21,22 +21,22 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction
    */
   run: async (client, interaction) => {
-
-    await interaction.deferReply( { ephemeral: true } );
+    await interaction.deferReply({ ephemeral: true });
 
     try {
-
       if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
         return interaction.editReply({ content: `${emojis.erroricon} You need the \`Adminstrator\` permission to use this command!` });
       }
 
       const role = interaction.options.getRole('role');
-
       const members = await interaction.guild.members.fetch();
+      let count = 0;
 
       for (const member of members.values()) {
         if (!member.roles.cache.has(role.id)) {
           await member.roles.add(role).catch(console.error);
+          count++;
+          await interaction.editReply(`Assigning roles... ${count}/${members.size}`);
           setTimeout(promisify(setTimeout), 1000);
         }
       }

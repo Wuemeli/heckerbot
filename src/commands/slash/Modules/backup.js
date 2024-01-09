@@ -3,6 +3,7 @@ const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, Butt
 const backupSchema = require('../../../schemas/backupSchema');
 const backup = require('../../../functions/backup/index.ts');
 const emojis = require('../../../functions/functions/emojis');
+const guildsettingsSchema = require('../../../schemas/guildSchema');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -24,6 +25,10 @@ module.exports = {
           .setName('backup-id')
           .setDescription('The ID of the backup')
           .setRequired(true)))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('autobackup')
+        .setDescription('📊・Backups your Server Daily'))
     .addSubcommand(subcommand =>
       subcommand
         .setName('remove')
@@ -92,6 +97,15 @@ module.exports = {
           }
         }
 
+        if (interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+          const adminBackups = await backupSchema.find({ guildId: interaction.guild.id, dayBackup: true, userId: null });
+          for (const backup of adminBackups) {
+            const guild = client.guilds.cache.get(backup.guildId);
+            const data = `**${backup.backupId}** | ${guild.name} (${backup.guildId})`;
+            backups.push(data);
+          }
+        }
+
         const embed = new EmbedBuilder()
           .setTitle('Backups')
           .setDescription(backups.length > 0 ? backups.join('\n') : 'No backups available')
@@ -121,6 +135,32 @@ module.exports = {
 
         interaction.editReply({ content: `Backup ID: ${backupId}`, embeds: [embed], components: [row] });
         break;
+      }
+      case 'autobackup': {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+          return interaction.editReply({ content: `${emojis.erroricon} You need the Administrator permission to use this command!`, ephemeral: true });
+        }
+
+        const guildId = interaction.guild.id;
+
+        const data = await guildsettingsSchema.findOne({ guildId: guildId });
+        if (!data) {
+          new guildsettingsSchema({
+            guildId: guildId,
+            dayBackup: true,
+          }).save();
+          return interaction.editReply({ content: 'Auto backup setup successfully!', ephemeral: true });
+        }
+
+        if (data.dayBackup === true) {
+          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: false });
+          return interaction.editReply({ content: 'Auto backup disabled successfully!', ephemeral: true });
+        } else if (data.dayBackup === false) {
+          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: true });
+          return interaction.editReply({ content: 'Auto backup enabled successfully!', ephemeral: true });
+        }
+
+        return interaction.editReply({ content: 'Auto backup setup successfully!', ephemeral: true });
       }
       case 'remove': {
         const backupId = interaction.options.getString('backup-id');

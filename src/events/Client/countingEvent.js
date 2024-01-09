@@ -24,6 +24,7 @@ module.exports = {
       evaluatedContent = math.evaluate(content);
     } catch (error) {
       await message.delete();
+      await message.author.send({ content: 'Your message was deleted because it was not a number.' });
       return;
     }
 
