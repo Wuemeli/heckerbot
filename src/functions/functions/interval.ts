@@ -31,14 +31,20 @@ export async function dailyBackup(client: any) {
     if (settings && settings.dayBackup) {
       const backupData = await backup.create(guild);
       new backupSchema({
-        userId: client.user.id,
+        userId: null,
         guildId: guild.id,
         backupId: backupData.id,
         dayBackup: true,
       }).save();
+
+      const backups = await backupSchema.find({ guildId: guild.id, dayBackup: true });
+      if (backups.length >= 5) {
+        const oldestBackup = backups.sort((a: any, b: any) => a.createdAt - b.createdAt)[0];
+        await backup.remove(oldestBackup.backupId);
+        await backupSchema.deleteOne({ _id: oldestBackup._id });
+      }
     }
   }
-
   setTimeout(() => dailyBackup(client), 1000 * 60 * 60 * 24);
 }
 
