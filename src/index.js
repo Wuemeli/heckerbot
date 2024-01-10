@@ -1,9 +1,4 @@
-require('dotenv').config();
-const config = require('./config.js');
-if (config.dotenv.enabled) {
-  require('dotenv').config({ DOTENV_KEY: 'ENVKEY' });
-}
-
+require.dotenv = require('dotenv').config();
 const ExtendedClient = require('./class/ExtendedClient');
 const { handling } = require('./functions/functions/errorHandler');
 const { logging } = require('./functions/functions/log');

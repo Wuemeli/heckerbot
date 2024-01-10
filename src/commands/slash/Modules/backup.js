@@ -3,6 +3,7 @@ const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, Butt
 const backupSchema = require('../../../schemas/backupSchema');
 const backup = require('../../../functions/backup/index.ts');
 const emojis = require('../../../functions/functions/emojis');
+const guildsettingsSchema = require('../../../schemas/guildSchema');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -24,6 +25,10 @@ module.exports = {
           .setName('backup-id')
           .setDescription('The ID of the backup')
           .setRequired(true)))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('autobackup')
+        .setDescription('📊・Backups your Server Daily'))
     .addSubcommand(subcommand =>
       subcommand
         .setName('remove')
@@ -53,7 +58,7 @@ module.exports = {
       switch (subcommand) {
       case 'create': {
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-          return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`, ephemeral: true });
+          return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
         }
 
         backup.create(interaction.guild, {
@@ -77,7 +82,7 @@ module.exports = {
       }
       case 'list': {
         const data = await backupSchema.find({ userId: interaction.user.id });
-        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups!`, ephemeral: true });
+        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups!` });
 
         const backups = [];
 
@@ -88,7 +93,15 @@ module.exports = {
             const data = `**${result.backupId}** | ${guild.name} (${result.guildId})`;
             backups.push(data);
           } catch (error) {
-            await interaction.editReply({ content: `${emojis.erroricon} An error occurred while fetching backup`, ephemeral: true });
+            await interaction.editReply({ content: `${emojis.erroricon} An error occurred while fetching backup` });
+          }
+        }
+
+        if (interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+          const adminBackups = await backupSchema.find({ guildId: interaction.guild.id, dayBackup: true, userId: null });
+          for (const backup of adminBackups) {
+            const data = `**${backup.backupId}** | ${interaction.guild.name} (${backup.guildId})`;
+            backups.push(data);
           }
         }
 
@@ -104,7 +117,7 @@ module.exports = {
         const backupId = interaction.options.getString('backup-id');
 
         const data = await backupSchema.findOne({ backupId: backupId });
-        if (!data) return interaction.editReply({ content: `${emojis.erroricon} This Backup don't exists!`, ephemeral: true });
+        if (!data) return interaction.editReply({ content: `${emojis.erroricon} This Backup don't exists!` });
 
         const row = new ActionRowBuilder()
           .addComponents(
@@ -122,10 +135,36 @@ module.exports = {
         interaction.editReply({ content: `Backup ID: ${backupId}`, embeds: [embed], components: [row] });
         break;
       }
+      case 'autobackup': {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+          return interaction.editReply({ content: `${emojis.erroricon} You need the Administrator permission to use this command!`});
+        }
+
+        const guildId = interaction.guild.id;
+
+        const data = await guildsettingsSchema.findOne({ guildId: guildId });
+        if (!data) {
+          new guildsettingsSchema({
+            guildId: guildId,
+            dayBackup: true,
+          }).save();
+          return interaction.editReply({ content: `${emojis.successicon} Auto backup enabled successfully!` });
+        }
+
+        if (data.dayBackup === true) {
+          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: false });
+          return interaction.editReply({ content: `${emojis.successicon} Auto backup disabled successfully!` });
+        } else if (data.dayBackup === false) {
+          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: true });
+          return interaction.editReply({ content: `${emojis.successicon} Auto backup enabled successfully!` });
+        }
+
+        return interaction.editReply({ content: `${emojis.successicon} Auto backup enabled successfully!`  });
+      }
       case 'remove': {
         const backupId = interaction.options.getString('backup-id');
         const data = await backupSchema.findOne({ userId: interaction.user.id, backupId: backupId });
-        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups with that ID!`, ephemeral: true });
+        if (!data) return interaction.editReply({ content: `${emojis.erroricon} You don't have any backups with that ID!`  });
         backup.remove(backupId).then(() => {
           const embed = new EmbedBuilder()
             .setTitle('Backup Removed')

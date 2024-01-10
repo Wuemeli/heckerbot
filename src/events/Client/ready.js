@@ -1,7 +1,6 @@
 const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const { botInfo } = require('../../functions/custom-bot/main');
-const { checkReminders } = require('../../functions/functions/interval');
 
 module.exports = {
   event: 'ready',
@@ -20,10 +19,8 @@ module.exports = {
     let status;
     if (check) {
       status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
-      checkReminders(client);
     } else {
       status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
-      checkReminders(client);
       log(`Logged in as ${client.user.tag}`, 'info');
     }
     client.user.setActivity(status, { type: 4 });
@@ -33,10 +30,8 @@ module.exports = {
       let status;
       if (check) {
         status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
-        checkReminders(client);
       } else {
         status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
-        checkReminders(client);
       }
       client.user.setActivity(status, { type: 4 });
     }, 60000);

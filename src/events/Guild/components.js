@@ -1,5 +1,4 @@
 const { log } = require('../../functions/functions/consolelog');
-const { permissionChecker } = require('../../functions/functions/permissionChecker');
 const emojis = require('../../functions/functions/emojis');
 
 module.exports = {
@@ -11,14 +10,6 @@ module.exports = {
      * @returns
      */
   run: (client, interaction) => {
-
-    if (!permissionChecker(interaction)) {
-      return interaction.reply({
-        content: `${emojis.erroricon} I don't have the required permissions to run this command. Please reinvite me with the correct permissions.`,
-        ephemeral: true,
-      });
-    }
-
     if (interaction.isButton()) {
       const component = client.collection.components.buttons.get(interaction.customId);
 

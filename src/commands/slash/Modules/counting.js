@@ -62,12 +62,13 @@ module.exports = {
       }
 
       const subcommand = interaction.options.getSubcommand();
-      const channel = interaction.options.getChannel('channel');
-      const guildId = interaction.guild.id;
-      const channelId = channel?.id;
-      const mode = interaction.options.getString('mode').split(',');
 
       if (subcommand === 'channel') {
+
+        const channel = interaction.options.getChannel('channel');
+        const guildId = interaction.guild.id;
+        const channelId = channel?.id;
+        const mode = interaction.options.getString('mode').split(',');
 
         await CountingSchema.findOneAndUpdate({
           guildId,
@@ -86,6 +87,9 @@ module.exports = {
       }
 
       if (subcommand === 'remove') {
+
+        const guildId = interaction.guild.id;
+
         await CountingSchema.findOneAndDelete({
           guildId,
         });
@@ -94,6 +98,8 @@ module.exports = {
       }
 
       if (subcommand === 'info') {
+        const guildId = interaction.guild.id;
+
         const countingData = await CountingSchema.findOne({
           guildId,
         });
@@ -130,6 +136,10 @@ module.exports = {
           if (messageData) {
             embed.addFields({ name: 'Last Message', value: messageData.toString(), inline: true });
           }
+        }
+
+        if (countingData.countingMode) {
+          embed.addFields({ name: 'Mode', value: countingData.countingMode.toString(), inline: true });
         }
 
         return interaction.editReply({ embeds: [embed] });
