@@ -17,7 +17,7 @@ module.exports = {
       console.log(backupId);
 
       backup.load(backupId, interaction.guild).then(() => {
-        interaction.user.send({ content: `${emojis.successicon} Backup loaded successfully!` });
+        interaction.user.send({ content: `${emojis.checkicon} Backup loaded successfully!` });
       }).catch((err) => {
         interaction.user.send({ content: `${emojis.erroricon} An error occurred while loading the backup` });
       },

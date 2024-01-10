@@ -148,18 +148,18 @@ module.exports = {
             guildId: guildId,
             dayBackup: true,
           }).save();
-          return interaction.editReply({ content: `${emojis.successicon} Auto backup enabled successfully!` });
+          return interaction.editReply({ content: `${emojis.checkicon} Auto backup enabled successfully!` });
         }
 
         if (data.dayBackup === true) {
           await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: false });
-          return interaction.editReply({ content: `${emojis.successicon} Auto backup disabled successfully!` });
+          return interaction.editReply({ content: `${emojis.checkicon} Auto backup disabled successfully!` });
         } else if (data.dayBackup === false) {
           await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: true });
-          return interaction.editReply({ content: `${emojis.successicon} Auto backup enabled successfully!` });
+          return interaction.editReply({ content: `${emojis.checkicon} Auto backup enabled successfully!` });
         }
 
-        return interaction.editReply({ content: `${emojis.successicon} Auto backup enabled successfully!`  });
+        return interaction.editReply({ content: `${emojis.checkicon} Auto backup enabled successfully!`  });
       }
       case 'remove': {
         const backupId = interaction.options.getString('backup-id');
