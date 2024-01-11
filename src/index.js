@@ -32,6 +32,7 @@ module.exports = { client };
 topgg(client);
 
 global.handle = new handling(client);
+
 global.log = new logging();
 
 global.log.startuplog('Started normal bot');
