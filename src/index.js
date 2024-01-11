@@ -7,7 +7,6 @@ const { log } = require('./functions/functions/consolelog');
 const { default: topgg } = require('./functions/functions/top.gg');
 const { handleEntitlements } = require('./functions/custom-bot/premium');
 const editStatsEmbed = require('./functions/functions/statsEmbed').default;
-const { sendtodev } = require('./functions/functions/sendtodev');
 
 const client = new ExtendedClient();
 
@@ -33,7 +32,6 @@ module.exports = { client };
 topgg(client);
 
 global.handle = new handling(client);
-global.sendtodev = new sendtodev(client);
 
 global.log = new logging();
 

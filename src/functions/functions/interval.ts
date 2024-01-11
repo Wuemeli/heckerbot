@@ -3,6 +3,7 @@ import { EmbedBuilder } from 'discord.js';
 import backupSchema from '../../schemas/backupSchema';
 import backup from '../backup/index';
 import guildSettings from '../../schemas/guildSchema';
+import sendtodev from './sendtodev';
 
 export async function checkReminders(client: any) {
   const reminders = await reminderSchema.find({ time: { $lt: new Date() } });
@@ -22,6 +23,7 @@ export async function checkReminders(client: any) {
 }
 
 export async function dailyBackup(client: any) {
+  sendtodev(client, 'Daily Backup', 'Daily Backup Create');
   const guilds = client.guilds.cache.map((guild: any) => guild.id);
 
   for (const guildID of guilds) {
@@ -49,6 +51,7 @@ export async function dailyBackup(client: any) {
 }
 
 export async function clearDailyBackups(client: any) {
+ sendtodev(client, 'Daily Backup', 'Weekly Backup Clear');
  const twoWeeksInMilliseconds = 1000 * 60 * 60 * 24 * 14;
  const now = Date.now();
 

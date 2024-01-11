@@ -5,14 +5,6 @@ const devids = process.env.DEV_IDS.split(',');
 export default function sendtodev(client: any, event: string, message: string) {
     const users = devids.map(id => client.users.cache.get(id));
 
-    //Error
-    //Backup Create
-    //Daily  Backup Cretae
-    //Ready Change
-    //Connection Lost
-    //Custom Bot create
-    //Custom Bot Delete
-
     if (event === 'Error') {
         const errorEmbed = new EmbedBuilder()
             .setTitle('Error')
@@ -29,7 +21,7 @@ export default function sendtodev(client: any, event: string, message: string) {
             .setTimestamp()
 
         users.forEach(user => user.send(backupEmbed));
-    } else if (event === 'Daily Backup Create') {
+    } else if (event === 'Daily Backup') {
         const dailyBackupEmbed = new EmbedBuilder()
             .setTitle('Daily Backup Create')
             .setDescription(message)
