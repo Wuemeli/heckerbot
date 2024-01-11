@@ -23,7 +23,6 @@ export async function checkReminders(client: any) {
 }
 
 export async function dailyBackup(client: any) {
-  sendtodev(client, 'Daily Backup', 'Daily Backup Create');
   const guilds = client.guilds.cache.map((guild: any) => guild.id);
 
   for (const guildID of guilds) {
@@ -51,7 +50,6 @@ export async function dailyBackup(client: any) {
 }
 
 export async function clearDailyBackups(client: any) {
- sendtodev(client, 'Daily Backup', 'Weekly Backup Clear');
  const twoWeeksInMilliseconds = 1000 * 60 * 60 * 24 * 14;
  const now = Date.now();
 

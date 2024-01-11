@@ -63,7 +63,3 @@ export default function sendtodev(client: any, event: string, message: string) {
         users.forEach(user => user.send(customBotDeleteEmbed));
     }
 }
-
-
-
-
