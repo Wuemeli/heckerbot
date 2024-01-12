@@ -1,8 +1,6 @@
 const { ButtonInteraction } = require('discord.js');
 const ExtendedClient = require('../../class/ExtendedClient');
-const backupSchema = require('../../schemas/backupSchema');
 const backup = require('../../functions/backup/index.ts');
-const EmbedBuilder = require('discord.js');
 const emojis = require('../../functions/functions/emojis');
 
 module.exports = {
@@ -23,7 +21,7 @@ module.exports = {
       },
       );
     } catch (error) {
-      console.log('Error handling button interaction:', error);
+      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },
 };
