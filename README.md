@@ -41,6 +41,7 @@ The Documentation is available at [Docs](docs/README.md)
 
 ## 📝 Credits
 Thanks to TFAGaming for providing the Bot Template. We modified it that it fits our case.
+Thanks to [Emojify](https://github.com/farkmarnum/emojify) for providing the Emojis Data.
 
 ## 📫 Contact
 If you want to contact me you can reach me at Discord: wuemeli
