@@ -29,6 +29,10 @@ module.exports = {
     );
 
     try {
+      if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
+      }
+
       const prefix = interaction.options.getString('prefix');
 
       if (!isUnicodeEmoji(prefix)) {
