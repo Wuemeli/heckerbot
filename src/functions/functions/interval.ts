@@ -50,15 +50,14 @@ export async function dailyBackup(client: any) {
 }
 
 export async function clearDailyBackups(client: any) {
- const twoWeeksInMilliseconds = 1000 * 60 * 60 * 24 * 14;
  const now = Date.now();
 
  const backups = await backupSchema.find({ dayBackup: true });
  for (const backup of backups) {
-   if (now - backup.createdAt.getTime() >= twoWeeksInMilliseconds) {
+   if (now - backup.createdAt.getTime() >= 1000 * 60 * 60 * 24) {
      await backup.remove();
    }
  }
 
- setTimeout(() => clearDailyBackups(client), twoWeeksInMilliseconds);
+ setTimeout(() => clearDailyBackups(client), 1000 * 60 * 60 * 24);
 }

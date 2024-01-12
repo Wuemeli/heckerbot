@@ -114,6 +114,10 @@ module.exports = {
         break;
       }
       case 'load': {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+          return interaction.editReply({ content: `${emojis.erroricon} You need the \`Administrator\` permission to use this command!` });
+        }
+
         const backupId = interaction.options.getString('backup-id');
 
         const data = await backupSchema.findOne({ backupId: backupId });
