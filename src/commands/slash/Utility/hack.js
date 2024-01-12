@@ -71,7 +71,7 @@ function getRandomLocation() {
 }
 
 function getRandomEmail(username) {
-  const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'example.com'];
+  const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'wuemeli.com'];
   const randomDomain = domains[Math.floor(Math.random() * domains.length)];
   return `${username}@${randomDomain}`;
 }
