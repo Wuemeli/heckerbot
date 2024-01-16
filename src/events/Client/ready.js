@@ -33,7 +33,7 @@ module.exports = {
       if (check) {
         status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
       } else {
-        status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemelis`;
+        status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
       }
 
       client.user.setActivity(status, { type: 4 });
