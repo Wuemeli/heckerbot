@@ -27,12 +27,15 @@ module.exports = {
 
     setInterval(async () => {
       const check = await botInfo(client.user.id);
+      const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
+      const guildcount = client.guilds.cache.size;
       let status;
       if (check) {
         status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
       } else {
-        status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
+        status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemelis`;
       }
+
       client.user.setActivity(status, { type: 4 });
     }, 60000);
   },
