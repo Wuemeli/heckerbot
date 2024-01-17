@@ -13,7 +13,6 @@ app.use(cors());
 
 log('Server Started.', 'done');
 
-
 module.exports = {
   start: (client) => {
 
@@ -41,21 +40,10 @@ module.exports = {
     });
 
     app.get('/stats', (req, res) => {
-      const userCount = client.users.cache.size;
+      const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
       const guildCount = client.guilds.cache.size;
-      const channelCount = client.channels.cache.size;
 
-      res.json({
-        userCount,
-        guildCount,
-        channelCount,
-      });
-    });
-
-    app.get('/health-check', (req, res) => {
-      res.json({
-        'OK': true,
-      });
+      res.json({ users: totalUsers, guilds: guildCount });
     });
 
     app.listen(port, () => {
