@@ -85,10 +85,12 @@ export const loadChannels = async (guild: Guild, backupData: BackupData, options
       const createdCategory = await loadCategory(categoryData, guild);
       for (const channelData of categoryData.children) {
         loadChannelPromises.push(loadChannel(channelData, guild, createdCategory, options));
+        sleep(1000);
       }
     }
     for (const channelData of backupData.channels.others) {
       loadChannelPromises.push(loadChannel(channelData, guild, null, options));
+      sleep(1000);
     }
   } catch (error) {
     codeError(error as Error, 'src/typescript/backup/load.ts');
@@ -125,6 +127,7 @@ export const loadEmojis = async (guild: Guild, backupData: BackupData): Promise<
   const emojiPromises: Promise<Emoji>[] = [];
   try {
     backupData.emojis.forEach((emoji) => {
+      sleep(1000);
       if (emoji.url) {
         emojiPromises.push(guild.emojis.create({ attachment: emoji.url, name: emoji.name }));
       } else if (emoji.base64) {
@@ -146,6 +149,7 @@ export const loadBans = async (guild: Guild, backupData: BackupData): Promise<st
   const banPromises: Promise<string>[] = [];
   try {
     backupData.bans.forEach((ban) => {
+      sleep(1000);
       banPromises.push(
         guild.members.ban(ban.id, {
           reason: ban.reason
