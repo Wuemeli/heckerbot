@@ -30,7 +30,12 @@ module.exports = {
 
     const { lastNumber, lastUser, countingMode } = data;
 
-    if (data.countingMode.includes('singleCount') && lastUser === author.id) {
+    if (countingMode.includes('singleCount') && lastUser === author.id) {
+      await message.delete();
+      return;
+    }
+
+    if (countingMode.includes('nofail') && evaluatedContent !== lastNumber + 1) {
       await message.delete();
       return;
     }
@@ -58,17 +63,13 @@ module.exports = {
           username: author.username,
           avatarURL: author.displayAvatarURL({ dynamic: true }),
         });
+
       } catch (error) {
         console.error(`Failed to send webhook: ${error}`);
       }
 
       return;
     } else {
-      if (data.countingMode.includes('nofail')) {
-        await message.delete();
-        return;
-      }
-
       await countingschema.findOneAndUpdate({ guildId: guild.id }, {
         channelId: channel.id,
         lastNumber: 0,
