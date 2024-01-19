@@ -1,6 +1,5 @@
 const ExtendedClient = require('../../class/ExtendedClient');
 const welcomeSchema = require('../../schemas/welcomeSchema');
-const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   event: 'guildMemberAdd',
