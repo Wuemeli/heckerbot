@@ -30,12 +30,6 @@ module.exports = {
       .replace(/{{guild}}/g, `${member.guild.name}`)
       .replace(/{{membercount}}/g, `${member.guild.memberCount}`);
 
-    const embed = new EmbedBuilder()
-      .setColor('Random')
-      .setDescription(content)
-      .setThumbnail(picture)
-      .setTimestamp();
-
     if (role) {
       const roleToAdd = member.guild.roles.cache.get(role);
       if (!roleToAdd) return;
@@ -43,7 +37,8 @@ module.exports = {
       member.roles.add(roleToAdd);
     }
 
-    channel.send({ embeds: [embed] });
-  },
+    await channel.send({
+      content: content, files: [{ attachment: picture, name: `${member.guild.name}.png` }],
+    });  },
 };
 
