@@ -15,6 +15,8 @@ module.exports = {
       guildId: member.guild.id,
     });
 
+    console.log(data);
+
     if (!data) return;
 
     const { channelId, message, picture, role } = data;

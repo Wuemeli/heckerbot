@@ -5,7 +5,6 @@ const welcomeSchema = new mongoose.Schema({
   channelId: { type: String, required: true },
   welcomeMessage: { type: String, required: true },
   welcomeRole: { type: String, required: true },
-  welcomePicture: { type: String, required: true },
 });
 
 module.exports = mongoose.model('welcome', welcomeSchema);
