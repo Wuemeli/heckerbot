@@ -15,11 +15,7 @@ async function getBotVotes(client) {
       headers: { 'Authorization': process.env.TOPGG_TOKEN },
     });
 
-    let votes = Array.isArray(response.data) ? response.data.length : 0;
-
-    console.log(`Fetched ${votes} votes from Top.gg`);
-
-    return votes;
+    return response.data.length;
   } catch (error) {
     console.error('Failed to fetch votes from Top.gg:', error);
     return 0;
@@ -61,7 +57,6 @@ module.exports = {
       const guildCount = client.guilds.cache.size;
 
       const topggvotes = await getBotVotes(client);
-      console.log(topggvotes);
 
       res.json({ users: totalUsers, guilds: guildCount, votes: topggvotes });
     });
