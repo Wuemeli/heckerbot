@@ -18,15 +18,14 @@ module.exports = {
     console.log(data);
 
     if (!data) return;
-
-    const { channelId, message, picture, role } = data;
+    
+    const { channelId, welcomeMessage: message, picture, role } = data;
     if (!channelId) return;
 
     const channel = member.guild.channels.cache.get(channelId);
     if (!channel) return;
 
     const content = message
-
       .replace(/{{user}}/g, `<@${member.id}>`)
       .replace(/{{guild}}/g, `${member.guild.name}`)
       .replace(/{{membercount}}/g, `${member.guild.memberCount}`);

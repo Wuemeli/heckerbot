@@ -3,6 +3,8 @@ import { Client } from 'discord.js';
 const { log } = require('./consolelog');
 import { codeError } from './errorHandler';
 
+axios.defaults.headers.common["Accept-Encoding"] = "gzip";
+
 export default async (client: Client) => {
   if (!process.env.TOPGG_TOKEN) return;
 

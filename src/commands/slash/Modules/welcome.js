@@ -93,7 +93,7 @@ module.exports = {
             { name: 'Message', value: message, inline: true },
             { name: 'Role', value: role ? `<@&${role.id}>` : 'None', inline: true },
           );
-
+  
         return interaction.editReply({ embeds: [embed] });
       }
 

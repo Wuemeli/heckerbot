@@ -1,43 +1,31 @@
 import axios from 'axios';
-import premiumSchema from '../../schemas/premiumSchema';
 import custombotSchema from '../../schemas/custombotSchema';
 
-export async function handleEntitlements() {
-  if (!process.env.PREMIUM) return;
+axios.defaults.headers.common["Accept-Encoding"] = "gzip";
 
-  const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.CLIENT_ID}/entitlements`, {
+export async function hasPremium(userID: string) {
+  console.log(process.env.CLIENT_ID);
+
+  const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.PREMIUM_ID}/entitlements`, {
     headers: {
-      Authorization: `Bot ${process.env.CLIENT_TOKEN}`,
+      Authorization: `Bot ${process.env.PREMIUM_TOKEN}`,
     },
   });
 
+  const now = new Date();
+
   for (const entitlement of response.data) {
-    const { user_id, starts_at, ends_at, deleted } = entitlement;
+    const { user_id, deleted, starts_at, ends_at } = entitlement;
 
-    if (deleted) {
-      await premiumSchema.findOneAndDelete({ userID: user_id });
-      continue;
-    }
+    if (user_id === userID && !deleted) {
+      const startDate = new Date(starts_at);
+      const endDate = new Date(ends_at);
 
-    await premiumSchema.findOneAndUpdate(
-      { userID: user_id },
-      { premium: true, premiumSince: starts_at, premiumExpires: ends_at },
-      { upsert: true }
-    );
-  }
-
-  const expiredEntitlements = await premiumSchema.find({ premiumExpires: { $lt: new Date() } });
-  for (const expiredEntitlement of expiredEntitlements) {
-    await premiumSchema.findOneAndDelete({ userID: expiredEntitlement.userID });
-    const check = await custombotSchema.findOne({ userID: expiredEntitlement.userID });
-    if (check) {
-      await custombotSchema.findOneAndDelete({ userID: expiredEntitlement.userID });
+      if (now >= startDate && now <= endDate) {
+        return true;
+      }
     }
   }
-}
 
-export async function hasPremium(userID: string) {
-  const userPremium = await premiumSchema.findOne({ userID });
-  if (!userPremium || !userPremium.premium) return false;
-  return true;
+  return false;
 }
