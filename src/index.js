@@ -17,7 +17,7 @@ try {
   client.start();
   log('Client Started.', 'done');
 } catch (error) {
-  console.error('Error during client.start() or log():', error);
+  console.error('Error during client.start()', error);
 }
 
 try {
