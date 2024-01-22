@@ -11,11 +11,11 @@ axios.defaults.headers.common['Accept-Encoding'] = 'gzip';
 
 async function getBotVotes(client) {
   try {
-    const response = await axios.get(`https://top.gg/api/bots/${process.env.CLIENT_ID}/votes`, {
+    const response = await axios.get(`https://top.gg/api/bots/${process.env.CLIENT_ID}`, {
       headers: { 'Authorization': process.env.TOPGG_TOKEN },
     });
 
-    return response.data.length;
+    return response.data.points;
   } catch (error) {
     console.error('Failed to fetch votes from Top.gg:', error);
     return 0;
