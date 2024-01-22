@@ -57,7 +57,7 @@ module.exports = {
 
       const topGuilds = Array.from(client.guilds.cache.values())
         .sort((a, b) => b.memberCount - a.memberCount)
-        .slice(0, 3);
+        .slice(0, 10);
 
       const topggvotes = await getBotVotes(client);
 
