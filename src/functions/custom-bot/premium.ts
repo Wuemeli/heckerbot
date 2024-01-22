@@ -25,7 +25,7 @@ export async function checkExpiredPremium() {
       }
     }
   }
-    , 60000);
+    , 60000 * 60);
 }
 
 export async function hasPremium(userID: string) {
