@@ -107,7 +107,6 @@ module.exports = {
           if (response.status === 200) return await interaction.editReply(`${emojis.checkicon} Created bot! Invite it [here](https://discord.com/oauth2/authorize?client_id=${clientId}&scope=bot&permissions=100600952913141)`);
 
         } catch (error) {
-          console.log(error.response.status);
           if (error.response.status === 401) return await interaction.editReply(`${emojis.erroricon} Unauthorized!  \n Double check your token and client id! And be sure to have all intents enabled!  \n Do /custombot help for more information!`);
           if (error.response.status === 404) return await interaction.editReply(`${emojis.erroricon} Bot already exists!`);
           if (error.response.status === 500) return await interaction.editReply(`${emojis.erroricon} Failed to create bot!`);

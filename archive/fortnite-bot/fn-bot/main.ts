@@ -123,7 +123,6 @@ async function createClient(deviceAuth: any, status: string, platform: string) {
     fnbot.on('friend:message', handleCommand);
 
   } catch (err) {
-    console.log(err);
     codeError(err as Error, 'src/fn-bot/main.js');
   }
 };

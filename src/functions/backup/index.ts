@@ -10,7 +10,6 @@ const streamToString = require('stream-to-string');
 import { Readable } from 'stream';
 import { codeError } from '../functions/errorHandler';
 
-
 const S3 = new S3Client({
   region: "auto",
   endpoint: `https://${process.env.ACCOUNT_ID}.r2.cloudflarestorage.com`,
@@ -138,12 +137,10 @@ export const create = async (
       try {
         await S3.send(new PutObjectCommand({ Bucket: bucketName, Key: `${backupData.id}.json`, Body: backupJSON }));
       } catch (error) {
-        console.log(error);
         codeError(error as Error, 'src/typescript/backup/index.ts');
       }
       resolve(backupData);
     } catch (e) {
-      console.log(e);
       codeError(e as Error, 'src/typescript/backup/index.ts');
       reject('An error occurred');
     }
