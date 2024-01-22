@@ -1,11 +1,9 @@
 <template>
-    <div>
-      <Navigation />
+  <div>
+    <UMain>
       <slot />
-      <Footer />
-    </div>
-</template>
+    </UMain>
 
-<style>
-@import url('/assets/css/style.css');
-</style>
+    <Footer />y
+  </div>
+</template>

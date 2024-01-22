@@ -1,18 +1,15 @@
 <template>
-  <section class="footer-clean bg-dark">
-    <footer>
-      <div class="page-footer font-small text-light mt-5">
-        <div class="footer-copyright text-center">Made with 💖 by
-          <a href="https://github.com/Hadi-koubeissi/" class="text-blue-500 hover:underline">Hadi Koubeissi</a>
-          WEBSITE WILL BE REVAMPED SOON
-        </div>
-      </div>
-    </footer>
-  </section>
-</template>
+  <UFooter>
+    <template #left>
+      <p class="text-gray-500 dark:text-gray-400 text-sm">
+        Copyright Wuemeli © {{ new Date().getFullYear() }}. All rights reserved.
+      </p>
+    </template>
 
-<script>
-export default {
-  name: 'Footer',
-};
-</script>
+    <template #right>
+      <UColorModeButton size="sm" />
+
+      <UButton to="https://github.com/nuxt-ui-pro/saas" target="_blank" icon="i-simple-icons-github" aria-label="GitHub" color="gray" variant="ghost" />
+    </template>
+  </UFooter>
+</template>

@@ -10,7 +10,6 @@ const streamToString = require('stream-to-string');
 import { Readable } from 'stream';
 import { codeError } from '../functions/errorHandler';
 
-
 const S3 = new S3Client({
   region: "auto",
   endpoint: `https://${process.env.ACCOUNT_ID}.r2.cloudflarestorage.com`,
