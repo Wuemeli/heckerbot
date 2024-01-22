@@ -93,7 +93,7 @@ module.exports = {
             { name: 'Message', value: message, inline: true },
             { name: 'Role', value: role ? `<@&${role.id}>` : 'None', inline: true },
           );
-  
+
         return interaction.editReply({ embeds: [embed] });
       }
 
@@ -129,7 +129,6 @@ module.exports = {
       return interaction.editReply({ embeds: [embed] });
     }
     catch (error) {
-      console.log(error);
       global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },

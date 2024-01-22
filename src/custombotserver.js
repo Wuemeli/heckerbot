@@ -127,7 +127,6 @@ async function validateTokenAndClientId(token, clientId, res) {
         new Promise((_, reject) => setTimeout(() => reject(new Error('Login timed out')), 5000)),
       ]);
       if (client.user.id !== clientId) {
-        console.log('client.user.id !== clientId');
         setTimeout(() => client.destroy(), 5000);
         res.status(401).send('Unauthorized');
         return false;
@@ -136,13 +135,11 @@ async function validateTokenAndClientId(token, clientId, res) {
         return true;
       }
     } catch (error) {
-      console.log('error');
       res.status(401).send('Unauthorized');
       return false;
     }
   }
   catch (error) {
-    console.log('error');
     res.status(401).send('Unauthorized');
     return false;
   }

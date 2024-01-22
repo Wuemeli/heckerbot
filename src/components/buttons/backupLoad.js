@@ -12,7 +12,6 @@ module.exports = {
   run: async (client, interaction) => {
     try {
       const backupId = interaction.message.content.split(': ')[1];
-      console.log(backupId);
 
       backup.load(backupId, interaction.guild).then(() => {
         interaction.user.send({ content: `${emojis.checkicon} Backup loaded successfully!` });
