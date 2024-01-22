@@ -29,12 +29,6 @@ module.exports = {
             .setName('role')
             .setDescription('The role that gets added to the user')
             .setRequired(false),
-        )
-        .addStringOption((opt) =>
-          opt
-            .setName('picture')
-            .setDescription('The picture to set')
-            .setRequired(false),
         ),
     )
     .addSubcommand(subcommand =>
@@ -67,7 +61,6 @@ module.exports = {
       const subcommand = interaction.options.getSubcommand();
       const channel = interaction.options.getChannel('channel');
       const message = interaction.options.getString('message');
-      const picture = interaction.options.getString('picture');
       const role = interaction.options.getRole('role');
       const guildId = interaction.guild.id;
       const channelId = channel?.id;
@@ -85,13 +78,23 @@ module.exports = {
           guildId,
           channelId,
           welcomeMessage: message,
-          welcomePicture: picture,
           welcomeRole: role?.id,
         }, {
           upsert: true,
         });
 
-        return interaction.editReply({ content: `${emojis.checkicon} Successfully set the welcome channel to ${channel}!` });
+
+        const embed = new EmbedBuilder()
+          .setTitle('Welcome Settings')
+          .setColor('Green')
+          .setTimestamp()
+          .addFields(
+            { name: 'Channel', value: channel, inline: true },
+            { name: 'Message', value: message, inline: true },
+            { name: 'Role', value: role ? `<@&${role.id}>` : 'None', inline: true },
+          );
+  
+        return interaction.editReply({ embeds: [embed] });
       }
 
       if (subcommand === 'remove') {
@@ -99,7 +102,7 @@ module.exports = {
           guildId,
         });
 
-        return interaction.editReply({ content: `${emojis.checkicon} Successfully removed the welcome channel!` });
+        return interaction.editReply({ content: `${emojis.checkicon} Successfully removed the welcome system!` });
       }
 
       const welcomeData = await welcomeSchema.findOne({
@@ -116,18 +119,17 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle('Welcome Settings')
         .setColor('Green')
+        .addFields(
+          { name: 'Channel', value: channelData, inline: true },
+          { name: 'Message', value: welcomeData.welcomeMessage, inline: true },
+          { name: 'Role', value: welcomeData.welcomeRole ? `<@&${welcomeData.welcomeRole}>` : 'None', inline: true },
+        )
         .setTimestamp();
-
-      if (channelData) {
-        embed.addField('Channel', channelData, true);
-        embed.addField('Message', welcomeData.welcomeMessage, true);
-        embed.addField('Picture', welcomeData.welcomePicture, true);
-        embed.addField('Role', welcomeData.welcomeRole ? `<@&${welcomeData.welcomeRole}>` : 'None', true);
-      }
 
       return interaction.editReply({ embeds: [embed] });
     }
     catch (error) {
+      console.log(error);
       global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },

@@ -3,6 +3,8 @@ import axios from 'axios';
 const emojis = require('..//functions/emojis.js');
 import os from 'os';
 
+axios.defaults.headers.common["Accept-Encoding"] = "gzip";
+
 async function fetchCustomBotsCount() {
   let response;
   try {

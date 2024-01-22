@@ -1,6 +1,5 @@
 const ExtendedClient = require('../../class/ExtendedClient');
 const welcomeSchema = require('../../schemas/welcomeSchema');
-const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   event: 'guildMemberAdd',
@@ -18,23 +17,16 @@ module.exports = {
 
     if (!data) return;
 
-    const { channelId, message, picture, role } = data;
+    const { channelId, welcomeMessage: message, picture, role } = data;
     if (!channelId) return;
 
     const channel = member.guild.channels.cache.get(channelId);
     if (!channel) return;
 
     const content = message
-
-      .replace(/{{user}}/g, `<@${member.id}>`)
-      .replace(/{{guild}}/g, `${member.guild.name}`)
-      .replace(/{{membercount}}/g, `${member.guild.memberCount}`);
-
-    const embed = new EmbedBuilder()
-      .setColor('Random')
-      .setDescription(content)
-      .setThumbnail(picture)
-      .setTimestamp();
+      .replace(/.user/g, `<@${member.id}>`)
+      .replace(/.guild/g, `${member.guild.name}`)
+      .replace(/.membercount/g, `${member.guild.memberCount}`);
 
     if (role) {
       const roleToAdd = member.guild.roles.cache.get(role);
@@ -43,7 +35,9 @@ module.exports = {
       member.roles.add(roleToAdd);
     }
 
-    channel.send({ embeds: [embed] });
+    await channel.send({
+      content: content,
+    });
   },
 };
 

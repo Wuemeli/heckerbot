@@ -5,13 +5,13 @@ const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/functions/consolelog');
 const { default: topgg } = require('./functions/functions/top.gg');
-const { handleEntitlements } = require('./functions/custom-bot/premium');
+const { checkExpiredPremium } = require('./functions/custom-bot/premium');
 const editStatsEmbed = require('./functions/functions/statsEmbed').default;
 
 const client = new ExtendedClient();
 
 setInterval(editStatsEmbed, 1000 * 60, client);
-setInterval(handleEntitlements, 1000 * 60 );
+checkExpiredPremium();
 
 try {
   client.start();
@@ -32,7 +32,6 @@ module.exports = { client };
 topgg(client);
 
 global.handle = new handling(client);
-
 global.log = new logging();
 
 global.log.startuplog('Started normal bot');

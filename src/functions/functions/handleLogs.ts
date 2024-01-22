@@ -84,7 +84,7 @@ function handleLogs(client: Client): void {
       const embed = new EmbedBuilder()
         .setTitle('Channel Updated!')
         .setColor('Green')
-        .setDescription('Channel \'' + oldChannel.id + '\' was edited but discord-logs couldn\'t find what was updated...');
+        .setDescription('Channel \'' + oldChannel.id + '\' was edited but Heckerbot couldn\'t find what was updated...');
 
       return sendLog(oldChannel.guild.id, embed);
 
