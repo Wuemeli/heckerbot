@@ -17,7 +17,6 @@ async function getBotVotes(client) {
 
     return response.data.points;
   } catch (error) {
-    console.error('Failed to fetch votes from Top.gg:', error);
     return 0;
   }
 }
