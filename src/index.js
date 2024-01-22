@@ -5,11 +5,13 @@ const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/functions/consolelog');
 const { default: topgg } = require('./functions/functions/top.gg');
+const { checkExpiredPremium } = require('./functions/custom-bot/premium');
 const editStatsEmbed = require('./functions/functions/statsEmbed').default;
 
 const client = new ExtendedClient();
 
 setInterval(editStatsEmbed, 1000 * 60, client);
+checkExpiredPremium();
 
 try {
   client.start();

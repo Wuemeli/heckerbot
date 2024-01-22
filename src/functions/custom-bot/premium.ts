@@ -3,12 +3,37 @@ import custombotSchema from '../../schemas/custombotSchema';
 
 axios.defaults.headers.common["Accept-Encoding"] = "gzip";
 
+export async function checkExpiredPremium() {
+  setInterval(async () => {
+    const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.CLIENT_ID}/entitlements`, {
+      headers: {
+        Authorization: `Bot ${process.env.CLIENT_TOKEN}`,
+      },
+    });
+
+    const now = new Date();
+
+    for (const entitlement of response.data) {
+      const { user_id, deleted, ends_at } = entitlement;
+
+      if (!deleted) {
+        const endDate = new Date(ends_at);
+
+        if (now >= endDate) {
+          await custombotSchema.deleteOne({ userId: user_id });
+        }
+      }
+    }
+  }
+    , 60000);
+}
+
 export async function hasPremium(userID: string) {
   console.log(process.env.CLIENT_ID);
 
-  const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.PREMIUM_ID}/entitlements`, {
+  const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.CLIENT_ID}/entitlements`, {
     headers: {
-      Authorization: `Bot ${process.env.PREMIUM_TOKEN}`,
+      Authorization: `Bot ${process.env.CLIENT_TOKEN}`,
     },
   });
 
