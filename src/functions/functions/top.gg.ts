@@ -12,7 +12,7 @@ export default async (client: Client) => {
 
   async function postStats() {
     try {
-      const response: AxiosResponse = await axios.post(`https://top.gg/api/bots/${client.user?.id}/stats`, {
+      const response: AxiosResponse = await axios.post(`https://top.gg/api/bots/${client.user.id}/stats`, {
         server_count: client.guilds.cache.size,
       }, {
         headers: {
