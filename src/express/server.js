@@ -4,8 +4,27 @@ const { log } = require('../functions/functions/consolelog');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const emojis = require('../functions/functions/emojis');
-
+const axios = require('axios');
 const port = process.env.PORT || 3000;
+
+axios.defaults.headers.common['Accept-Encoding'] = 'gzip';
+
+async function getBotVotes(client) {
+  try {
+    const response = await axios.get(`https://top.gg/api/bots/${process.env.PREMIUM_ID}/votes`, {
+      headers: { 'Authorization': process.env.TOPGG_TOKEN },
+    });
+
+    let votes = Array.isArray(response.data) ? response.data.length : 0;
+
+    console.log(`Fetched ${votes} votes from Top.gg`);
+
+    return votes;
+  } catch (error) {
+    console.error('Failed to fetch votes from Top.gg:', error);
+    return 0;
+  }
+}
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -13,8 +32,7 @@ app.use(cors());
 log('Server Started.', 'done');
 
 module.exports = {
-  start: (client) => {
-
+  start: async (client) => {
     app.get('/', (req, res) => {
       res.send('slay queen uwu owo rawr xD');
     });
@@ -38,11 +56,14 @@ module.exports = {
       }
     });
 
-    app.get('/stats', (req, res) => {
+    app.get('/stats', async (req, res) => {
       const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
       const guildCount = client.guilds.cache.size;
 
-      res.json({ users: totalUsers, guilds: guildCount });
+      const topggvotes = await getBotVotes(client);
+      console.log(topggvotes);
+
+      res.json({ users: totalUsers, guilds: guildCount, votes: topggvotes });
     });
 
     app.listen(port, () => {
