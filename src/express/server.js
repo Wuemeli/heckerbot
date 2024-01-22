@@ -11,11 +11,11 @@ axios.defaults.headers.common['Accept-Encoding'] = 'gzip';
 
 async function getBotVotes(client) {
   try {
-    const response = await axios.get(`https://top.gg/api/bots/${process.env.CLIENT_ID}/votes`, {
+    const response = await axios.get(`https://top.gg/api/bots/${process.env.CLIENT_ID}`, {
       headers: { 'Authorization': process.env.TOPGG_TOKEN },
     });
 
-    return response.data.length;
+    return response.data.points;
   } catch (error) {
     console.error('Failed to fetch votes from Top.gg:', error);
     return 0;
@@ -56,11 +56,23 @@ module.exports = {
       const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
       const guildCount = client.guilds.cache.size;
 
+      const topGuilds = Array.from(client.guilds.cache.values())
+        .sort((a, b) => b.memberCount - a.memberCount)
+        .slice(0, 3);
+
       const topggvotes = await getBotVotes(client);
 
-      res.json({ users: totalUsers, guilds: guildCount, votes: topggvotes });
+      res.json({
+        users: totalUsers,
+        guilds: guildCount,
+        votes: topggvotes,
+        topGuilds: topGuilds.map(guild => ({
+          name: guild.name,
+          memberCount: guild.memberCount,
+          avatar: guild.iconURL(),
+        })),
+      });
     });
-
     app.listen(port, () => {
       log(`Web Server is Listening on port ${port}`, 'info');
     });
