@@ -15,10 +15,8 @@ module.exports = {
       guildId: member.guild.id,
     });
 
-    console.log(data);
-
     if (!data) return;
-    
+
     const { channelId, welcomeMessage: message, picture, role } = data;
     if (!channelId) return;
 
@@ -26,9 +24,9 @@ module.exports = {
     if (!channel) return;
 
     const content = message
-      .replace(/{{user}}/g, `<@${member.id}>`)
-      .replace(/{{guild}}/g, `${member.guild.name}`)
-      .replace(/{{membercount}}/g, `${member.guild.memberCount}`);
+      .replace(/.user/g, `<@${member.id}>`)
+      .replace(/.guild/g, `${member.guild.name}`)
+      .replace(/.membercount/g, `${member.guild.memberCount}`);
 
     if (role) {
       const roleToAdd = member.guild.roles.cache.get(role);
@@ -38,7 +36,8 @@ module.exports = {
     }
 
     await channel.send({
-      content: content, files: [{ attachment: picture, name: `${member.guild.name}.png` }],
-    });  },
+      content: content,
+    });
+  },
 };
 
