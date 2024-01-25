@@ -22,7 +22,7 @@ export async function predictToxicity(word: any, client: any, message: any) {
       for (const result of prediction.results) {
         if (result.match === true) {
           message.delete();
-          const msg = message.channel.send(`**${message.author.tag}** your Message has been flagged by our AI. And has been deleted.`);
+          const msg = message.channel.send(`<@${message.author.id}> your Message has been flagged by our AI. And has been deleted.`);
           setTimeout(() => {
             msg.then(m => m.delete());
           }, 5000);
@@ -32,7 +32,7 @@ export async function predictToxicity(word: any, client: any, message: any) {
             if (channel) {
               const embed = new EmbedBuilder()
                 .setTitle('Message Flagged')
-                .setDescription(`**${message.author.tag}** has been flagged by our AI for saying **${word}**. The message was deleted.`)
+                .setDescription(`<@${message.author.id}> has been flagged by our AI for saying **${word}**. The message was deleted.`)
                 .setTimestamp();
 
               channel.send({ embeds: [embed] })
