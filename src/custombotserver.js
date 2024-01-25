@@ -9,6 +9,7 @@ const { codeError, handling } = require('./functions/functions/errorHandler');
 const { Client, Partials } = require('discord.js');
 const os = require('os');
 const app = express();
+const { loadModel } = require('./functions/functions/aimod');
 
 app.use(express.json());
 app.use(cors());
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 
 const port = process.env.CUSTOM_BOT_PORT || 3001;
 
+loadModel();
 mongoose();
 global.handle = new handling();
 global.log = new logging();
