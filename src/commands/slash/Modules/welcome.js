@@ -83,7 +83,6 @@ module.exports = {
           upsert: true,
         });
 
-
         const embed = new EmbedBuilder()
           .setTitle('Welcome Settings')
           .setColor('Green')
