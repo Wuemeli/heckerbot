@@ -21,7 +21,7 @@ module.exports = {
     if (check) {
       status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
     } else {
-      status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
+      status = `${guildcount} servers | ${totalUsers}  users | Made with ❤️ by Wuemeli`;
       log(`Logged in as ${client.user.tag}`, 'info');
     }
     client.user.setActivity(status, { type: 4 });

@@ -5,14 +5,11 @@ const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/functions/consolelog');
 const { default: topgg } = require('./functions/functions/top.gg');
-const { checkExpiredPremium } = require('./functions/custom-bot/premium');
-const editStatsEmbed = require('./functions/functions/statsEmbed').default;
 const { loadModel } = require('./functions/functions/aimod');
+const { scheduleJobs } = require('./functions/functions/cron');
 
 const client = new ExtendedClient();
 
-setInterval(editStatsEmbed, 1000 * 60, client);
-checkExpiredPremium();
 loadModel();
 
 try {
@@ -32,7 +29,7 @@ try {
 module.exports = { client };
 
 topgg(client);
-
+scheduleJobs(client);
 global.handle = new handling(client);
 global.log = new logging();
 
