@@ -1,6 +1,7 @@
 const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const { botInfo } = require('../../functions/custom-bot/main');
+const { usercount } = require('../../functions/functions/misc');
 
 module.exports = {
   event: 'ready',
@@ -12,7 +13,7 @@ module.exports = {
      * @returns
   */
   run: async (_, client) => {
-    const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
+    const totalUsers = await usercount(client);
     const guildcount = client.guilds.cache.size;
 
     const check = await botInfo(client.user.id);
@@ -27,9 +28,10 @@ module.exports = {
 
     setInterval(async () => {
       const check = await botInfo(client.user.id);
-      const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
+      const totalUsers = await usercount(client);
       const guildcount = client.guilds.cache.size;
       let status;
+
       if (check) {
         status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
       } else {
