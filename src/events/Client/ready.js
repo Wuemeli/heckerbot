@@ -15,11 +15,12 @@ module.exports = {
   run: async (_, client) => {
     const totalUsers = await usercount(client);
     const guildcount = client.guilds.cache.size;
-
+    const customusercount = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
     const check = await botInfo(client.user.id);
+
     let status;
     if (check) {
-      status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
+      status = check.status.replace('{users}', customusercount).replace('{guilds}', guildcount);
     } else {
       status = `${guildcount} servers | ${totalUsers}  users | Made with ❤️ by Wuemeli`;
       log(`Logged in as ${client.user.tag}`, 'info');
@@ -30,10 +31,11 @@ module.exports = {
       const check = await botInfo(client.user.id);
       const totalUsers = await usercount(client);
       const guildcount = client.guilds.cache.size;
+      const customusercount = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
       let status;
 
       if (check) {
-        status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
+        status = check.status.replace('{users}', customusercount).replace('{guilds}', guildcount);
       } else {
         status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
       }
