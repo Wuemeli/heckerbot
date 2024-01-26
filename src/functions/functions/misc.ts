@@ -2,7 +2,7 @@ export async function usercount(client: any) {
   let totaluser = 0;
   let uniqueUsers = new Set();
 
-  const fetchPromises = Array.from(client.guilds.cache.values(), guild =>
+  const fetchPromises = Array.from(client.guilds.cache.values()).map(guild =>
     guild.members.fetch().then(members =>
       members.filter(member => !member.user.bot).map(member => member.id)
     )
