@@ -2,11 +2,15 @@ export async function usercount(client: any) {
   let totaluser = 0;
   let uniqueUsers = new Set();
 
-  for (const guild of client.guilds.cache.values()) {
-    const members = await guild.members.fetch();
+  const fetchPromises = Array.from(client.guilds.cache.values(), guild =>
+    guild.members.fetch().then(members =>
+      members.filter(member => !member.user.bot).map(member => member.id)
+    )
+  );
 
-    members.filter(member => !member.user.bot).forEach(member => uniqueUsers.add(member.id));
-  }
+  const memberIdsArrays = await Promise.all(fetchPromises);
+
+  memberIdsArrays.flat().forEach(id => uniqueUsers.add(id));
 
   totaluser = uniqueUsers.size;
 
