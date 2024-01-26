@@ -345,7 +345,7 @@ function handleLogs(client: Client): void {
 
 
     client.on('channelCreate', async (channel) => {
-      const fetchedLogs = await getAuditLogUser(channel.guild, 11);
+      const fetchedLogs = await getAuditLogUser(channel.guild, 10);
       if (fetchedLogs && fetchedLogs.entries.first()) {
         const executorId = fetchedLogs.entries.first().executorId;
 
