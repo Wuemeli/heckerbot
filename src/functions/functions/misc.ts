@@ -27,5 +27,6 @@ export async function usercount(client: any) {
   console.log(`Finished user count. Total users: ${totaluser}`);
 
   await setData('userCount', JSON.stringify(totaluser));
+  global.log.log(`Finished user count. Total users: ${totaluser}`);
   return totaluser;
 }
