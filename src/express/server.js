@@ -6,6 +6,7 @@ const cors = require('cors');
 const emojis = require('../functions/functions/emojis');
 const axios = require('axios');
 const port = process.env.PORT || 3000;
+const { usercount } = require('../functions/functions/misc');
 
 axios.defaults.headers.common['Accept-Encoding'] = 'gzip';
 
@@ -52,7 +53,7 @@ module.exports = {
     });
 
     app.get('/stats', async (req, res) => {
-      const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
+      const totalUsers = await usercount(client);
       const guildCount = client.guilds.cache.size;
 
       const topGuilds = Array.from(client.guilds.cache.values())

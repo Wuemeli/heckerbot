@@ -342,17 +342,28 @@ function handleLogs(client: Client): void {
 
     });
 
+
+
     client.on('channelCreate', async (channel) => {
-      const fetchedLogs = await getAuditLogUser(channel.guild, 11);
-      const executorId = fetchedLogs.entries.first().executorId;
+      const fetchedLogs = await getAuditLogUser(channel.guild, 10);
+      if (fetchedLogs && fetchedLogs.entries.first()) {
+        const executorId = fetchedLogs.entries.first().executorId;
 
+        const embed = new EmbedBuilder()
+          .setTitle('Channel Created')
+          .setColor('Green')
+          .setDescription(`${channel.name} has been created. By: <@${executorId}>`);
 
-      const embed = new EmbedBuilder()
-        .setTitle('Channel Created')
-        .setColor('Green')
-        .setDescription(`${channel.name} has been created. By: <@${executorId}>`);
+        return sendLog(channel.guild.id, embed);
 
-      return sendLog(channel.guild.id, embed);
+      } else {
+        const embed = new EmbedBuilder()
+          .setTitle('Channel Created')
+          .setColor('Green')
+          .setDescription(`${channel.name} has been created.`);
+
+        return sendLog(channel.guild.id, embed);
+      }
 
     });
 

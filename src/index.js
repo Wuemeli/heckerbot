@@ -7,11 +7,13 @@ const { log } = require('./functions/functions/consolelog');
 const { default: topgg } = require('./functions/functions/top.gg');
 const { checkExpiredPremium } = require('./functions/custom-bot/premium');
 const editStatsEmbed = require('./functions/functions/statsEmbed').default;
+const { loadModel } = require('./functions/functions/aimod');
 
 const client = new ExtendedClient();
 
 setInterval(editStatsEmbed, 1000 * 60, client);
 checkExpiredPremium();
+loadModel();
 
 try {
   client.start();

@@ -83,16 +83,15 @@ module.exports = {
           upsert: true,
         });
 
-
         const embed = new EmbedBuilder()
           .setTitle('Welcome Settings')
           .setColor('Green')
           .setTimestamp()
-          .addFields(
+          .addFields([
             { name: 'Channel', value: channel, inline: true },
             { name: 'Message', value: message, inline: true },
             { name: 'Role', value: role ? `<@&${role.id}>` : 'None', inline: true },
-          );
+          ]);
 
         return interaction.editReply({ embeds: [embed] });
       }
@@ -113,20 +112,6 @@ module.exports = {
         return interaction.editReply({ content: `${emojis.erroricon} There is no welcome channel set!` });
       }
 
-
-      const channelData = interaction.guild.channels.cache.get(welcomeData.channelId);
-
-      const embed = new EmbedBuilder()
-        .setTitle('Welcome Settings')
-        .setColor('Green')
-        .addFields(
-          { name: 'Channel', value: channelData, inline: true },
-          { name: 'Message', value: welcomeData.welcomeMessage, inline: true },
-          { name: 'Role', value: welcomeData.welcomeRole ? `<@&${welcomeData.welcomeRole}>` : 'None', inline: true },
-        )
-        .setTimestamp();
-
-      return interaction.editReply({ embeds: [embed] });
     }
     catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
