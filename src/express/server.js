@@ -57,10 +57,6 @@ module.exports = {
       const guildCount = client.guilds.cache.size;
 
       const topGuilds = Array.from(client.guilds.cache.values())
-        .filter(async guild => {
-          const members = await guild.members.fetch();
-          return members.some(member => !member.user.bot);
-        })
         .sort((a, b) => b.memberCount - a.memberCount)
         .slice(0, 30);
 
