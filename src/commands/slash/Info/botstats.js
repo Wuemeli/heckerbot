@@ -21,7 +21,8 @@ module.exports = {
     try {
       const totalGuilds = String(client.guilds.cache.size);
       const cachedUsers = String(client.users.cache.size);
-      const totalUsers = String(await usercount(client));
+      const totalUsers = String(client.guilds.cache.reduce((a, g) => a + g.memberCount, 0));
+      const humans = String(await usercount(client));
 
       const date = new Date().getTime() - client.uptime;
 
@@ -32,6 +33,7 @@ module.exports = {
       statsEmbed.addFields(
         { name: '👥 Total Guilds', value: totalGuilds, inline: true },
         { name: '🧑 Total Users', value: totalUsers, inline: true },
+        { name: '👤 Humans', value: humans, inline: true },
         { name: '📥 Cached Users', value: cachedUsers, inline: true },
         { name: '⌛ Latency', value: `${ms(client.ws.ping)}`, inline: true },
         {
