@@ -24,7 +24,7 @@ export async function predictToxicity(word: any, client: any, message: any) {
           message.delete();
           const msg = message.channel.send(`<@${message.author.id}> your Message has been flagged by our AI. And has been deleted.`);
           setTimeout(() => {
-            msg.then(m => m.delete());
+            msg.then((m: any) => m.delete());
           }, 5000);
           const data = await auditlogschema.findOne({ guildId: message.guild.id });
           if (data) {

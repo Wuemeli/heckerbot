@@ -35,6 +35,11 @@ module.exports = {
       subcommand
         .setName('remove')
         .setDescription('🔄 Remove the Welcome Channel'),
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('info')
+        .setDescription('🔄 Shows the Welcome Info'),
     ),
   options: {
     nsfw: false,
@@ -87,11 +92,11 @@ module.exports = {
           .setTitle('Welcome Settings')
           .setColor('Green')
           .setTimestamp()
-          .addFields([
-            { name: 'Channel', value: channel, inline: true },
+          .addFields(
+            { name: 'Channel', value: channel.name, inline: true },
             { name: 'Message', value: message, inline: true },
             { name: 'Role', value: role ? `<@&${role.id}>` : 'None', inline: true },
-          ]);
+          );
 
         return interaction.editReply({ embeds: [embed] });
       }
@@ -104,12 +109,29 @@ module.exports = {
         return interaction.editReply({ content: `${emojis.checkicon} Successfully removed the welcome system!` });
       }
 
-      const welcomeData = await welcomeSchema.findOne({
-        guildId,
-      });
+      if (subcommand === 'info') {
+        const data = await welcomeSchema.findOne({
+          guildId,
+        });
 
-      if (!welcomeData) {
-        return interaction.editReply({ content: `${emojis.erroricon} There is no welcome channel set!` });
+        if (!data) {
+          return interaction.editReply({ content: `${emojis.erroricon} There is no welcome system!` });
+        }
+
+        const { channelId, welcomeMessage: message, welcomeRole: role } = data;
+
+        const channel = interaction.guild.channels.cache.get(channelId);
+        const embed = new EmbedBuilder()
+          .setTitle('Welcome Settings')
+          .setColor('Green')
+          .setTimestamp()
+          .addFields(
+            { name: 'Channel', value: channel.name, inline: true },
+            { name: 'Message', value: message, inline: true },
+            { name: 'Role', value: role ? `<@&${role}>` : 'None', inline: true },
+          );
+
+        return interaction.editReply({ embeds: [embed] });
       }
 
     }
