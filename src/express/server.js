@@ -10,7 +10,7 @@ const { usercount } = require('../functions/functions/misc');
 
 axios.defaults.headers.common['Accept-Encoding'] = 'gzip';
 
-async function getBotVotes(client) {
+async function getBotVotes() {
   try {
     const response = await axios.get(`https://top.gg/api/bots/${process.env.CLIENT_ID}`, {
       headers: { 'Authorization': process.env.TOPGG_TOKEN },
@@ -60,7 +60,7 @@ module.exports = {
         .sort((a, b) => b.memberCount - a.memberCount)
         .slice(0, 30);
 
-      const topggvotes = await getBotVotes(client);
+      const topggvotes = await getBotVotes();
 
       res.json({
         users: totalUsers,
