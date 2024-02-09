@@ -8,7 +8,6 @@ const queue = [];
 
 let model: any;
 
-
 export async function loadModel() {
   const threshold = 0.9;
   const toxicityLabels = ['identity_attack', 'insult', 'obscene', 'severe_toxicity', 'sexual_explicit', 'threat', 'toxicity'];

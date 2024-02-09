@@ -31,11 +31,13 @@ module.exports = {
     const { lastNumber, lastUser, countingMode } = data;
 
     if (countingMode.includes('singleCount') && lastUser === author.id) {
+      await message.author.send({ content: 'You cannot count twice in a row!' });
       await message.delete();
       return;
     }
 
     if (countingMode.includes('nofail') && evaluatedContent !== lastNumber + 1) {
+      await message.author.send({ content: 'You cannot count twice in a row!' });
       await message.delete();
       return;
     }

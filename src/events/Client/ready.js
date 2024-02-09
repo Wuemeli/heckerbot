@@ -1,7 +1,6 @@
 const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const { botInfo } = require('../../functions/custom-bot/main');
-const { usercount } = require('../../functions/functions/misc');
 
 module.exports = {
   event: 'ready',
@@ -13,14 +12,13 @@ module.exports = {
      * @returns
   */
   run: async (_, client) => {
-    const totalUsers = await usercount(client);
+    const totalUsers = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
     const guildcount = client.guilds.cache.size;
-    const customusercount = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
     const check = await botInfo(client.user.id);
 
     let status;
     if (check) {
-      status = check.status.replace('{users}', customusercount).replace('{guilds}', guildcount);
+      status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
     } else {
       status = `${guildcount} servers | ${totalUsers}  users | Made with ❤️ by Wuemeli`;
       log(`Logged in as ${client.user.tag}`, 'info');
@@ -29,13 +27,12 @@ module.exports = {
 
     setInterval(async () => {
       const check = await botInfo(client.user.id);
-      const totalUsers = await usercount(client);
+      const totalUsers = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
       const guildcount = client.guilds.cache.size;
-      const customusercount = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
       let status;
 
       if (check) {
-        status = check.status.replace('{users}', customusercount).replace('{guilds}', guildcount);
+        status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
       } else {
         status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
       }
