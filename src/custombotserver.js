@@ -7,12 +7,14 @@ const { logging } = require('./functions/functions/log');
 const cors = require('cors');
 const { codeError, handling } = require('./functions/functions/errorHandler');
 const { Client, Partials } = require('discord.js');
-const os = require('os');
+const helmet = require('helmet');
+
 const app = express();
 const { loadModel } = require('./functions/functions/aimod');
 
 app.use(express.json());
 app.use(cors());
+app.use(helmet());
 
 app.use((req, res, next) => {
   const secret = process.env.CUSTOM_BOT_SECRET;
@@ -31,15 +33,6 @@ global.log.startuplog('Started custom bot server');
 
 startallBots();
 log('Custom bot server started', 'done');
-
-app.get('/health-check', (req, res) => {
-  res.send({
-    status: 'ok',
-    ram: `${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100}/${Math.round((os.totalmem() / 1024 / 1024) * 100) / 100}`,
-    cpu: `${Math.round((process.cpuUsage().system / 1024 / 1024) * 100) / 100}/${os.cpus().length}`,
-    customBotsCount: Object.keys(bots).length,
-  });
-});
 
 app.post('/create', async (req, res) => {
   try {

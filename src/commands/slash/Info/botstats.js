@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const ms = require('ms');
-const { usercount } = require('../../../functions/functions/misc');
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -22,7 +21,7 @@ module.exports = {
       const totalGuilds = String(client.guilds.cache.size);
       const cachedUsers = String(client.users.cache.size);
       const totalUsers = String(client.guilds.cache.reduce((a, g) => a + g.memberCount, 0));
-      const humans = String(await usercount(client));
+      const humans = String(client.guilds.cache.reduce((a, g) => a + g.memberCount, 0));
 
       const date = new Date().getTime() - client.uptime;
 
