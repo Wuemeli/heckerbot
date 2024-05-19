@@ -13,15 +13,14 @@ try {
   client.start();
   log('Client Started.', 'done');
 } catch (error) {
-  console.error('Error during client.start()', error);
+  global.log.anticrashlog('client.start', error);
 }
 
 try {
   server.start(client);
 } catch (error) {
-  console.error('Error during server.start', error);
+   global.log.anticrashlog('server.start', error);
 }
-
 
 module.exports = { client };
 
