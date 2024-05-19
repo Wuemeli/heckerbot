@@ -1,4 +1,3 @@
-const config = require('../../config');
 const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const emojis = require('../../functions/functions/emojis');
@@ -31,7 +30,7 @@ module.exports = {
         });
       }
 
-      if (command.options.premium) {
+      if (command.options?.premium) {
         if (!process.env.PREMIUM) {
           return interaction.reply({ content: `${emojis.erroricon} Premium System needs to be enabled.`, ephemeral: true });
         }
