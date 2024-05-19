@@ -18,5 +18,5 @@ module.exports = {
     }
 
     //Admin commands here if i need some in the future
-  }
+  },
 };

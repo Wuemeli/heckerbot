@@ -19,7 +19,7 @@ try {
 try {
   server.start(client);
 } catch (error) {
-   global.log.anticrashlog('server.start', error);
+  global.log.anticrashlog('server.start', error);
 }
 
 module.exports = { client };
