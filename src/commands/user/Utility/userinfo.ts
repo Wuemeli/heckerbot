@@ -1,4 +1,4 @@
-import { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, MessageEmbed } from 'discord.js';
+import { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } from 'discord.js';
 import { ExtendedClient } from '../../../class/ExtendedClient';
 import { time } from '../../../functions/functions/consolelog';
 
@@ -40,11 +40,11 @@ module.exports = {
 
       await interaction.editReply({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setTitle(`User info - ${user.username}`)
             .setThumbnail(member.displayAvatarURL())
             .setDescription(arr.join('\n'))
-            .setColor('BLURPLE'),
+            .setColor('Blurple')
         ],
       });
     } catch (error) {

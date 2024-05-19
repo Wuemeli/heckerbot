@@ -1,5 +1,5 @@
-const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } = require('discord.js');
-const ExtendedClient = require('../../../class/ExtendedClient');
+import { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } from 'discord.js';
+import ExtendedClient from '../../../class/ExtendedClient';
 
 module.exports = {
   structure: new ContextMenuCommandBuilder()
@@ -15,7 +15,7 @@ module.exports = {
    * @param {ExtendedClient} client
    * @param {UserContextMenuCommandInteraction} interaction
    */
-  run: async (client, interaction) => {
+  run: async (client: ExtendedClient, interaction: UserContextMenuCommandInteraction) => {
     await interaction.deferReply();
 
     const user = interaction.options.getUser('user') || interaction.user;
@@ -25,7 +25,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`${user.username}'s Avatar`)
         .setImage(avatarURL)
-        .setColor('Green');
+        .setColor('Blurple');
 
       await interaction.editReply({ embeds: [embed] });
     } catch (error) {
