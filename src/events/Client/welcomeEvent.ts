@@ -1,5 +1,13 @@
 import ExtendedClient from '../../class/ExtendedClient';
 import welcomeSchema from '../../schemas/welcomeSchema';
+import { GuildMember } from 'discord.js';
+
+interface WelcomeData {
+  channelId: string;
+  welcomeMessage: string;
+  picture?: string;
+  role?: string;
+}
 
 /**
  * Event handler for when a new member joins the guild.
@@ -13,9 +21,7 @@ export default {
    * @param {GuildMember} member The member who joined the guild.
    */
   run: async (client: ExtendedClient, member: GuildMember) => {
-    const data = await welcomeSchema.findOne({
-      guildId: member.guild.id,
-    });
+    const data = await welcomeSchema.findOne({ guildId: member.guild.id }) as WelcomeData;
 
     if (!data) return;
 

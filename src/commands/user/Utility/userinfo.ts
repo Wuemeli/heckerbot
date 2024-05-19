@@ -1,6 +1,6 @@
-const { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } = require('discord.js');
-const ExtendedClient = require('../../../class/ExtendedClient');
-const { time } = require('../../../functions/functions/consolelog');
+import { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, MessageEmbed } from 'discord.js';
+import { ExtendedClient } from '../../../class/ExtendedClient';
+import { time } from '../../../functions/functions/consolelog';
 
 module.exports = {
   structure: new ContextMenuCommandBuilder()
@@ -16,12 +16,12 @@ module.exports = {
    * @param {ExtendedClient} client
    * @param {UserContextMenuCommandInteraction} interaction
    */
-  run: async (client, interaction) => {
+  run: async (client: ExtendedClient, interaction: UserContextMenuCommandInteraction) => {
     await interaction.deferReply();
 
     try {
       const user = interaction.options.getUser('user') || interaction.user;
-      const member = interaction.guild.members.cache.get(user.id);
+      const member = interaction.guild?.members.cache.get(user.id);
 
       if (!member) {
         await interaction.editReply({
@@ -30,7 +30,7 @@ module.exports = {
         return;
       }
 
-      const arr = [
+      const arr: string[] = [
         `**Username**: ${user.username}`,
         `**Display name**: ${member.nickname || user.username}`,
         `**ID**: ${user.id}`,
@@ -40,15 +40,15 @@ module.exports = {
 
       await interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setTitle('User info - ' + user.username)
+          new MessageEmbed()
+            .setTitle(`User info - ${user.username}`)
             .setThumbnail(member.displayAvatarURL())
-            .setDescription(`${arr.join('\n')}`)
-            .setColor('Blurple'),
+            .setDescription(arr.join('\n'))
+            .setColor('BLURPLE'),
         ],
       });
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id, interaction.user.id, error, interaction);
     }
   },
 };

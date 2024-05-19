@@ -1,4 +1,4 @@
-import { ExtendedClient } from './path/to/ExtendedClient';
+import { ExtendedClient } from '../../class/ExtendedClient';
 import { Interaction } from 'discord.js';
 
 import { log } from '../../functions/functions/consolelog';
