@@ -5,12 +5,9 @@ const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/functions/consolelog');
 const { default: topgg } = require('./functions/functions/top.gg');
-const { loadModel } = require('./functions/functions/aimod');
 const { scheduleJobs } = require('./functions/functions/cron');
 
 const client = new ExtendedClient();
-
-loadModel();
 
 try {
   client.start();

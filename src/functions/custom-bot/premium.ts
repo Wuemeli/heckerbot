@@ -25,7 +25,6 @@ export async function checkExpiredPremium() {
   }
 }
 
-
 export async function hasPremium(userID: string) {
   const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.CLIENT_ID}/entitlements`, {
     headers: {
