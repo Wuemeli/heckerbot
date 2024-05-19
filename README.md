@@ -45,7 +45,7 @@ Thanks to [Emojify](https://github.com/farkmarnum/emojify) for providing the Emo
 ## 📡 Planned ToDo
 
 - [ ] Add User installable Apps. Im now focusing more on fixing Bugs and migrating to typescript.
-- [ ] Migration to Typescript can be checked out in the dev branch.
+- [ ] Migration to Typescript can be checked out in the typescript branch.
 - [ ] zod implementation for better validation.
 
 ## 📫 Contact
