@@ -1,23 +1,23 @@
-const { ButtonInteraction, ChannelType } = require('discord.js');
-const ExtendedClient = require('../../class/ExtendedClient');
-const { emojify } = require('../../functions/functions/emojify');
-const emojis = require('../../functions/functions/emojis');
+import { ButtonInteraction, ChannelType } from 'discord.js';
+import { ExtendedClient } from '../../class/ExtendedClient';
+import { emojify } from '../../functions/functions/emojify';
+import { emojis } from '../../functions/functions/emojis';
 
-module.exports = {
+export default {
   customId: 'confirm-emoji-rename',
   /**
    * @param {ExtendedClient} client
    * @param {ButtonInteraction} interaction
    */
-  run: async (client, interaction) => {
+  run: async (client: ExtendedClient, interaction: ButtonInteraction): Promise<void> => {
     await interaction.deferReply({ ephemeral: true });
 
     try {
       const prefix = interaction.message.content.split('prefix `')[1].split('`')[0];
-      const channels = interaction.guild.channels.cache.filter(channel => channel.type === ChannelType.GuildText);
-      for (const [channelID, channel] of channels) {
+      const channels = interaction.guild.channels.cache.filter((channel: any) => channel.type === ChannelType.GuildText);
+      for (const [channelID, channel] of Object.entries(channels)) {
         channel.setName(emojify(channel.name) + prefix + channel.name);
-        setTimeout(() => {}, 1000);
+        setTimeout(() => { }, 1000);
       }
 
       await interaction.editReply({ content: `${emojis.checkicon} Renamed all channels.` });

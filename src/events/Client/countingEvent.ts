@@ -1,25 +1,31 @@
-const ExtendedClient = require('../../class/ExtendedClient');
-const countingschema = require('../../schemas/countingSchema');
-const math = require('mathjs');
+import { Client, Message } from 'discord.js';
+import CountingSchema from '../../schemas/countingSchema';
+import * as math from 'mathjs';
 
-module.exports = {
+interface Data {
+  lastNumber: number;
+  lastUser: string | null;
+  countingMode: string[];
+}
+
+export default {
   event: 'messageCreate',
   once: false,
   /**
-  *
-  * @param {ExtendedClient} client
-  * @param {Message<true>} message
-  * @returns
-  */
-  run: async (client, message) => {
+   *
+   * @param {Client} client
+   * @param {Message} message
+   * @returns
+   */
+  run: async (client: Client, message: Message) => {
     if (message.author.bot) return;
 
     const { guild, channel, author, content } = message;
-    const data = await countingschema.findOne({ guildId: guild.id });
+    const data = await CountingSchema.findOne({ guildId: guild.id });
 
     if (!data || channel.id !== data.channelId) return;
 
-    let evaluatedContent;
+    let evaluatedContent: number;
     try {
       evaluatedContent = math.evaluate(content);
     } catch (error) {
@@ -28,7 +34,7 @@ module.exports = {
       return;
     }
 
-    const { lastNumber, lastUser, countingMode } = data;
+    const { lastNumber, lastUser, countingMode }: Data = data;
 
     if (countingMode.includes('singleCount') && lastUser === author.id) {
       await message.author.send({ content: 'You cannot count twice in a row!' });
@@ -42,9 +48,9 @@ module.exports = {
       return;
     }
 
-    if (parseInt(evaluatedContent) === lastNumber + 1) {
+    if (evaluatedContent === lastNumber + 1) {
 
-      await countingschema.findOneAndUpdate({ guildId: guild.id }, {
+      await CountingSchema.findOneAndUpdate({ guildId: guild.id }, {
         channelId: channel.id,
         lastNumber: evaluatedContent,
         lastUser: author.id,
@@ -72,14 +78,14 @@ module.exports = {
 
       return;
     } else {
-      await countingschema.findOneAndUpdate({ guildId: guild.id }, {
+      await CountingSchema.findOneAndUpdate({ guildId: guild.id }, {
         channelId: channel.id,
         lastNumber: 0,
         lastUser: null,
       });
 
       await channel.send({
-        content: `**<@${author.id}>** broke the chain! The counting has been reset to **0**.`,
+        content: `**<@${author.id}>** broke the chain The counting has been reset to **0**.`,
       });
       return;
     }

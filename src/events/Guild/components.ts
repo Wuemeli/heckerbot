@@ -1,22 +1,24 @@
-const { log } = require('../../functions/functions/consolelog');
-const emojis = require('../../functions/functions/emojis');
+import { ExtendedClient } from './path/to/ExtendedClient';
+import { Interaction } from 'discord.js';
 
-module.exports = {
+import { log } from '../../functions/functions/consolelog';
+import { emojis } from '../../functions/functions/emojis';
+
+export default {
   event: 'interactionCreate',
   /**
-     *
-     * @param {ExtendedClient} client
-     * @param {import('discord.js').Interaction} interaction
-     * @returns
-     */
-  run: (client, interaction) => {
+   * @param {ExtendedClient} client
+   * @param {Interaction} interaction
+   * @returns
+   */
+  run: async (client: ExtendedClient, interaction: Interaction) => {
     if (interaction.isButton()) {
       const component = client.collection.components.buttons.get(interaction.customId);
 
       if (!component) return;
 
       try {
-        component.run(client, interaction);
+        await component.run(client, interaction);
       } catch (error) {
         log(error, 'error');
       }
@@ -30,7 +32,7 @@ module.exports = {
       if (!component) return;
 
       try {
-        component.run(client, interaction);
+        await component.run(client, interaction);
       } catch (error) {
         log(error, 'error');
       }
@@ -44,7 +46,7 @@ module.exports = {
       if (!component) return;
 
       try {
-        component.run(client, interaction);
+        await component.run(client, interaction);
       } catch (error) {
         log(error, 'error');
       }

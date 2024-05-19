@@ -1,27 +1,27 @@
-const { log } = require('../../functions/functions/consolelog');
-const ExtendedClient = require('../../class/ExtendedClient');
-const { botInfo } = require('../../functions/custom-bot/main');
+import { Client, Intents } from 'discord.js';
+import { ExtendedClient } from '../../class/ExtendedClient';
+import { botInfo } from '../../functions/custom-bot/main';
 
 module.exports = {
   event: 'ready',
   once: true,
   /**
-     *
-     * @param {ExtendedClient} _
-     * @param {import('discord.js').Client<true>} client
-     * @returns
-  */
-  run: async (_, client) => {
+   *
+   * @param {ExtendedClient} _
+   * @param {Client} client
+   * @returns
+   */
+  run: async (_, client: ExtendedClient): Promise<void> => {
     const totalUsers = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
     const guildcount = client.guilds.cache.size;
     const check = await botInfo(client.user.id);
 
-    let status;
+    let status: string;
     if (check) {
-      status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
+      status = check.status.replace('{users}', totalUsers.toString()).replace('{guilds}', guildcount.toString());
     } else {
-      status = `${guildcount} servers | ${totalUsers}  users | Made with ❤️ by Wuemeli`;
-      log(`Logged in as ${client.user.tag}`, 'info');
+      status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
+      console.log(`Logged in as ${client.user.tag}`, 'info');
     }
     client.user.setActivity(status, { type: 4 });
 
@@ -29,10 +29,10 @@ module.exports = {
       const check = await botInfo(client.user.id);
       const totalUsers = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
       const guildcount = client.guilds.cache.size;
-      let status;
+      let status: string;
 
       if (check) {
-        status = check.status.replace('{users}', totalUsers).replace('{guilds}', guildcount);
+        status = check.status.replace('{users}', totalUsers.toString()).replace('{guilds}', guildcount.toString());
       } else {
         status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
       }
