@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
 
-const backupSchema = new mongoose.Schema({
+const backupSchema: Schema = new mongoose.Schema({
   userId: { type: String, required: false },
   backupId: { type: String, required: true },
   guildId: { type: String, required: true },
   dayBackup: { type: Boolean, default: false },
 });
 
-module.exports = mongoose.model('backup', backupSchema);
+export default mongoose.model('backup', backupSchema);

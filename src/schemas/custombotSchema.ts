@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
 
-const custombotSchema = new mongoose.Schema({
+const custombotSchema: Schema = new mongoose.Schema({
   userId: { type: String, required: true },
   token: { type: String, required: true },
   clientId: { type: String, required: true },
@@ -8,4 +8,4 @@ const custombotSchema = new mongoose.Schema({
   online: { type: Boolean, default: true },
 });
 
-module.exports = mongoose.model('custombot', custombotSchema);
+export default mongoose.model('custombot', custombotSchema);

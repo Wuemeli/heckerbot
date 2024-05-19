@@ -2,7 +2,7 @@
   "name": "heckerbot",
   "author": "Wuemeli",
   "version": "0.1.0",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "bun --watch .",
     "cb-dev": "bun --watch src/custombotserver.js",

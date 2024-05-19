@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
 
-const countingSchema = new mongoose.Schema({
+const countingSchema: Schema = new mongoose.Schema({
   guildId: { type: String, required: true },
   channelId: { type: String, required: true },
   lastNumber: { type: Number, required: true },
@@ -8,4 +8,4 @@ const countingSchema = new mongoose.Schema({
   countingMode: { type: [String], default: ['normal'], enum: ['normal', 'nofail', 'singleCount'] },
 });
 
-module.exports = mongoose.model('counting', countingSchema);
+export default mongoose.model('counting', countingSchema);

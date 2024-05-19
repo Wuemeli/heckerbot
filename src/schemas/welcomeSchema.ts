@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
 
-const welcomeSchema = new mongoose.Schema({
+const welcomeSchema: Schema = new Schema({
   guildId: { type: String, required: true },
   channelId: { type: String, required: true },
   welcomeMessage: { type: String, required: true },
   welcomeRole: { type: String, required: true },
 });
 
-module.exports = mongoose.model('welcome', welcomeSchema);
+export default mongoose.model ('welcome', welcomeSchema);
