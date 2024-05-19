@@ -1,12 +1,15 @@
-const {REST, Routes} = require('discord.js');
-const { log } = require('../functions/functions/consolelog');
+import { REST, Routes } from 'discord.js';
+import { log } from '../functions/functions/consolelog';
 
 /**
- *
- * @param {ExtendedClient} client
+ * Loads application commands to Discord API.
+ * @param client The Discord client instance.
+ * @param token The bot's token.
+ * @param clientId The ID of the application.
  */
-module.exports = async (client, token, clientId) => {
-  const rest = new REST({version: '10'}).setToken(token);
+
+export default async (client: any, token: string, clientId: string) => {
+  const rest = new REST({ version: '10' }).setToken(token);
 
   try {
     log('Started loading application commands... (this might take minutes!)', 'warn');

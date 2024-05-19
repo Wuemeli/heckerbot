@@ -1,7 +1,7 @@
-const {connect} = require('mongoose');
-const { log } = require('../functions/functions/consolelog');
+import { connect } from 'mongoose';
+import { log } from '../functions/functions/consolelog';
 
-module.exports = async () => {
+export const connectToDatabase = async (): Promise<void> => {
   log('Started connecting to MongoDB...', 'warn');
 
   await connect(process.env.MONGODB_URI).then(() => {

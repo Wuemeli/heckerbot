@@ -1,24 +1,33 @@
-const { log } = require('../../functions/functions/consolelog');
-const ExtendedClient = require('../../class/ExtendedClient');
-const emojis = require('../../functions/functions/emojis');
-const { hasPremium } = require('../../functions/custom-bot/premium');
+// Importing required modules and types
+import { Client, Interaction } from 'discord.js';
+import { Collection } from 'discord.js';
+import { log } from '../../functions/functions/consolelog';
+import { ExtendedClient } from '../../class/ExtendedClient';
+import { emojis } from '../../functions/functions/emojis';
+import { hasPremium } from '../../functions/custom-bot/premium';
 
-const cooldown = new Map();
+interface CommandOptions {
+  premium?: boolean;
+  category?: string;
+  cooldown?: number;
+}
+
+const cooldown = new Map < string, string[]> ();
 
 module.exports = {
   event: 'interactionCreate',
   /**
-     *
-     * @param {ExtendedClient} client
-     * @param {import('discord.js').Interaction} interaction
-     * @returns
-     */
-  run: async (client, interaction) => {
+    *
+    * @param {ExtendedClient} client
+    * @param {Interaction} interaction
+    * @returns
+    */
+  run: async (client: ExtendedClient, interaction: Interaction) => {
     if (!interaction.isCommand()) return;
 
     const command = client.collection.interactioncommands.get(
       interaction.commandName,
-    );
+    ) as Command | undefined;
 
     if (!command) return;
 
@@ -43,7 +52,7 @@ module.exports = {
         }
       }
 
-      if (process.env[command.options.category.toUpperCase()] === 'false') {
+      if (process.env[command.options.category?.toUpperCase() || ''] === 'false') {
         return interaction.reply({ content: `${emojis.erroricon} The ${command.options.category} category is currently disabled.`, ephemeral: true });
       }
 
@@ -51,27 +60,27 @@ module.exports = {
         const cooldownFunction = () => {
           const data = cooldown.get(interaction.user.id);
 
-          data.push(interaction.commandName);
+          data?.push(interaction.commandName);
 
-          cooldown.set(interaction.user.id, data);
+          cooldown.set(interaction.user.id, data ?? []);
 
           setTimeout(() => {
             let data = cooldown.get(interaction.user.id);
 
-            data = data.filter((v) => v !== interaction.commandName);
+            data = data?.filter((v) => v !== interaction.commandName);
 
-            if (data.length <= 0) {
+            if (data && data.length <= 0) {
               cooldown.delete(interaction.user.id);
             } else {
-              cooldown.set(interaction.user.id, data);
+              cooldown.set(interaction.user.id, data ?? []);
             }
-          }, command.options?.cooldown);
+          }, command.options.cooldown);
         };
 
         if (cooldown.has(interaction.user.id)) {
           const data = cooldown.get(interaction.user.id);
 
-          if (data.some((v) => v === interaction.commandName)) {
+          if (data?.some((v) => v === interaction.commandName)) {
             await interaction.reply({
               content: `${emojis.erroricon} You are on cooldown for this command.`,
               ephemeral: true,
@@ -92,6 +101,5 @@ module.exports = {
     } catch (error) {
       log(error, 'err');
     }
-
   },
 };

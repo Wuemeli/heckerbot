@@ -19,4 +19,4 @@ const emojis: { [key: string]: string } = {
   pepeheart: '<:pepeheart:1180191206723047536>',
 };
 
-module.exports = emojis;
+export default emojis;
