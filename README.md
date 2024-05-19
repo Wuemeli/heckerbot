@@ -46,6 +46,7 @@ Thanks to [Emojify](https://github.com/farkmarnum/emojify) for providing the Emo
 
 - [ ] Add User installable Apps. Im now focusing more on fixing Bugs and migrating to typescript.
 - [ ] Migration to Typescript can be checked out in the dev branch.
+- [ ] zod implementation for better validation.
 
 ## 📫 Contact
 If you want to contact me you can reach me at Discord: wuemeli
