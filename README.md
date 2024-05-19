@@ -42,6 +42,12 @@ The Documentation is available at [Docs](docs/README.md)
 Thanks to TFAGaming for providing the Bot Template. We modified it that it fits our case.
 Thanks to [Emojify](https://github.com/farkmarnum/emojify) for providing the Emojis Data.
 
+## 📡 Planned ToDo
+
+- [ ] Add User installable Apps. Im now focusing more on fixing Bugs and migrating to typescript.
+- [ ] Migration to Typescript can be checked out in the typescript branch.
+- [ ] zod implementation for better validation.
+
 ## 📫 Contact
 If you want to contact me you can reach me at Discord: wuemeli
 

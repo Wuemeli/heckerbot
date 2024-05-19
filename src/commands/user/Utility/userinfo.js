@@ -6,6 +6,12 @@ module.exports = {
   structure: new ContextMenuCommandBuilder()
     .setName('Userinfo')
     .setType(2),
+  options: {
+    nsfw: false,
+    category: 'Utility',
+    premium: false,
+    cooldown: 1,
+  },
   /**
    * @param {ExtendedClient} client
    * @param {UserContextMenuCommandInteraction} interaction

@@ -5,26 +5,22 @@ const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/functions/consolelog');
 const { default: topgg } = require('./functions/functions/top.gg');
-const { loadModel } = require('./functions/functions/aimod');
 const { scheduleJobs } = require('./functions/functions/cron');
 
 const client = new ExtendedClient();
-
-loadModel();
 
 try {
   client.start();
   log('Client Started.', 'done');
 } catch (error) {
-  console.error('Error during client.start()', error);
+  global.log.anticrashlog('client.start', error);
 }
 
 try {
   server.start(client);
 } catch (error) {
-  console.error('Error during server.start', error);
+  global.log.anticrashlog('server.start', error);
 }
-
 
 module.exports = { client };
 

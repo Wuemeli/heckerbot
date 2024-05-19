@@ -1,4 +1,3 @@
-const config = require('../../config');
 const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const emojis = require('../../functions/functions/emojis');
@@ -17,26 +16,6 @@ module.exports = {
   run: async (client, interaction) => {
     if (!interaction.isCommand()) return;
 
-
-    if (
-      config.handler.commands.slash === false &&
-      interaction.isChatInputCommand()
-    ) {
-      return;
-    }
-    if (
-      config.handler.commands.user === false &&
-      interaction.isUserContextMenuCommand()
-    ) {
-      return;
-    }
-    if (
-      config.handler.commands.message === false &&
-      interaction.isMessageContextMenuCommand()
-    ) {
-      return;
-    }
-
     const command = client.collection.interactioncommands.get(
       interaction.commandName,
     );
@@ -51,7 +30,7 @@ module.exports = {
         });
       }
 
-      if (command.options.premium) {
+      if (command.options?.premium) {
         if (!process.env.PREMIUM) {
           return interaction.reply({ content: `${emojis.erroricon} Premium System needs to be enabled.`, ephemeral: true });
         }

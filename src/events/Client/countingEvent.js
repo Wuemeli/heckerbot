@@ -60,13 +60,12 @@ module.exports = {
       }
 
       try {
-        const sentMessage = await webhook.send({
+        await webhook.send({
           content: String(evaluatedContent),
           username: author.username,
           avatarURL: author.displayAvatarURL({ dynamic: true }),
         });
 
-        await sentMessage.react('✅');
       } catch (error) {
         console.error(`Failed to send webhook: ${error}`);
       }

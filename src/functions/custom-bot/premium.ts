@@ -3,6 +3,8 @@ import custombotSchema from '../../schemas/custombotSchema';
 
 axios.defaults.headers.common["Accept-Encoding"] = "gzip";
 
+//This will be remade using the new discord.js events
+
 export async function checkExpiredPremium() {
   const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.CLIENT_ID}/entitlements`, {
     headers: {
@@ -24,7 +26,6 @@ export async function checkExpiredPremium() {
     }
   }
 }
-
 
 export async function hasPremium(userID: string) {
   const response = await axios.get(`https://discord.com/api/v10/applications/${process.env.CLIENT_ID}/entitlements`, {

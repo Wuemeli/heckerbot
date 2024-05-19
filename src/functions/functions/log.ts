@@ -1,7 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 import axios from 'axios';
 
-
 class logging {
   constructor() {
     if (!process.env.LOG_WEBHOOK_URL) return;
