@@ -1,5 +1,5 @@
 import { readdirSync } from 'fs';
-import { log } from '../functions/functions/consolelog';
+import { log } from '../functions/functions/log';
 
 /**
  *

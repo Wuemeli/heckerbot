@@ -1,7 +1,7 @@
 import { ExtendedClient } from '../../class/ExtendedClient';
 import { Interaction } from 'discord.js';
 
-import { log } from '../../functions/functions/consolelog';
+import { log } from '../../functions/functions/log';
 import { emojis } from '../../functions/functions/emojis';
 
 export default {

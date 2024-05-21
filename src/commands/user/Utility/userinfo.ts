@@ -1,6 +1,6 @@
 import { UserContextMenuCommandInteraction, ContextMenuCommandBuilder, EmbedBuilder } from 'discord.js';
 import { ExtendedClient } from '../../../class/ExtendedClient';
-import { time } from '../../../functions/functions/consolelog';
+import { time } from '../../../functions/functions/log';
 
 module.exports = {
   structure: new ContextMenuCommandBuilder()

@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { Client } from 'discord.js'; 
-import { log } from '../functions/functions/consolelog';
+import { Client } from 'discord.js';
+import { log } from '../functions/functions/log';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import emojis from '../functions/functions/emojis';
@@ -75,7 +75,7 @@ app.get('/stats', async (req: Request, res: Response) => {
   });
 });
 
-export const start = async (client: Client) => {
+export default async (client: Client) => {
   app.listen(port, () => {
     log(`Web Server is Listening on port ${port}`, 'info');
   });

@@ -1,6 +1,6 @@
 const express = require('express');
 const { startallBots, createBot, bots, stopBot, startBot } = require('./functions/custom-bot/main');
-const { log } = require('./functions/functions/consolelog');
+const { log } = require('./functions/functions/log');
 const custombotSchema = require('./schemas/custombotSchema');
 const mongoose = require('./handlers/mongoose');
 const { logging } = require('./functions/functions/log');

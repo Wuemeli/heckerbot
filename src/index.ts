@@ -5,15 +5,15 @@ import { ExtendedClient } from './class/ExtendedClient.js';
 import { handling } from './functions/functions/errorHandler.js';
 import { logging } from './functions/functions/log.js';
 import server from './express/server.js';
-import { consolelog } from './functions/functions/consolelog.js';
-import { topgg } from './functions/functions/top.gg.js';
+import { log } from './functions/functions/log.js';
+import topgg from './functions/functions/top.gg.js';
 import { scheduleJobs } from './functions/functions/cron.js';
 
 const client = new ExtendedClient();
 
 try {
   client.start();
-  consolelog('Client Started.', 'done');
+  log('Client Started.', 'done');
 } catch (error) {
   global.log.anticrashlog('client.start', error);
 }
@@ -29,7 +29,7 @@ scheduleJobs(client);
 global.handle = new handling(client);
 global.log = new logging();
 
-consolelog('Started normal bot');
+log('Bot Started.', 'done');
 
 process.on('unhandledRejection', (reason) => global.log.anticrashlog('unhandledRejection', reason));
 process.on('uncaughtException', (reason) => global.log.anticrashlog('uncaughtException', reason));

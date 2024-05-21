@@ -1,10 +1,10 @@
-import { Client, Intents, Partials, Collection } from 'discord.js';
+import { Client, Partials, Collection } from 'discord.js';
 import * as commands from '../handlers/commands';
 import * as events from '../handlers/events';
 import * as deploy from '../handlers/deploy';
 import * as mongoose from '../handlers/mongoose';
 import * as components from '../handlers/components';
-import { handleLogs } from '../functions/functions/handleLogs';
+import handleLogs from '../functions/functions/handleLogs';
 import { checkReminders, dailyBackup } from '../functions/functions/interval';
 
 interface Bots {
@@ -31,8 +31,10 @@ export default class ExtendedClient extends Client {
 
   constructor(token?: string, clientId?: string) {
     super({
-      intents: Object.values(Intents),
-      partials: Object.keys(Partials),
+      intents: Object.values({
+        intents: 3276543,
+      }),
+      partials: [Object.keys(Partials)],
     });
 
     this.token = token || process.env.CLIENT_TOKEN;
@@ -67,3 +69,5 @@ export default class ExtendedClient extends Client {
     bots[this.clientId] = this;
   }
 }
+
+export { ExtendedClient };

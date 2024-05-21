@@ -1,6 +1,6 @@
 const { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
-const { time } = require('../../../functions/functions/consolelog');
+const { time } = require('../../../functions/functions/log');
 
 module.exports = {
   structure: new SlashCommandBuilder()

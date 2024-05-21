@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Client } from 'discord.js';
-const { log } = require('./consolelog');
+const { log } = require('./log');
 import { codeError } from './errorHandler';
 
 axios.defaults.headers.common["Accept-Encoding"] = "gzip";
