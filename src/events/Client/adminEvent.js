@@ -1,3 +1,4 @@
+const { MessageFlags } = require('discord.js');
 const ExtendedClient = require('../../class/ExtendedClient');
 
 let chatmirror = false;
@@ -12,18 +13,8 @@ module.exports = {
   * @returns
   */
   run: async (client, message) => {
-    if (message.author.bot) return;
-
     const devs = process.env.DEV_IDS.split(',');
-
-    if (message.mentions.users.has(devs[0])) {
-      message.reply('Why would you ping my owner?');
-      setTimeout(() => {
-        message.delete();
-      }, 3000);
-    }
-
-    if (!devs.includes(message.author.id)) return;
+    if (message.author.bot || !devs.includes(message.author.id)) return;
 
     if (message.content === 'chatmirror') {
       message.delete();
