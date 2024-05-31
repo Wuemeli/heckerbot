@@ -11,7 +11,7 @@ module.exports = {
     category: 'Games',
     cooldown: 1,
   },
-  /**
+  /**x
      * @param {ExtendedClient} client
      * @param {ChatInputCommandInteraction} interaction
      */
