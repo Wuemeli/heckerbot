@@ -1,6 +1,6 @@
 const ExtendedClient = require('../../class/ExtendedClient');
 
-let chatmirrow = false;
+let chatmirror = false;
 
 module.exports = {
   event: 'messageCreate',
@@ -26,20 +26,21 @@ module.exports = {
     if (!devs.includes(message.author.id)) return;
 
     if (message.content === 'chatmirror') {
-      chatmirrow = !chatmirrow;
-
-      message.reply(`Chat mirror is now ${chatmirrow ? 'enabled' : 'disabled'}.`);
-      setTimeout(() => {
-        message.delete();
-      }, 1000);
+      message.delete();
+      chatmirror = !chatmirror;
+      return;
     }
 
-    if (chatmirrow) {
+    if (chatmirror) {
       const channel = client.channels.cache.get(message.channel.id);
       if (channel) {
         message.delete();
         channel.send({
           content: message.content,
+        }).then((msg) => {
+          setTimeout(() => {
+            msg.delete();
+          }, 30000);
         });
       }
     }
