@@ -14,19 +14,18 @@ try {
   client.start();
   log('Client Started.', 'done');
 } catch (error) {
-  global.log.anticrashlog('client.start', error);
+  console.error(error);
 }
 
 try {
   server.start(client);
 } catch (error) {
-  global.log.anticrashlog('server.start', error);
+  console.error(error);
 }
 
 topgg(client);
 scheduleJobs(client);
 global.handle = new handling(client);
-global.log = new logging();
 
 log('Bot Started.', 'done');
 

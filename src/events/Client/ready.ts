@@ -1,4 +1,3 @@
-import { Client, Intents } from 'discord.js';
 import { ExtendedClient } from '../../class/ExtendedClient';
 import { botInfo } from '../../functions/custom-bot/main';
 
