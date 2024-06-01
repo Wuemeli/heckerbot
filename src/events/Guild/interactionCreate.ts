@@ -1,9 +1,9 @@
 // Importing required modules and types
 import { Client, Interaction } from 'discord.js';
 import { Collection } from 'discord.js';
-import { log } from '../../functions/functions/log';
+import { log } from '../../functions/functions/consolelog';
 import { ExtendedClient } from '../../class/ExtendedClient';
-import { emojis } from '../../functions/functions/emojis';
+import emojis from '../../functions/functions/emojis';
 import { hasPremium } from '../../functions/custom-bot/premium';
 
 interface CommandOptions {
@@ -14,7 +14,7 @@ interface CommandOptions {
 
 const cooldown = new Map < string, string[]> ();
 
-module.exports = {
+export default {
   event: 'interactionCreate',
   /**
     *

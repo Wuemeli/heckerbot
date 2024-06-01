@@ -1,7 +1,7 @@
 import { ExtendedClient } from '../../class/ExtendedClient';
 import { botInfo } from '../../functions/custom-bot/main';
 
-module.exports = {
+export default {
   event: 'ready',
   once: true,
   /**

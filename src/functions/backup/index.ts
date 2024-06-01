@@ -1,6 +1,6 @@
 import type { BackupData, BackupInfos, CreateOptions, LoadOptions } from './types/';
 import type { Guild } from 'discord.js';
-import { SnowflakeUtil, IntentsBitField } from 'discord.js';
+import { SnowflakeUtil } from 'discord.js';
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import * as createMaster from './create';
 import * as loadMaster from './load';

@@ -1,9 +1,9 @@
 import { ButtonInteraction } from 'discord.js';
 import ExtendedClient from '../../class/ExtendedClient';
-import { loadBackup } from '../../functions/backup/index';
-import { checkIcon, errorIcon } from '../../functions/functions/emojis';
+import loadBackup from '../../functions/backup/index';
+import emojis from '../../functions/functions/emojis';
 
-module.exports = {
+export default {
   customId: 'confirm-load-backup',
   /**
    * @param {ExtendedClient} client
@@ -14,9 +14,9 @@ module.exports = {
       const backupId = interaction.message.content.split(': ')[1];
 
       await loadBackup(backupId, interaction.guild).then(() => {
-        interaction.user.send({ content: `${checkIcon} Backup loaded successfully` });
+        interaction.user.send({ content: `${emojis.checkicon} Backup loaded successfully` });
       }).catch((err) => {
-        interaction.user.send({ content: `${errorIcon} An error occurred while loading the backup` });
+        interaction.user.send({ content: `${emojis.errorIcon} An error occurred while loading the backup` });
       });
     } catch (error) {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);

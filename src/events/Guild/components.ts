@@ -1,8 +1,6 @@
 import { ExtendedClient } from '../../class/ExtendedClient';
 import { Interaction } from 'discord.js';
-
-import { log } from '../../functions/functions/log';
-import { emojis } from '../../functions/functions/emojis';
+import { log } from '../../functions/functions/consolelog';
 
 export default {
   event: 'interactionCreate',
