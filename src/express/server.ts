@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Client } from 'discord.js';
-import { log } from '../functions/functions/log';
+import { log } from '../functions/functions/consolelog';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import emojis from '../functions/functions/emojis';

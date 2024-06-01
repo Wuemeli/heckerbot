@@ -1,13 +1,12 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { ExtendedClient } from './class/ExtendedClient.js';
-import { handling } from './functions/functions/errorHandler.js';
-import { logging } from './functions/functions/log.js';
-import server from './express/server.js';
-import { log } from './functions/functions/log.js';
-import topgg from './functions/functions/top.gg.js';
-import { scheduleJobs } from './functions/functions/cron.js';
+import { ExtendedClient } from './class/ExtendedClient';
+import { handling } from './functions/functions/errorHandler';
+import server from './express/server';
+import { log } from './functions/functions/consolelog';
+import topgg from './functions/functions/top.gg';
+import { scheduleJobs } from './functions/functions/cron';
 
 const client = new ExtendedClient();
 
@@ -31,9 +30,9 @@ global.log = new logging();
 
 log('Bot Started.', 'done');
 
-process.on('unhandledRejection', (reason) => global.log.anticrashlog('unhandledRejection', reason));
-process.on('uncaughtException', (reason) => global.log.anticrashlog('uncaughtException', reason));
-process.on('uncaughtExceptionMonitor', (reason) => global.log.anticrashlog('uncaughtExceptionMonitor', reason));
-process.on('warning', (reason) => global.log.anticrashlog('warning', reason));
+process.on('unhandledRejection', (reason) => console.error(reason));
+process.on('uncaughtException', (reason) => console.error(reason));
+process.on('uncaughtExceptionMonitor', (reason) => console.error(reason));
+process.on('warning', (reason) => console.warn(reason));
 
 export { client };

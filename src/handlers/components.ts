@@ -1,5 +1,5 @@
-import { readdirSync } from 'bun:fs';
-import { log } from '../functions/functions/log';
+import { readdirSync } from 'fs';
+import { log } from '../functions/functions/consolelog';
 
 /**
  *

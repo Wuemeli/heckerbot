@@ -1,5 +1,5 @@
 import { REST, Routes } from 'discord.js';
-import { log } from '../functions/functions/log';
+import { log } from '../functions/functions/consolelog';
 
 /**
  * Loads application commands to Discord API.
