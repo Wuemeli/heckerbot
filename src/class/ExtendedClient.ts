@@ -31,10 +31,8 @@ export default class ExtendedClient extends Client {
 
   constructor(token?: string, clientId?: string) {
     super({
-      intents: Object.values({
-        intents: 3276543,
-      }),
-      partials: [Object.keys(Partials)],
+      partials: [Partials.User, Partials.Message, Partials.Channel, Partials.GuildMember],
+      intents: 3276543,
     });
 
     this.token = token || process.env.CLIENT_TOKEN;
