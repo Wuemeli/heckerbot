@@ -1,6 +1,6 @@
 import { ButtonInteraction } from 'discord.js';
 import ExtendedClient from '../../class/ExtendedClient';
-import loadBackup from '../../functions/backup/index';
+import load from '../../functions/backup/index';
 import emojis from '../../functions/functions/emojis';
 
 export default {
@@ -13,7 +13,7 @@ export default {
     try {
       const backupId = interaction.message.content.split(': ')[1];
 
-      await loadBackup(backupId, interaction.guild).then(() => {
+      await load(backupId, interaction.guild).then(() => {
         interaction.user.send({ content: `${emojis.checkicon} Backup loaded successfully` });
       }).catch((err) => {
         interaction.user.send({ content: `${emojis.errorIcon} An error occurred while loading the backup` });
@@ -22,4 +22,4 @@ export default {
       global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
     }
   },
-};
+};x
