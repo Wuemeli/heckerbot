@@ -50,7 +50,6 @@ function handleLogs(client: Client): void {
         .setDescription(`
           **Message   Author : ** <@${message.author.id}> - *${message.author.tag}*
           **Channel : ** <#${message.channel.id}> - *${'name' in message.channel ? message.channel.name : 'DMChannel'}*
-          **Executor : ** <@${executorId}> *
           **Deleted Message : **\`${message.content.replace(/`/g, '\'')}\`
        `);
 
