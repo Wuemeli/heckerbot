@@ -3,7 +3,7 @@ dotenv.config();
 
 import { ExtendedClient } from './class/ExtendedClient';
 import { handling } from './functions/functions/errorHandler';
-import server from './express/server';
+import { server } from './express/server';
 import { log } from './functions/functions/consolelog';
 import topgg from './functions/functions/top.gg';
 import { scheduleJobs } from './functions/functions/cron';
@@ -18,7 +18,7 @@ try {
 }
 
 try {
-  server.start(client);
+  server(client);
 } catch (error) {
   console.error(error);
 }
