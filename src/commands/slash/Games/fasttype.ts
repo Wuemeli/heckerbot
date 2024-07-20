@@ -1,5 +1,5 @@
 import { FastType } from 'discord-gamecord';
-import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
 import { random_sentence } from '../../../functions/functions/random-sentence';
 
 export default {
@@ -15,7 +15,7 @@ export default {
    * @param {ExtendedClient} client
    * @param {ChatInputCommandInteraction} interaction
    */
-  run: async (client: ExtendedClient, interaction: ChatInputCommandInteraction) => {
+  run: async (client, interaction) => {
     try {
       const sentence = await random_sentence();
 

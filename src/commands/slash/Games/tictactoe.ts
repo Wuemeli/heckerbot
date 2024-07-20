@@ -1,7 +1,7 @@
-const { TicTacToe } = require('discord-gamecord');
-const { SlashCommandBuilder } = require('discord.js');
+import { TicTacToe } from 'discord-gamecord';
+import { SlashCommandBuilder } from 'discord.js';
 
-module.exports = {
+export default {
   structure: new SlashCommandBuilder()
     .setName('tictactoe')
     .setDescription('❌・Play a game of Tic Tac Toe with a friend!')
@@ -16,8 +16,8 @@ module.exports = {
     cooldown: 1,
   },
   /**
-   * @param {ExtendedClient} client
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import('@discordjs/client').Client} client
+   * @param {import('discord.js').CommandInteraction} interaction
    */
   run: async (client, interaction) => {
     try {
@@ -50,7 +50,7 @@ module.exports = {
       });
       Game.startGame();
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id, interaction.user?.id, error, interaction);
     }
   },
 };

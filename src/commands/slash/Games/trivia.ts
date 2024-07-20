@@ -1,5 +1,5 @@
-const { Trivia } = require('discord-gamecord');
-const { SlashCommandBuilder } = require('discord.js');
+import { Trivia } from 'discord-gamecord';
+import { SlashCommandBuilder } from 'discord.js';
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -11,12 +11,12 @@ module.exports = {
     cooldown: 1,
   },
   /**
-   * @param {ExtendedClient} client
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {Client} client
+   * @param {CommandInteraction} interaction
    */
   run: async (client, interaction) => {
     try {
-      const Game = new Trivia({
+      const game = new Trivia({
         message: interaction,
         isSlashGame: true,
         embed: {
@@ -30,9 +30,9 @@ module.exports = {
         timeoutMessage: 'You ran out of time! The correct answer was **{answer}**.',
         playerOnlyMessage: 'Only {player} can use these buttons.',
       });
-      Game.startGame();
+      game.startGame();
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id, interaction.user.id, error, interaction);
     }
   },
 };

@@ -1,5 +1,5 @@
-const { Snake } = require('discord-gamecord');
-const { SlashCommandBuilder } = require('discord.js');
+import { SlashCommandBuilder } from 'discord.js';
+import { Snake } from 'discord-gamecord';
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -11,8 +11,8 @@ module.exports = {
     cooldown: 1,
   },
   /**
-   * @param {ExtendedClient} client
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import('discord.js').Client} client
+   * @param {import('discord.js').CommandInteraction} interaction
    */
   run: async (client, interaction) => {
     try {
@@ -34,7 +34,7 @@ module.exports = {
       });
       Game.startGame();
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id, interaction.user?.id, error, interaction);
     }
   },
 };

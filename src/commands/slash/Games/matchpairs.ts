@@ -1,5 +1,5 @@
-const { MatchPairs } = require('discord-gamecord');
-const { SlashCommandBuilder } = require('discord.js');
+import { MatchPairs } from 'discord-gamecord';
+import { SlashCommandBuilder } from 'discord.js';
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -27,7 +27,10 @@ module.exports = {
         },
         timeoutTime: 60000,
         buttonStyle: 'PRIMARY',
-        emojis: ['🍉', '🍇', '🍊', '🍋', '🥭', '🍎', '🍏', '🥝', '🍒', '🍓', '🍑', '🍍'],        winMessage: 'You won! You selected the correct emoji. {emoji}',
+        emojis: [
+          '🍉', '🍇', '🍊', '🍋', '🥭', '🍎', '🍏', '🥝', '🍒', '🍓', '🍑', '🍍'
+        ],
+        winMessage: 'You won! You selected the correct emoji. {emoji}',
         loseMessage: 'You lost! You selected the wrong emoji. {emoji}',
         timeoutMessage: 'You lost! You ran out of time. The emoji is {emoji}',
         playerOnlyMessage: 'Only {player} can use these buttons.',
