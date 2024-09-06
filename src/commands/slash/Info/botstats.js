@@ -1,5 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import ms from 'ms';
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const ms = require('ms');
 
 module.exports = {
   structure: new SlashCommandBuilder()
