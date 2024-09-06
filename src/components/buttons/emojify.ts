@@ -1,7 +1,7 @@
 import { ButtonInteraction, ChannelType } from 'discord.js';
 import { ExtendedClient } from '../../class/ExtendedClient';
 import { emojify } from '../../functions/functions/emojify';
-import { emojis } from '../../functions/functions/emojis';
+import emojis from '../../functions/functions/emojis';
 
 export default {
   customId: 'confirm-emoji-rename',

@@ -1,10 +1,8 @@
-// Importing required modules and types
 import { Client, Interaction } from 'discord.js';
 import { Collection } from 'discord.js';
 import { log } from '../../functions/functions/consolelog';
 import { ExtendedClient } from '../../class/ExtendedClient';
 import emojis from '../../functions/functions/emojis';
-import { hasPremium } from '../../functions/custom-bot/premium';
 
 interface CommandOptions {
   premium?: boolean;
@@ -39,6 +37,7 @@ export default {
         });
       }
 
+      /*
       if (command.options?.premium) {
         if (!process.env.PREMIUM) {
           return interaction.reply({ content: `${emojis.erroricon} Premium System needs to be enabled.`, ephemeral: true });
@@ -51,6 +50,7 @@ export default {
           });
         }
       }
+      */
 
       if (process.env[command.options.category?.toUpperCase() || ''] === 'false') {
         return interaction.reply({ content: `${emojis.erroricon} The ${command.options.category} category is currently disabled.`, ephemeral: true });

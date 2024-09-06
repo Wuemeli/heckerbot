@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const ms = require('ms');
 const reminderSchema = require('../../../schemas/reminderSchema');
-const { time } = require('../../../functions/functions/log');
+const { time } = require('../../../functions/functions/consolelog');
 
 module.exports = {
   structure: new SlashCommandBuilder()
