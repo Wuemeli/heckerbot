@@ -5,9 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "bun --watch .",
-    "cb-dev": "bun --watch src/custombotserver.js",
     "start": "bun run .",
-    "custombot": "bun src/custombotserver.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },

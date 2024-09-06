@@ -7,9 +7,8 @@ const components = require('../handlers/components');
 const handleLogs = require('../functions/functions/handleLogs').default;
 const { checkReminders, dailyBackup } = require('../functions/functions/interval');
 
-const bots = {};
 module.exports = class ExtendedClient extends Client {
-  constructor(token, clientId) {
+  constructor() {
     super({
       intents: Object.values({
         intents: 3276543,
@@ -17,8 +16,8 @@ module.exports = class ExtendedClient extends Client {
       partials: [Object.keys(Partials)],
     });
 
-    this.token = token || process.env.CLIENT_TOKEN;
-    this.clientId = clientId || process.env.CLIENT_ID;
+    this.token = process.env.CLIENT_TOKEN;
+    this.clientId = process.env.CLIENT_ID;
 
     this.collection = {
       interactioncommands: new Collection(),
@@ -35,6 +34,7 @@ module.exports = class ExtendedClient extends Client {
   }
 
   async start() {
+    console.log('Starting bot...');
     commands(this);
     events(this);
     components(this);
@@ -47,6 +47,5 @@ module.exports = class ExtendedClient extends Client {
     await this.login(this.token);
     deploy(this, this.token, this.clientId);
 
-    bots[this.clientId] = this;
   };
 };
