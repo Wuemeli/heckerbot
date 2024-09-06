@@ -1,7 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const ms = require('ms');
+import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction } from 'discord.js';
+import ms from 'ms';
 
-module.exports = {
+export default {
   structure: new SlashCommandBuilder()
     .setName('botstats')
     .setDescription('📊・Displays the bot statistics.'),
@@ -11,9 +11,9 @@ module.exports = {
     cooldown: 1,
   },
   /**
-     * @param {ExtendedClient} client
-     * @param {ChatInputCommandInteraction} interaction
-     */
+   * @param {ExtendedClient} client
+   * @param {ChatInputCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
     await interaction.deferReply();
 
@@ -44,7 +44,7 @@ module.exports = {
 
       await interaction.editReply({ embeds: [statsEmbed] });
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id || 'Unknown Guild', interaction.user.id, error, interaction);
     }
   },
 };

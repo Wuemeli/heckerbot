@@ -8,25 +8,23 @@ import { log } from '../functions/functions/consolelog';
 export default (client: any) => {
   for (const type of readdirSync('./src/commands/')) {
     for (const dir of readdirSync(`./src/commands/${type}`)) {
-      for (const file of readdirSync(`./src/commands/${type}/${dir}`).filter((f: string) => f.endsWith('.js'))) {
-        let module: any;
-        try {
-          module = require(`../commands/${type}/${dir}/${file}`);
-        } catch (error) {
-          console.error(`Error loading command ${file}:`, error);
-          continue;
+      for (const file of readdirSync(`./src/commands/${type}/${dir}`).filter((f: string) => f.endsWith('.ts'))) {
+        const module = require(`../commands/${type}/${dir}/${file}`);
+
+        if (typeof module.default !== 'object') {
+          const { structure, run } = module.default;
+          if (structure && typeof run === 'function') {
+            module.default.run = run;
+            module.default.structure = structure;
+
+          } else {
+            log(`Unable to load the command ${file} due to missing 'structure' or 'run' properties.`, 'warn');
+            continue;
+          }
         }
 
-        if (!module) continue;
-
-        if (!module.structure?.name || !module.run) {
-          log('Unable to load the command ' + file + ' due to missing \'structure#name\' or/and \'run\' properties.', 'warn');
-
-          continue;
-        }
-
-        client.collection.interactioncommands.set(module.structure.name, module);
-        client.applicationcommandsArray.push(module.structure);
+        client.collection.interactioncommands.set(module.default.structure.name, module);
+        client.applicationcommandsArray.push(module.defaultstructure);
         log('Loaded new command: ' + file, 'info');
       }
     }

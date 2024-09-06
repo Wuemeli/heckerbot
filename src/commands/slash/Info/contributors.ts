@@ -1,7 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder, WebhookClient } = require('discord.js');
-const axios = require('axios');
+import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction } from 'discord.js';
+import axios from 'axios';
 
-module.exports = {
+export default {
   structure: new SlashCommandBuilder()
     .setName('contributors')
     .setDescription('🫅・Displays the contributors of the bot.'),
@@ -11,19 +11,17 @@ module.exports = {
     cooldown: 1,
   },
   /**
- * @param {ExtendedClient} client
- * @param {ChatInputCommandInteraction} interaction
- */
+   * @param {ExtendedClient} client
+   * @param {ChatInputCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
     await interaction.deferReply();
 
     try {
-      const { data } = await axios.get(
-        'https://api.github.com/repos/Wuemeli/heckerbot/contributors',
-      );
+      const { data } = await axios.get('https://api.github.com/repos/Wuemeli/heckerbot/contributors');
 
       const contributors = data
-        .map((contributor) => {
+        .map((contributor: any) => {
           return `[${contributor.login}](${contributor.html_url})`;
         })
         .join(', ');
@@ -36,7 +34,7 @@ module.exports = {
       await interaction.editReply({ embeds: [embed] });
 
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id || 'Unknown Guild', interaction.user.id, error, interaction);
     }
   },
 };

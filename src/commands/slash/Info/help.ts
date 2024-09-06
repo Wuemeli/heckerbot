@@ -1,7 +1,7 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { Pagination } = require('pagination.djs');
+import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { Pagination } from 'pagination.djs';
 
-module.exports = {
+export default {
   structure: new SlashCommandBuilder()
     .setName('help')
     .setDescription('💥・Lists all commands'),
@@ -11,9 +11,9 @@ module.exports = {
     cooldown: 1,
   },
   /**
- * @param {ExtendedClient} client
- * @param {ChatInputCommandInteraction} interaction
- */
+   * @param {ExtendedClient} client
+   * @param {ChatInputCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
     await interaction.deferReply();
 
@@ -26,7 +26,7 @@ module.exports = {
       pagination.setDescriptions(descriptions);
       await pagination.render();
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id || 'Unknown Guild', interaction.user.id, error, interaction);
     }
   },
 };

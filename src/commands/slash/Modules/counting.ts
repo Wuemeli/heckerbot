@@ -1,7 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
-const CountingSchema = require('../../../schemas/countingSchema');
-const emojis = require('../../../functions/functions/emojis');
-const ExtendedClient = require('../../../class/ExtendedClient');
+import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChannelType, ChatInputCommandInteraction, GuildTextBasedChannel } from 'discord.js';
+import CountingSchema from '../../../schemas/countingSchema';
+import emojis from '../../../functions/functions/emojis';
+import ExtendedClient from '../../../class/ExtendedClient';
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -46,53 +46,45 @@ module.exports = {
     cooldown: 1,
   },
   /**
- * @param {ExtendedClient} client
- * @param {ChatInputCommandInteraction} interaction
- */
+   * @param {ExtendedClient} client
+   * @param {ChatInputCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
-    await interaction.deferReply(
-      {
-        ephemeral: true,
-      },
-    );
+    await interaction.deferReply({ ephemeral: true });
 
     try {
-      if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+      if (!interaction.member?.permissions.has(PermissionFlagsBits.ManageGuild)) {
         return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
       }
 
       const subcommand = interaction.options.getSubcommand();
 
       if (subcommand === 'channel') {
-
-        const channel = interaction.options.getChannel('channel');
+        const channel = interaction.options.getChannel('channel') as GuildTextBasedChannel;
         const guildId = interaction.guild.id;
-        const channelId = channel?.id;
-        const mode = interaction.options.getString('mode').split(',');
+        const channelId = channel.id;
+        const mode = interaction.options.getString('mode', true);
 
-        await CountingSchema.findOneAndUpdate({
-          guildId,
-        }, {
-          guildId,
-          channelId,
-          lastNumber: 0,
-          lastUser: null,
-          lastMessageId: null,
-          countingMode: mode,
-        }, {
-          upsert: true,
-        });
+        await CountingSchema.findOneAndUpdate(
+          { guildId },
+          {
+            guildId,
+            channelId,
+            lastNumber: 0,
+            lastUser: null,
+            lastMessageId: null,
+            countingMode: mode,
+          },
+          { upsert: true },
+        );
 
         return interaction.editReply({ content: `${emojis.checkicon} Successfully set the counting channel to ${channel}! The counting mode is set to \`${mode}\`.` });
       }
 
       if (subcommand === 'remove') {
-
         const guildId = interaction.guild.id;
 
-        await CountingSchema.findOneAndDelete({
-          guildId,
-        });
+        await CountingSchema.findOneAndDelete({ guildId });
 
         return interaction.editReply({ content: `${emojis.checkicon} Successfully removed the counting channel!` });
       }
@@ -100,16 +92,14 @@ module.exports = {
       if (subcommand === 'info') {
         const guildId = interaction.guild.id;
 
-        const countingData = await CountingSchema.findOne({
-          guildId,
-        });
-
+        const countingData = await CountingSchema.findOne({ guildId });
         if (!countingData) {
           return interaction.editReply({
-            content: `${emojis.checkicon} There is no counting channel set! Counting is a fun game where members try to count as high as they can without making a mistake.` });
+            content: `${emojis.checkicon} There is no counting channel set! Counting is a fun game where members try to count as high as they can without making a mistake.`,
+          });
         }
 
-        const channelData = interaction.guild.channels.cache.get(countingData.channelId);
+        const channelData = interaction.guild.channels.cache.get(countingData.channelId!) as GuildTextBasedChannel;
 
         const embed = new EmbedBuilder()
           .setTitle('Counting Settings')
@@ -131,21 +121,25 @@ module.exports = {
         }
 
         if (countingData.lastMessageId) {
-          const messageData = await channelData.messages.fetch(countingData.lastMessageId);
+          try {
+            const messageData = await channelData.messages.fetch(countingData.lastMessageId);
 
-          if (messageData) {
-            embed.addFields({ name: 'Last Message', value: messageData.toString(), inline: true });
+            if (messageData) {
+              embed.addFields({ name: 'Last Message', value: messageData.toString(), inline: true });
+            }
+          } catch (error) {
+            console.error(`Failed to fetch message: ${error}`);
           }
         }
 
         if (countingData.countingMode) {
-          embed.addFields({ name: 'Mode', value: countingData.countingMode.toString(), inline: true });
+          embed.addFields({ name: 'Mode', value: countingData.countingMode, inline: true });
         }
 
         return interaction.editReply({ embeds: [embed] });
       }
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id || 'Unknown Guild', interaction.user.id, error, interaction);
     }
   },
 };

@@ -1,8 +1,8 @@
-const { SlashCommandBuilder, ChannelType, PermissionFlagsBits } = require('discord.js');
-const auditlogSchema = require('../../../schemas/auditlogSchema');
-const emojis = require('../../../functions/functions/emojis');
+import { SlashCommandBuilder, ChannelType, PermissionFlagsBits, ChatInputCommandInteraction, CommandInteractionOptionResolver } from 'discord.js';
+import auditlogSchema from '../../../schemas/auditlogSchema';
+import emojis from '../../../functions/functions/emojis';
 
-module.exports = {
+export default {
   structure: new SlashCommandBuilder()
     .setName('auditlog')
     .setDescription('📓・Audit Log Settings')
@@ -28,55 +28,46 @@ module.exports = {
     category: 'Auditlog',
     cooldown: 1,
   },
+
   /**
- * @param {ExtendedClient} client
- * @param {ChatInputCommandInteraction} interaction
- */
+   * @param {ExtendedClient} client
+   * @param {ChatInputCommandInteraction} interaction
+   */
   run: async (client, interaction) => {
-    await interaction.deferReply(
-      {
-        ephemeral: true,
-      },
-    );
+    await interaction.deferReply({ ephemeral: true });
 
     try {
-      if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.editReply({ content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!` });
+      if (!interaction.memberPermissions?.has(PermissionFlagsBits.ManageGuild)) {
+        return interaction.editReply({
+          content: `${emojis.erroricon} You need the \`Manage Server\` permission to use this command!`,
+        });
       }
 
-      const guildId = interaction.guild.id;
+      const guildId = interaction.guild?.id as string;
       const subcommand = interaction.options.getSubcommand();
 
       if (subcommand === 'channel') {
-        const channelId = interaction.options.getChannel('channel').id;
+        const channel = interaction.options.getChannel('channel', true);
+        const channelId = channel.id;
 
         await auditlogSchema.findOneAndUpdate(
-          {
-            guildId: guildId,
-          },
-          {
-            guildId: guildId,
-            channelId: channelId,
-          },
-          {
-            upsert: true,
-          },
+          { guildId: guildId },
+          { guildId: guildId, channelId: channelId },
+          { upsert: true }
         );
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been set to <#${channelId}>`,
         });
       } else if (subcommand === 'remove') {
-        await auditlogSchema.findOneAndDelete({
-          guildID: guildId,
-        });
+        await auditlogSchema.findOneAndDelete({ guildId: guildId });
 
         await interaction.editReply({
           content: `${emojis.checkicon} The Audit Log Channel has been removed`,
         });
       }
     } catch (error) {
-      console.error(error);
+      global.handle.error(client, interaction.guild?.id || 'Unknown Guild', interaction.user.id, error, interaction);
     }
   },
 };

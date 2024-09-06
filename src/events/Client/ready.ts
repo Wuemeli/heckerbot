@@ -15,7 +15,6 @@ export default {
     const guildcount = client.guilds.cache.size;
     const status = `${guildcount} servers | ${totalUsers} users | Made with ❤️ by Wuemeli`;
 
-    console.log(`Logged in as ${client.user.tag}`);
     client.user.setActivity(status, { type: 4 });
 
     setInterval(async () => {

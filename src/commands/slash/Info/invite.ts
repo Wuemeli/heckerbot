@@ -1,0 +1,32 @@
+import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction } from 'discord.js';
+
+export default {
+  structure: new SlashCommandBuilder()
+    .setName('invite')
+    .setDescription('💌・Get the invite link for the bot.'),
+  options: {
+    nsfw: false,
+    category: 'Info',
+    cooldown: 1,
+  },
+  /**
+   * @param {ExtendedClient} client
+   * @param {ChatInputCommandInteraction} interaction
+   */
+  run: async (client, interaction) => {
+    await interaction.deferReply({
+      ephemeral: true,
+    });
+
+    try {
+      const embed = new EmbedBuilder()
+        .setTitle('💌 Invite')
+        .setColor('Green')
+        .setDescription(`Click the link to invite me to your server: [Invite](https://discord.com/oauth2/authorize?client_id=${client.user?.id}&scope=bot%20applications.commands&permissions=100600952913141)`);
+
+      await interaction.editReply({ embeds: [embed] });
+    } catch (error) {
+      global.handle.error(client, interaction.guild?.id || 'Unknown Guild', interaction.user.id, error, interaction);
+    }
+  },
+};
