@@ -1,7 +1,6 @@
 const { log } = require('../../functions/functions/consolelog');
 const ExtendedClient = require('../../class/ExtendedClient');
 const emojis = require('../../functions/functions/emojis');
-const { hasPremium } = require('../../functions/custom-bot/premium');
 
 const cooldown = new Map();
 
@@ -28,19 +27,6 @@ module.exports = {
           content: `${emojis.erroricon} This command can only be used in a server.`,
           ephemeral: true,
         });
-      }
-
-      if (command.options?.premium) {
-        if (!process.env.PREMIUM) {
-          return interaction.reply({ content: `${emojis.erroricon} Premium System needs to be enabled.`, ephemeral: true });
-        }
-        const hasUserPremium = await hasPremium(interaction.user.id);
-        if (!hasUserPremium) {
-          return interaction.reply({
-            content: `${emojis.erroricon} You need to have premium to use this command. Click on me and click on "Upgrade" to get premium.`,
-            ephemeral: true,
-          });
-        }
       }
 
       if (process.env[command.options.category.toUpperCase()] === 'false') {

@@ -1,10 +1,10 @@
 require.dotenv = require('dotenv').config();
+
 const ExtendedClient = require('./class/ExtendedClient');
 const { handling } = require('./functions/functions/errorHandler');
 const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/functions/consolelog');
-const { default: topgg } = require('./functions/functions/top.gg');
 const { scheduleJobs } = require('./functions/functions/cron');
 
 const client = new ExtendedClient();
@@ -24,7 +24,6 @@ try {
 
 module.exports = { client };
 
-topgg(client);
 scheduleJobs(client);
 global.handle = new handling(client);
 global.log = new logging();

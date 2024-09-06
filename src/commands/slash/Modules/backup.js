@@ -27,10 +27,6 @@ module.exports = {
           .setRequired(true)))
     .addSubcommand(subcommand =>
       subcommand
-        .setName('autobackup')
-        .setDescription('📊・Backups your Server Daily'))
-    .addSubcommand(subcommand =>
-      subcommand
         .setName('remove')
         .setDescription('📊・Remove a backup')
         .addStringOption(option =>
@@ -139,32 +135,7 @@ module.exports = {
         interaction.editReply({ content: `Backup ID: ${backupId}`, embeds: [embed], components: [row] });
         break;
       }
-      case 'autobackup': {
-        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-          return interaction.editReply({ content: `${emojis.erroricon} You need the Administrator permission to use this command!`});
-        }
 
-        const guildId = interaction.guild.id;
-
-        const data = await guildsettingsSchema.findOne({ guildId: guildId });
-        if (!data) {
-          new guildsettingsSchema({
-            guildId: guildId,
-            dayBackup: true,
-          }).save();
-          return interaction.editReply({ content: `${emojis.checkicon} Auto backup enabled successfully!` });
-        }
-
-        if (data.dayBackup === true) {
-          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: false });
-          return interaction.editReply({ content: `${emojis.checkicon} Auto backup disabled successfully!` });
-        } else if (data.dayBackup === false) {
-          await guildsettingsSchema.findOneAndUpdate({ guildId: guildId }, { dayBackup: true });
-          return interaction.editReply({ content: `${emojis.checkicon} Auto backup enabled successfully!` });
-        }
-
-        return interaction.editReply({ content: `${emojis.checkicon} Auto backup enabled successfully!`  });
-      }
       case 'remove': {
         const backupId = interaction.options.getString('backup-id');
         const data = await backupSchema.findOne({ userId: interaction.user.id, backupId: backupId });
