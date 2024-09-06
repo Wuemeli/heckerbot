@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const ms = require('ms');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import ms from 'ms';
 
 module.exports = {
   structure: new SlashCommandBuilder()
@@ -11,9 +11,9 @@ module.exports = {
     cooldown: 1,
   },
   /**
-     * @param {ExtendedClient} client
-     * @param {ChatInputCommandInteraction} interaction
-     */
+   * @param {import('discord.js').Client} client
+   * @param {import('discord.js').CommandInteraction} interaction
+   */
   run: async (client, interaction) => {
     await interaction.deferReply();
 
@@ -44,7 +44,7 @@ module.exports = {
 
       await interaction.editReply({ embeds: [statsEmbed] });
     } catch (error) {
-      global.handle.error(client, interaction.guild.id, interaction.user.id, error, interaction);
+      global.handle.error(client, interaction.guild?.id, interaction.user.id, error, interaction);
     }
   },
 };
