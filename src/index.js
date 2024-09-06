@@ -5,13 +5,12 @@ const { handling } = require('./functions/functions/errorHandler');
 const { logging } = require('./functions/functions/log');
 const server = require('./express/server.js');
 const { log } = require('./functions/functions/consolelog');
-const { scheduleJobs } = require('./functions/functions/cron');
 
 const client = new ExtendedClient();
 
 try {
+  log('Client Starting.', 'done');
   client.start();
-  log('Client Started.', 'done');
 } catch (error) {
   global.log.anticrashlog('client.start', error);
 }
@@ -24,7 +23,6 @@ try {
 
 module.exports = { client };
 
-scheduleJobs(client);
 global.handle = new handling(client);
 global.log = new logging();
 

@@ -34,7 +34,6 @@ module.exports = class ExtendedClient extends Client {
   }
 
   async start() {
-    console.log('Starting bot...');
     commands(this);
     events(this);
     components(this);
@@ -46,6 +45,5 @@ module.exports = class ExtendedClient extends Client {
 
     await this.login(this.token);
     deploy(this, this.token, this.clientId);
-
   };
 };

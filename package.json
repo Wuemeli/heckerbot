@@ -24,8 +24,6 @@
     "helmet": "^7.1.0",
     "mathjs": "^13.1.1",
     "mongoose": "^8.6.1",
-    "node-cron": "^3.0.3",
-    "node-fetch": "^3.3.2",
     "pagination.djs": "^4.0.15",
     "redis": "^4.7.0",
     "stream-to-string": "^1.2.1"
